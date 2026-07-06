@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Chiron seat linter — validates SEAT.md files against SEAT_SPEC.md.
+"""Chiron seat linter — validates SKILL.md files against SEAT_SPEC.md.
 
 Usage:
     python3 scripts/lint_seat.py <seat-path> [<seat-path> ...]
@@ -23,7 +23,7 @@ RULES = {
     "L3": "id collision with installed seat",
     "L4": "corpus/persona mode with fewer than 3 provenance sources",
     "L5": "required section missing or below minimum entries",
-    "L6": "core SEAT.md exceeds 6k tokens",
+    "L6": "core SKILL.md exceeds 6k tokens",
     "L7": "first-person subject voice in corpus-mode seat (persona leakage)",
     "L8": "heuristic not in operational IF/THEN form",
     "L9": "disagreement counterpart unresolved and not marked external",
@@ -68,7 +68,7 @@ class Finding:
 # ---------------------------------------------------------------------------
 # Minimal YAML subset parser (stdlib-only constraint).
 # Handles: scalars, quoted strings, inline lists, dash lists,
-# nested maps by 2-space indentation. Sufficient for SEAT.md frontmatter.
+# nested maps by 2-space indentation. Sufficient for SKILL.md frontmatter.
 # ---------------------------------------------------------------------------
 
 def _parse_scalar(value):
@@ -287,12 +287,12 @@ def lint_seat(seat_path, level="standard", installed_ids=None):
     """Lint one seat directory. Returns (findings, meta)."""
     findings = []
     seat_path = seat_path.rstrip("/")
-    seat_md = os.path.join(seat_path, "SEAT.md")
+    seat_md = os.path.join(seat_path, "SKILL.md")
     meta = {"id": os.path.basename(seat_path), "display_name": None, "mode": None,
             "domains": []}
 
     if not os.path.isfile(seat_md):
-        findings.append(Finding("L2", "error", "SEAT.md not found in %s" % seat_path))
+        findings.append(Finding("L2", "error", "SKILL.md not found in %s" % seat_path))
         return findings, meta
 
     with open(seat_md, encoding="utf-8") as fh:
@@ -408,7 +408,7 @@ def lint_seat(seat_path, level="standard", installed_ids=None):
     if estimate_tokens(text) > 6000:
         findings.append(Finding(
             "L6", "warn",
-            "core SEAT.md is ~%d tokens (> 6k); move depth into references/"
+            "core SKILL.md is ~%d tokens (> 6k); move depth into references/"
             % estimate_tokens(text)))
 
     # --- L7 persona leakage --------------------------------------------------

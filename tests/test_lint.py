@@ -76,7 +76,7 @@ def make_seat(root, seat_id, mode="corpus", living="false", license_="none",
         display_name=display_name or "Test Lens",
         mode=mode, subject="Test Subject", living=living,
         license=license_, sources=sources)
-    with open(os.path.join(seat_dir, "SEAT.md"), "w", encoding="utf-8") as fh:
+    with open(os.path.join(seat_dir, "SKILL.md"), "w", encoding="utf-8") as fh:
         fh.write(fm + body)
     if with_references:
         refs = os.path.join(seat_dir, "references")
@@ -196,7 +196,7 @@ class LintRuleTests(unittest.TestCase):
               "  mode: original\n"
               "  domains: [ops]\n"
               "---\n")
-        with open(os.path.join(seat_dir, "SEAT.md"), "w") as fh:
+        with open(os.path.join(seat_dir, "SKILL.md"), "w") as fh:
             fh.write(fm + VALID_BODY)
         refs = os.path.join(seat_dir, "references")
         os.makedirs(refs)
@@ -234,7 +234,7 @@ class YamlParserTests(unittest.TestCase):
               "    license: none\n"
               "    sources:\n" + SOURCES_3 + "\n"
               "---\n")
-        with open(os.path.join(seat_dir, "SEAT.md"), "w", encoding="utf-8") as fh:
+        with open(os.path.join(seat_dir, "SKILL.md"), "w", encoding="utf-8") as fh:
             fh.write(fm + VALID_BODY)
         refs = os.path.join(seat_dir, "references")
         os.makedirs(refs)
@@ -313,7 +313,7 @@ class CliContractTests(unittest.TestCase):
         make_seat(self.seats, "twin-a")
         make_seat(self.seats, "twin-b")
         for folder in ("twin-a", "twin-b"):
-            path = os.path.join(self.seats, folder, "SEAT.md")
+            path = os.path.join(self.seats, folder, "SKILL.md")
             with open(path, encoding="utf-8") as fh:
                 text = fh.read()
             text = text.replace("name: %s" % folder, "name: twin-a")

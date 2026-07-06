@@ -12,7 +12,7 @@ Get a new user from install to their first useful council. Move quickly, do the 
 One short paragraph: Chiron is a council of authored advisors ("seats") built from real published work, cited, not generated personas. You ask one seat, or convene several, and it can pick the right ones for you. Then show what's installed:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats
 ```
 
 Render the roster grouped by domain so they see who's in the box.

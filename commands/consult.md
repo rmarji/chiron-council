@@ -14,7 +14,7 @@ This is the flagship of Chiron. Do the routing openly, then execute.
 ## Step 1 — Load the roster
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats
 ```
 
 Also read the bench YAMLs (`.chiron/benches.yaml`, `~/.claude/chiron/benches.yaml`). You now know every installed seat's `domains`, `description`, `mode`, and lint status, and every named bench.

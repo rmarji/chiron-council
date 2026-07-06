@@ -7,7 +7,7 @@ argument-hint: [optional: point at notes/a vault/a folder to read]
 
 This distills *you* the way `/chiron:distill` distills a thinker: a deep, structured breakdown of how you actually operate, written as an **original-mode seat** so your own operating system can sit in the room, chair your councils, and be argued with. It also reads out your **go-to experts** and turns them into a recommended roster.
 
-Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` first. Model the output on an original-mode seat: `${CLAUDE_PLUGIN_ROOT}/seats/rayo/SEAT.md`.
+Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` first. Model the output on an original-mode seat: `${CLAUDE_PLUGIN_ROOT}/skills/seats/rayo/SKILL.md`.
 
 ## Privacy first (state this, then honor it)
 
@@ -43,13 +43,13 @@ Synthesize, in the user's own terms, cited to the source where possible:
 
 Write `~/.claude/chiron/seats/me/` (or the project path), full SEAT_SPEC structure:
 
-- `SEAT.md`: frontmatter `name: me`, a description, `x-chiron: { display_name: "<their name> (you)", mode: original, domains: [<their domains>] }` (original mode needs no provenance and no M4 disclaimer — it is self-authored). Body: narrative sections plus the required `## Priors` (≥5), `## Heuristics` (≥5, IF/THEN), `## Refusals` (≥2 — the things they refuse to do or decide, e.g. their own guardrails), `## Voice`. Keep under ~6k tokens.
-- `references/`: the 7 standard files, holding the depth (their full framework catalog, mission/values/goals, anti-patterns, the source pointers). Everything from step 2 lives here so `SEAT.md` stays lean.
+- `SKILL.md`: frontmatter `name: me`, a description, `x-chiron: { display_name: "<their name> (you)", mode: original, domains: [<their domains>] }` (original mode needs no provenance and no M4 disclaimer — it is self-authored). Body: narrative sections plus the required `## Priors` (≥5), `## Heuristics` (≥5, IF/THEN), `## Refusals` (≥2 — the things they refuse to do or decide, e.g. their own guardrails), `## Voice`. Keep under ~6k tokens.
+- `references/`: the 7 standard files, holding the depth (their full framework catalog, mission/values/goals, anti-patterns, the source pointers). Everything from step 2 lives here so `SKILL.md` stays lean.
 - Lint it: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py ~/.claude/chiron/seats/me`. Fix until pass.
 
 ## 4. Read out the go-to experts → recommend a roster
 
-Map the user's named go-to experts against the installed roster (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`):
+Map the user's named go-to experts against the installed roster (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`):
 
 - **Already installed** → note them.
 - **Not yet installed but available/known** → offer to `/chiron:distill` each.

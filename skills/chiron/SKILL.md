@@ -23,7 +23,7 @@ The user invoked Chiron conversationally. Map their intent to the matching comma
 | "what did <seat> tell me", "open loops", "past consults" | `commands/log.md` |
 
 Resolution notes:
-- Seat and bench names arrive fuzzy ("munger", "the Munger seat", "my pricing people"). Resolve against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats` and the bench YAMLs (project `.chiron/benches.yaml`, global `~/.claude/chiron/benches.yaml`). Seat wins ties; ask once if genuinely ambiguous.
+- Seat and bench names arrive fuzzy ("munger", "the Munger seat", "my pricing people"). Resolve against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats` and the bench YAMLs (project `.chiron/benches.yaml`, global `~/.claude/chiron/benches.yaml`). Seat wins ties; ask once if genuinely ambiguous.
 - Explicit beats inferred: if the user names a seat, honor it (ask); if they say "they/the bench/the council" or name a bench, go to council. Only auto-route (consult) when they leave the choice open.
 - When the user is mid-decision but has not asked Chiron for anything, offer to route rather than hijacking the turn.
 - Never invent a seat that isn't installed. Offer `/chiron:distill` instead.

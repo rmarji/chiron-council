@@ -7,7 +7,7 @@ argument-hint: <one-line description of the advisor you want to distill>
 
 The user asked for: `$ARGUMENTS`
 
-You do not hire a persona; you distill a mind from what it actually published. A seat that ships with stub references isn't a seat, it's a name. This flow produces the full standard: SEAT.md + all 7 reference files at the SEAT_SPEC §4 depth bar, every claim cited. Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` before authoring.
+You do not hire a persona; you distill a mind from what it actually published. A seat that ships with stub references isn't a seat, it's a name. This flow produces the full standard: SKILL.md + all 7 reference files at the SEAT_SPEC §4 depth bar, every claim cited. Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` before authoring.
 
 ## 1. Interview (short — one round of questions)
 
@@ -35,7 +35,7 @@ Research the subject's published corpus with web search — books, talks, podcas
 ## 3. Author
 
 Write `seats/<id>/` (in the user's project or a directory they choose — NOT inside the plugin install):
-- `SEAT.md` — frontmatter per SEAT_SPEC §2 (id, description, x-chiron: display_name with mode suffix, mode, domains, alias for living subjects, provenance with 3+ sources); body with narrative sections (model on an installed founding seat, e.g. `seats/munger/SEAT.md`) plus the required `## Priors` (≥5), `## Heuristics` (≥5, IF/THEN), `## Refusals` (≥2), `## Voice`; M4 disclaimer blockquote for real persons. Keep under ~6k tokens.
+- `SKILL.md` — frontmatter per SEAT_SPEC §2 (id, description, x-chiron: display_name with mode suffix, mode, domains, alias for living subjects, provenance with 3+ sources); body with narrative sections (model on an installed founding seat, e.g. `seats/munger/SKILL.md`) plus the required `## Priors` (≥5), `## Heuristics` (≥5, IF/THEN), `## Refusals` (≥2), `## Voice`; M4 disclaimer blockquote for real persons. Keep under ~6k tokens.
 - `references/` — all 7 standard files at the depth bar.
 - `disagreements.md` — check installed seats for real, citable published conflicts with this subject; author each with both positions cited (SEAT_SPEC §5). If none exist on the record, skip the file rather than inventing conflict.
 

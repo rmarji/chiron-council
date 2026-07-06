@@ -18,17 +18,31 @@ Chiron is different. Each **seat** is one mind, distilled from what that person 
 
 ## Install
 
+Two ways in, depending on how much you want.
+
+**Full experience — Claude Code plugin** (the orchestrator, live councils, benches, seat memory):
+
 ```
 /plugin marketplace add rmarji/chiron
 /plugin install chiron
 ```
 
-Then ask one mind, or convene several:
+Then run `/chiron:onboard`, or jump straight in:
 
 ```
-/chiron:ask munger "take the retainer at 15k/mo or walk?"
+/chiron:consult "take the retainer at 15k/mo or walk?"
 /chiron:council relationship "we keep having the same fight about money"
 ```
+
+**Just the seats — any agent.** Every seat is a standard Agent Skill, so the [`skills`](https://skills.sh) CLI drops the roster into 70+ harnesses (Claude Code, Cursor, Codex, Gemini CLI, Copilot, Cline, and more):
+
+```bash
+npx skills add rmarji/chiron                                   # choose seats interactively
+npx skills add rmarji/chiron --all                            # install the whole roster
+npx skills add rmarji/chiron -a cursor -s munger naval taleb  # one agent, chosen seats
+```
+
+Outside Claude Code you invoke a seat by talking to it ("what would the Munger corpus say about this?"); the slash commands and live councils are Claude Code-specific.
 
 ## See it work
 
@@ -123,8 +137,8 @@ Your `me` seat is **private**: it lives in `~/.claude/chiron/seats/` (or a proje
 ## Anatomy of a seat
 
 ```
-seats/munger/
-├── SEAT.md              # the mind: priors, heuristics, refusals, voice (< 6k tokens)
+skills/seats/munger/
+├── SKILL.md              # the mind: priors, heuristics, refusals, voice (< 6k tokens)
 ├── disagreements.md     # authored conflicts with other seats, positions cited
 ├── references/          # the depth: complete extraction of the published thinking
 │   ├── principles.md    ├── mental-models.md   ├── frameworks.md
@@ -135,16 +149,18 @@ seats/munger/
 
 Everything is files. No database, no server, no API keys. The full standard and depth bar live in [SEAT_SPEC.md](SEAT_SPEC.md).
 
-## Works beyond Claude Code
+## Portability
 
-Seats follow the [Agent Skills](https://agentskills.io) standard: standard `name`/`description` frontmatter plus Chiron extensions under `x-chiron:` that other harnesses ignore. Drop any `seats/<id>/` folder into your agent's skills directory and it loads as a plain skill:
+A seat is a real, drop-in Agent Skill. It follows the [Agent Skills](https://agentskills.io) open standard (standard `name`/`description` frontmatter), with Chiron's extras (`x-chiron:`, `disagreements.md`, `references/`) that other harnesses harmlessly ignore. Beyond the `npx skills` installer above, you can copy one by hand into any agent's skills directory:
 
 ```bash
-# Codex CLI            Cursor                  Gemini CLI / generic
-~/.codex/skills/       ~/.cursor/skills/       ~/.agents/skills/
+# Claude Code          Cursor                Codex CLI            Gemini CLI / generic
+~/.claude/skills/      ~/.cursor/skills/     ~/.codex/skills/     ~/.agents/skills/
+
+cp -r skills/seats/munger ~/.claude/skills/munger
 ```
 
-Commands and councils are Claude Code-specific; the seats themselves are portable.
+The slash commands, orchestrator, and live councils are Claude Code-specific; the seats themselves run anywhere.
 
 ## The standard is the point
 
@@ -152,7 +168,7 @@ Commands and councils are Claude Code-specific; the seats themselves are portabl
 
 ```bash
 python3 scripts/lint_seat.py --all                  # exit 0 pass / 1 warns / 2 errors
-python3 scripts/lint_seat.py seats/munger --explain
+python3 scripts/lint_seat.py skills/seats/munger --explain
 python3 scripts/registry.py --json                  # roster index
 ```
 

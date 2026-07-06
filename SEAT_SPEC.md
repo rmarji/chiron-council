@@ -7,8 +7,8 @@ This document is the open standard. `scripts/lint_seat.py` enforces it mechanica
 ## 1. Anatomy of a seat
 
 ```
-seats/<id>/
-├── SEAT.md              # the mind: frontmatter contract + core sections (< 6k tokens)
+skills/seats/<id>/
+├── SKILL.md              # the mind: frontmatter contract + core sections (< 6k tokens)
 ├── disagreements.md     # authored conflicts with other seats, with cited positions
 ├── references/          # the depth: complete extraction of the subject's thinking
 │   ├── principles.md
@@ -21,13 +21,13 @@ seats/<id>/
 └── log.md               # append-only consult memory (created on first use, gitignored)
 ```
 
-Progressive disclosure is the load contract: a summoned seat loads SEAT.md frontmatter + core sections + its last 10 log entries. References load on demand. This is why SEAT.md must stay under ~6k tokens (lint L6) and why the depth lives in `references/`.
+Progressive disclosure is the load contract: a summoned seat loads SKILL.md frontmatter + core sections + its last 10 log entries. References load on demand. This is why SKILL.md must stay under ~6k tokens (lint L6) and why the depth lives in `references/`.
 
 ## Where seats live
 
 Chiron merges seats from three locations, in precedence order (a later scope shadows an earlier one on a shared id):
 
-1. **Bundled** — the plugin's `seats/` (the shipped roster). Public, versioned, lint-enforced.
+1. **Bundled** — the plugin's `skills/seats/` (the shipped roster). Public, versioned, lint-enforced.
 2. **Global user seats** — `~/.claude/chiron/seats/`. Yours across every project; where `/chiron:distill` and `/chiron:distill-me` write by default.
 3. **Project seats** — `<project>/.chiron/seats/`. Scoped to one repo; shadows global on a shared id.
 
@@ -35,7 +35,7 @@ The registry scans all three (`registry.py --seats-dir <bundled> --seats-dir ~/.
 
 **The `me` seat.** `/chiron:distill-me` writes an original-mode seat with id `me`: your own operating system (mission, values, goals, frameworks, go-to experts), so you can chair your own councils and be argued with. It is **private** — it holds personal data, lives only in your user or project seat dir, is never committed to the plugin repo, and is never shipped. Gitignore `.chiron/seats/` in any project. Treat the `me` seat like `log.md`: local, personal, yours.
 
-## 2. SEAT.md frontmatter
+## 2. SKILL.md frontmatter
 
 Standard Agent Skills keys first (so non-Claude harnesses load a seat as a plain skill), Chiron extensions under `x-chiron:` (which those harnesses ignore).
 
@@ -70,7 +70,7 @@ x-chiron:
 
 For real-person seats, `display_name` carries a mode suffix — "Munger Lens", "Voss (corpus)" — so nobody mistakes a study aid for the person (lint L10). Every living-subject seat also defines an `alias` (an archetype name like "The Offer Architect") so a takedown request is a rename, not a rebuild (LEGAL.md rule M6).
 
-## 3. Required SEAT.md sections
+## 3. Required SKILL.md sections
 
 The body must contain these `##` sections (lint L5). Headings may carry suffixes ("## Heuristics and rules of thumb" satisfies "Heuristics").
 
@@ -151,7 +151,7 @@ Exit codes: **0** pass · **1** warnings only · **2** errors (load-blocking).
 | L3 | ERROR | `id` collision with installed seat. |
 | L4 | ERROR | corpus/persona mode with < 3 provenance sources. |
 | L5 | ERROR | Required sections missing or under minimums (§3). |
-| L6 | WARN | Core SEAT.md > 6k tokens (breaks progressive disclosure). |
+| L6 | WARN | Core SKILL.md > 6k tokens (breaks progressive disclosure). |
 | L7 | WARN → ERROR (strict) | First-person subject voice in a corpus seat (persona leakage). Quoted speech is exempt. |
 | L8 | WARN | Heuristic not in operational IF/THEN-ish form. |
 | L9 | WARN | disagreements.md counterpart unresolved and not marked external. |
@@ -161,7 +161,7 @@ Exit codes: **0** pass · **1** warnings only · **2** errors (load-blocking).
 
 ## 8. Authoring a new seat
 
-Use `/chiron:distill`. It interviews you (subject, living status, mode, domains), then runs deep research over the subject's published corpus and writes the full seat — SEAT.md plus all 7 references at the §4 depth bar, every claim cited — and lints it. Depth is baked into the standard, not an upsell: a seat that ships with stub references isn't a seat, it's a name.
+Use `/chiron:distill`. It interviews you (subject, living status, mode, domains), then runs deep research over the subject's published corpus and writes the full seat — SKILL.md plus all 7 references at the §4 depth bar, every claim cited — and lints it. Depth is baked into the standard, not an upsell: a seat that ships with stub references isn't a seat, it's a name.
 
 Hard rule the distill flow enforces: it will not produce a persona-mode seat for a living, unlicensed subject (CH-E8). It offers corpus mode or an archetype alias instead.
 

@@ -13,7 +13,7 @@ First token = bench name (resolve project `.chiron/benches.yaml`, then `~/.claud
 
 ## CONVENE
 
-1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`.
+1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`.
 2. Guards:
    - **CH-E2:** bench references a missing seat → name it, offer to run with the remainder, abort if declined.
    - **CH-E4:** more than 8 seats → refuse; explain the token/quality cost; suggest splitting into two benches.
@@ -24,7 +24,7 @@ First token = bench name (resolve project `.chiron/benches.yaml`, then `~/.claud
 ## TAKES (phase 1 — isolation is the whole point)
 
 Spawn **one subagent per seat, in parallel** (Task tool). Each subagent's context contains ONLY:
-- that seat's `SEAT.md`
+- that seat's `SKILL.md`
 - that seat's last 10 `log.md` entries
 - the question
 

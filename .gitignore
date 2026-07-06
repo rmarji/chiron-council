@@ -1,5 +1,5 @@
 # Seat logs contain user decisions — private by default (opt in by removing this line)
-seats/*/log.md
+skills/seats/*/log.md
 
 # Python
 __pycache__/
