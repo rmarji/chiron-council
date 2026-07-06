@@ -1,45 +1,116 @@
 # Chiron
 
-**Authored advisors as lint-enforced files.**
+**An authored council of real thinkers for Claude Code. Seats, not generated personas.**
 
-A council is only as good as who's sitting in it. Most "AI advisor" tools ship meetings of generated personas — ask for a board meeting, get five flavors of the same model agreeing with you. Chiron ships **authored people**: one seat per mind, distilled from what that person actually published, with sources cited, disagreements between seats authored from the record, and a linter that enforces all of it. Councils are a feature powered by the seats — not the other way around.
+![version](https://img.shields.io/badge/version-0.1.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) ![standard](https://img.shields.io/badge/standard-Agent%20Skills-8A2BE2) ![seats](https://img.shields.io/badge/seats-15-orange) ![lint](https://img.shields.io/badge/lint-15%2F15%20passing-brightgreen)
 
-## What you get
+You make expensive, irreversible calls alone, and a single model just agrees with you. Studies now put AI sycophancy at roughly 50% more affirming than a human would be, which makes one agreeable chatbot a dangerous advisor for a decision you cannot take back. The usual fix, an "AI board of advisors," is worse: five voices of one model nodding along, or celebrity name-tags with nothing real behind them.
 
-- **7 founding seats** — deep, citation-backed distillations: Munger Lens (investing, decision-making), Rumelt (strategy), Voss (negotiation), Naval (wealth, leverage), Deida (polarity, purpose), Terry Real (relational repair), and Rayo OS (execution, shipping).
-- **`/chiron:ask`** — one seat, one question, one authored lens. Seats keep a per-seat memory log: they remember what they told you and whether you listened.
-- **`/chiron:council`** — independent takes gathered in isolation, real authored disagreements surfaced from the files (never generated conflict), one synthesis that preserves dissent instead of averaging it.
-- **Benches** — your curated line-ups ("product", "pricing", "relationships") as plain YAML you can edit by hand.
-- **`/chiron:hire`** — add a new seat. Deep research is baked in: the hire flow researches the subject's published corpus and writes the full seat, every claim cited, then lints it.
-- **`SEAT_SPEC.md`** — the open seat standard, mechanically enforced by `scripts/lint_seat.py` (stdlib-only Python, runs identically in CI).
+Chiron is different. Each **seat** is one mind, distilled from what that person actually published, cited per claim, and enforced by a linter. Seats carry **authored disagreements** drawn from the record, so a council surfaces real conflict instead of consensus theater. It is the board you cannot otherwise afford, and it will tell you what you do not want to hear.
 
-## Install (Claude Code)
+## Install
 
 ```
-/plugin marketplace add <this-repo>
+/plugin marketplace add rayo/chiron
 /plugin install chiron
 ```
 
-Then:
+Then ask one mind, or convene several:
 
 ```
-/chiron:roster                                   # see who's available
-/chiron:bench create money munger naval rayo     # build a bench
 /chiron:ask munger "take the retainer at 15k/mo or walk?"
-/chiron:council money "concentrate or diversify a 12-month runway?"
-/chiron:log munger --open-loops                  # decisions you never closed
+/chiron:council relationship "we keep having the same fight about money"
 ```
 
-## Install (other harnesses)
+## See it work
 
-Seats follow the [Agent Skills](https://agentskills.io) standard: standard `name`/`description` frontmatter plus Chiron extensions under `x-chiron:` that other harnesses safely ignore. Copy any `seats/<id>/` folder into your agent's skills directory and it loads as a plain skill:
+A council does not average its seats into mush. It makes them argue from the record, then preserves the dissent. Here two seats hit an authored disagreement:
 
-```bash
-# Codex CLI            Cursor                  Gemini CLI / generic
-~/.codex/skills/       ~/.cursor/skills/       ~/.agents/skills/
+```
+/chiron:council relationship "should I hold my frame or move toward my partner?"
+
+▸ Deida (corpus)        confidence 4/5
+  The corpus reads accommodation here as collapse. Attraction runs on
+  polarity; a man who abandons his direction to soothe tension trades
+  desire for peace. (The Way of the Superior Man, Parts 1-2, 1997)
+
+▸ Terry Real (corpus)   confidence 4/5
+  The RLT corpus reads frame-holding as the injury, not the cure. The
+  stoic, self-sufficient posture is what breeds covert depression and
+  dead marriages; the move is repair, not dominance. (Us, 2022; I Don't
+  Want to Talk About It, 1997)
+
+▸ Authored disagreement on record
+  Deida vs Terry Real: is the distant, purpose-anchored man the problem,
+  or the abdicating, directionless one? These two disagree at the level
+  of diagnosis. Both positions cited above.
+
+▸ Synthesis (neutral chair)
+  Recommendation: name which failure is actually yours before you act.
+  Dissent preserved, not averaged. What would change it: whether your
+  pattern is avoidance (Real is right) or appeasement (Deida is right).
 ```
 
-Commands (`/chiron:*`) and councils are Claude Code-specific; the seats themselves are portable.
+No other tool in this category ships that: sourced positions, a conflict pulled from what the authors really argued, and a synthesis that refuses to split the difference.
+
+The rendered demo lives at [`demo/council-demo.mp4`](demo/council-demo.mp4) (a 23-second terminal recording of exactly this council). It is the single most differentiated asset in this category, since every competitor ships static screenshots.
+
+## The roster
+
+Fifteen seats ship in the box: fourteen corpus-mode (built from published work, cited, third person, no impersonation) and Rayo, an original-mode operating system.
+
+| Seat | Pressure-tests | Built from (cited) |
+|---|---|---|
+| **Munger Lens** | inversion, incentives, avoiding stupidity | Poor Charlie's Almanack; The Psychology of Human Misjudgment |
+| **Rumelt** (corpus) | strategy: diagnosis before action | Good Strategy Bad Strategy; The Crux |
+| **Thiel** (corpus) | contrarian strategy, monopoly | Zero to One; CS183 lecture notes |
+| **Paul Graham** (corpus) | startups, founders, growth | paulgraham.com essays; Hackers & Painters |
+| **Hormozi** (corpus) | offers, pricing, sales | $100M Offers; $100M Leads |
+| **Voss** (corpus) | negotiation, tactical empathy | Never Split the Difference |
+| **Cialdini** (corpus) | persuasion, influence | Influence; Pre-Suasion |
+| **Naval** (corpus) | leverage, judgment, wealth | The Almanack of Naval Ravikant; How to Get Rich |
+| **Taleb** (corpus) | risk, antifragility, uncertainty | The Black Swan; Antifragile; Skin in the Game |
+| **Kahneman** (corpus) | decisions, cognitive bias | Thinking, Fast and Slow; Noise |
+| **Attia** (corpus) | longevity, health, performance | Outlive; The Drive |
+| **Deida** (corpus) | polarity, purpose, relationships | The Way of the Superior Man |
+| **Terry Real** (corpus) | relational repair, conflict | Us; The New Rules of Marriage |
+| **Marcus Aurelius** (corpus) | stoic temperament, adversity | Meditations |
+| **Rayo OS** (original) | execution, shipping, decision-routing | FATE, Ship Gate, MAX THREE (authored) |
+
+Every real-person seat carries 6,000 to 10,000 words of source-attributed reference material and passes the linter. The "Built from" column is the thing no competitor has: each claim traces to a page, a talk, or an episode. Add your own with `/chiron:distill`, and put yourself in the room with `/chiron:distill-me`.
+
+## Why Chiron, not a stock council
+
+The AI-council space is crowded and almost all of it fails the same three ways. Chiron is built as the answer to each.
+
+- **Authored, not generated.** The persona wave auto-generates a "mind" from any input in a weekend. Chiron seats are hand-authored and curated. Quality and trust over quantity and speed.
+- **Cited, not vibes.** Every substantive claim points at a source, and `scripts/lint_seat.py` fails the build on seats that skimp on provenance. The lint is the standard, not a suggestion.
+- **Real disagreement, not manufactured.** Competitors fake conflict by assigning opposing archetypes ("you be the contrarian"). Chiron surfaces only conflicts that are authored from what the people actually argued, with both positions cited. If none exist for a topic, the council says so rather than inventing one.
+- **Memory.** Seats keep a private log. They remember what they told you and whether you listened.
+- **It routes itself.** `/chiron:consult` reads your decision and picks the right expert, or convenes the right few, or tells you it is not worth a council at all. No hunting through a roster, no summoning a debate for a call you could make in your sleep.
+
+## Commands
+
+| Command | Does |
+|---|---|
+| `/chiron:onboard` | First-run setup: meet the roster, distill yourself, get starter benches |
+| `/chiron:consult <q>` | **Auto-routes.** Chiron picks the right expert(s), and decides whether a council is even worth convening |
+| `/chiron:ask <seat> <q>` | One authored lens, cited, with its memory of your past calls |
+| `/chiron:council <bench> <q>` | Independent takes gathered in isolation, real disagreements surfaced, one synthesis with dissent preserved |
+| `/chiron:bench` | Create and edit benches (your curated line-ups) as plain YAML |
+| `/chiron:roster` | See who is available, filter by domain |
+| `/chiron:distill <desc>` | Distill a new seat: deep research on the subject's corpus, full cited seat, linted |
+| `/chiron:distill-me` | Distill **you** into a private seat, and read out your go-to experts |
+| `/chiron:lint` | Validate seats against the SEAT_SPEC standard |
+| `/chiron:log <seat>` | Review past consults and the decisions you never closed |
+
+You can also just talk to it: "run this by my product bench," "what would Munger say about this."
+
+## Make it yours
+
+`/chiron:onboard` gets you from install to your first real council in a few minutes. It shows the roster, then offers `/chiron:distill-me`, which distills *you* the way the roster distills its thinkers: it reads what you point it at (your notes, your instruction files, this conversation), interviews you, and writes a private, original-mode `me` seat holding your mission, values, goals, frameworks, and the experts you already reach for. That `me` seat can chair your councils and be argued with, and its read-out of your go-to experts becomes a recommended roster.
+
+Your `me` seat is **private**: it lives in `~/.claude/chiron/seats/` (or a project's `.chiron/seats/`), never in this repo, never committed, never shipped. Your own seats and the bundled roster merge automatically (project shadows global shadows bundled), so a seat you distill is available everywhere you use Chiron.
 
 ## Anatomy of a seat
 
@@ -54,38 +125,47 @@ seats/munger/
 └── log.md               # append-only consult memory (gitignored)
 ```
 
-Everything is files. No database, no server, no API keys. Read [SEAT_SPEC.md](SEAT_SPEC.md) for the full standard and depth bar.
+Everything is files. No database, no server, no API keys. The full standard and depth bar live in [SEAT_SPEC.md](SEAT_SPEC.md).
 
-## Why corpus-mode, not impersonation
+## Works beyond Claude Code
 
-Real-person seats speak in the third person about the corpus ("the Munger corpus would flag...") and cite a source per claim. No first-person cosplay of anyone living — the linter hard-fails it (rule L1). This isn't just legal hygiene ([LEGAL.md](LEGAL.md)): sourced heuristics beat vibes. Every real-person seat is an independent study aid based on published works, not affiliated with or endorsed by its subject.
+Seats follow the [Agent Skills](https://agentskills.io) standard: standard `name`/`description` frontmatter plus Chiron extensions under `x-chiron:` that other harnesses ignore. Drop any `seats/<id>/` folder into your agent's skills directory and it loads as a plain skill:
 
-## Lint
+```bash
+# Codex CLI            Cursor                  Gemini CLI / generic
+~/.codex/skills/       ~/.cursor/skills/       ~/.agents/skills/
+```
+
+Commands and councils are Claude Code-specific; the seats themselves are portable.
+
+## The standard is the point
+
+`scripts/lint_seat.py` is stdlib-only Python and runs identically in CI, so the seat standard is enforceable by anyone, not just inside Claude.
 
 ```bash
 python3 scripts/lint_seat.py --all                  # exit 0 pass / 1 warns / 2 errors
 python3 scripts/lint_seat.py seats/munger --explain
-python3 scripts/lint_seat.py --all --format json --level strict
 python3 scripts/registry.py --json                  # roster index
 ```
 
+It hard-fails first-person impersonation of anyone living (rule L1), missing citations (L4), and shallow reference sets (L12). That is what makes a seat a seat and not a name.
+
 ## Benches
 
-Global: `~/.claude/chiron/benches.yaml` · Project: `.chiron/benches.yaml` (project shadows global on name collision).
+Global: `~/.claude/chiron/benches.yaml`. Project: `.chiron/benches.yaml` (project shadows global on name collision). Plain YAML you can edit by hand.
 
 ```yaml
 benches:
   money:
     seats: [munger, naval, rayo]
-    chairman: rayo          # or: neutral
-    default_depth: quick    # quick | full
+    chairman: neutral          # or a seat id
+    default_depth: quick       # quick | full
 ```
 
-## Notes
+## On corpus-mode and provenance
 
-- If you used the `llm-council` skill: `/chiron:council` supersedes it — authored disagreements instead of generated debate. Deprecate the old skill to avoid running two council systems.
-- Seat logs (`log.md`) contain **your decisions**; they are gitignored by default. Opt in to committing them if you want the history versioned.
+Real-person seats speak in the third person about the corpus ("the Munger corpus would flag...") and cite a source per claim. No first-person cosplay of anyone living; the linter hard-fails it. This is not only legal hygiene, it is why sourced heuristics beat generated vibes. Every real-person seat is an independent study aid based on published works, not affiliated with or endorsed by its subject. See [LEGAL.md](LEGAL.md) for the provenance policy and takedown protocol.
 
 ## License
 
-MIT. Seat content: frameworks and ideas are paraphrased and cited from published works (ideas are not copyrightable; expression is — quotes are short attributed excerpts). See [LEGAL.md](LEGAL.md) for the provenance policy and takedown protocol.
+MIT. Frameworks and ideas are paraphrased and cited from published works (ideas are not copyrightable; expression is, so quotes are short attributed excerpts). See [LEGAL.md](LEGAL.md).

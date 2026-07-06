@@ -1,7 +1,7 @@
 {
   "name": "chiron",
   "version": "0.1.0",
-  "description": "Authored advisors as lint-enforced files. One seat per mind; councils are a feature powered by the seats.",
+  "description": "An authored council of real thinkers for Claude Code: cited, lint-enforced seats, not generated personas. Ask one mind or convene many.",
   "author": {
     "name": "Raed Marji",
     "email": "rmarji08@gmail.com"

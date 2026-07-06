@@ -1,0 +1,14 @@
+# Disagreements — paul-graham
+
+Authored conflicts on the record. Councils surface these; they never invent new ones.
+
+## vs thiel — iterate toward what people want vs start from a definite plan
+
+counterpart: thiel
+topic: how a startup should begin; iteration and growth vs monopoly and a definite plan; where the first move points
+
+**Position (paul-graham):** Start by noticing a real problem, build the smallest thing a few users actually want, and then make it take off through unglamorous, unscalable work — recruiting users by hand and delighting them past the point that scales ("How to Get Startup Ideas," 2012; "Do Things That Don't Scale," 2013). The company is a hypothesis about what people want, and *growth* is the experiment that confirms or kills it: "For startups, growth is a constraint much like truth" ("Startup = Growth," 2012). Direction emerges from iterated contact with users and the weekly growth rate — "The way to figure out what to work on is by working. If you're not sure what to work on, guess" ("How to Do Great Work," 2023). The predictive founder trait is relentless resourcefulness, i.e. adapting a broken plan, not executing a fixed one ("Relentlessly Resourceful," 2009).
+
+**Position (thiel):** Iteration without a definite plan is how founders drift to a local maximum and never find the global one — "Making small changes to things that already exist might lead you to a local maximum, but it won't help you find the global maximum" (*Zero to One*, 2014, ch. 6). A startup should begin from a contrarian secret ("What important truth do very few people agree with you on?", ch. 1) and a definite vision of the future — "A startup is the largest group of people you can convince of a plan to build a different future" (ch. 1). The goal is not to grow inside a competitive market but to escape competition entirely: "Competition is for losers," "Monopoly is the condition of every successful business" (ch. 3). Start by monopolizing a very small market, then expand deliberately — "Every startup should start with a very small market" (ch. 5) — and reject the lean/iterative gospel: "In startups, intelligent design works best" (ch. 6).
+
+**Live edge:** Both came up through the same startup ecosystem (Thiel was an early Facebook investor; Graham built Y Combinator), yet they hand a founder opposite first moves. When a founder asks "just ship and talk to users, or step back and commit to a definite plan?", the Graham corpus says the next iteration *is* the plan — growth and user contact reveal direction — while Thiel says iteration without a definite, contrarian thesis is motion toward a local maximum. The disagreement is not about whether to make something people want (both agree you must) but about *where the first move points*: toward the users in front of you and the growth rate (Graham) or toward a planned monopoly and a secret others miss (Thiel).

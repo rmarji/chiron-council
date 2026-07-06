@@ -25,7 +25,7 @@ benches:
 ## create <name> <seats...>
 
 1. Validate the name: `^[a-z0-9-]{2,32}$`.
-2. Validate every seat id against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats`. Unknown id → suggest the top fuzzy matches, don't write.
+2. Validate every seat id against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`. Unknown id → suggest the top fuzzy matches, don't write.
 3. 2-8 seats required. 1 seat → "use /chiron:ask, a bench of one is a person." More than 8 → refuse (CH-E4). **6+ → warn** about token cost and decision theater but proceed.
 4. Read the target YAML (create file + `benches:` root if missing), add the bench with `chairman: neutral` and `default_depth: quick` defaults (honor `--chairman` / `--depth` flags if given), write it back preserving existing entries and comments.
 5. **CH-E7:** if the same name exists in the other scope, create anyway and warn which one now shadows which.

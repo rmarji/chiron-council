@@ -8,7 +8,7 @@
     {
       "name": "chiron",
       "source": "./",
-      "description": "Authored advisors as lint-enforced files. Ask a single seat, or convene a council of them."
+      "description": "An authored council of real thinkers for Claude Code: cited, lint-enforced seats, not generated personas."
     }
   ]
 }

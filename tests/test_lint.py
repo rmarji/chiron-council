@@ -330,12 +330,14 @@ class CliContractTests(unittest.TestCase):
              "--json"],
             capture_output=True, text=True, cwd=self.root)
         registry = json.loads(proc.stdout)
-        ids = [r["id"] for r in registry]
-        self.assertEqual(len(ids), 2)
-        loadable = [r for r in registry if r["lint"] != "fail"]
-        loadable_ids = [r["id"] for r in loadable]
+        # The registry is keyed by id, so a within-scope collision collapses to
+        # a single entry — but it must never be loadable, and no two loadable
+        # entries may ever share an id.
+        loadable_ids = [r["id"] for r in registry if r["lint"] != "fail"]
         self.assertEqual(len(loadable_ids), len(set(loadable_ids)),
                          "registry emitted duplicate loadable ids: %r" % registry)
+        self.assertNotIn("twin-a", loadable_ids,
+                         "collided id must not be loadable: %r" % registry)
 
     def test_registry_json_contract(self):
         make_seat(self.seats, "good-seat")
@@ -350,6 +352,44 @@ class CliContractTests(unittest.TestCase):
         for key in ("id", "display_name", "mode", "domains", "lint", "path"):
             self.assertIn(key, entry)
         self.assertEqual(entry["lint"], "pass")
+
+
+class RegistryMultiDirTests(unittest.TestCase):
+    """User seats (~/.claude/chiron/seats, .chiron/seats) merge over bundled."""
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp(prefix="chiron-multidir-")
+        self.bundled = os.path.join(self.root, "bundled")
+        self.user = os.path.join(self.root, "user")
+        os.makedirs(self.bundled)
+        os.makedirs(self.user)
+        sys.path.insert(0, os.path.join(REPO, "scripts"))
+
+    def tearDown(self):
+        shutil.rmtree(self.root)
+
+    def test_user_seat_shadows_bundled_and_adds_own(self):
+        from registry import build_registry
+        make_seat(self.bundled, "munger", display_name="Munger Lens")
+        make_seat(self.user, "munger", display_name="My Munger")   # override
+        make_seat(self.user, "me", display_name="Me Lens")          # user-only
+        reg = build_registry([self.bundled, self.user])
+        by_id = {r["id"]: r for r in reg}
+        self.assertEqual(set(by_id), {"munger", "me"})
+        # user scope wins on the collision, and records what it shadows
+        self.assertTrue(by_id["munger"]["path"].startswith(self.user))
+        self.assertIn("shadows", by_id["munger"])
+        self.assertTrue(by_id["munger"]["shadows"].startswith(self.bundled))
+
+    def test_missing_user_dir_is_skipped(self):
+        from registry import build_registry
+        make_seat(self.bundled, "munger")
+        reg = build_registry([self.bundled, os.path.join(self.root, "nonexistent")])
+        self.assertEqual(len(reg), 1)
+
+    def test_all_dirs_missing_returns_none(self):
+        from registry import build_registry
+        self.assertIsNone(build_registry([os.path.join(self.root, "nope")]))
 
 
 if __name__ == "__main__":

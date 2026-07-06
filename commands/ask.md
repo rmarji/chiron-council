@@ -11,7 +11,7 @@ Parse the first token as a seat or bench name, the rest as the question.
 
 ## 1. Resolve
 
-- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats` to get the roster.
+- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats).
 - Match the first argument against seat ids first, then bench names (project `.chiron/benches.yaml`, then `~/.claude/chiron/benches.yaml`). **Seat wins ties.**
 - If it matches a **bench**, this becomes a council — follow `/chiron:council` semantics at the bench's `default_depth` instead of continuing here.
 - **CH-E1 (unknown id):** suggest the top 3 fuzzy matches from the registry, point to `/chiron:roster`, stop.

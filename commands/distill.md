@@ -1,13 +1,13 @@
 ---
-description: Hire a new seat — interview, deep research, full authored seat, linted
-argument-hint: <one-line description of the advisor you want>
+description: Distill a new seat from a thinker's published work — interview, deep research, full cited seat, linted
+argument-hint: <one-line description of the advisor you want to distill>
 ---
 
-# /chiron:hire — author a new seat, depth baked in
+# /chiron:distill — distill a mind into a seat, depth baked in
 
 The user asked for: `$ARGUMENTS`
 
-A seat that ships with stub references isn't a seat, it's a name. This flow produces the full standard: SEAT.md + all 7 reference files at the SEAT_SPEC §4 depth bar, every claim cited. Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` before authoring.
+You do not hire a persona; you distill a mind from what it actually published. A seat that ships with stub references isn't a seat, it's a name. This flow produces the full standard: SEAT.md + all 7 reference files at the SEAT_SPEC §4 depth bar, every claim cited. Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` before authoring.
 
 ## 1. Interview (short — one round of questions)
 

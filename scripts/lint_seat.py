@@ -503,7 +503,7 @@ def main(argv=None):
     if args.all:
         paths = discover_seats(args.seats_dir)
         if paths is None:
-            msg = {"error": "no seats directory found; run /chiron:hire or install a pack"}
+            msg = {"error": "no seats directory found; run /chiron:distill or install a pack"}
             print(json.dumps(msg) if args.format == "json" else msg["error"])
             return 2
     else:
