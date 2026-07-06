@@ -1,0 +1,14 @@
+{
+  "name": "chiron-marketplace",
+  "owner": {
+    "name": "Raed Marji",
+    "email": "rmarji08@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "chiron",
+      "source": "./",
+      "description": "Authored advisors as lint-enforced files. Ask a single seat, or convene a council of them."
+    }
+  ]
+}

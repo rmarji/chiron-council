@@ -1,0 +1,34 @@
+# Chiron bench examples — copy into ~/.claude/chiron/benches.yaml (global)
+# or .chiron/benches.yaml (project; shadows global on name collision).
+# Benches are plain YAML; edit by hand freely. 2-8 seats; >5 gets noisy.
+
+benches:
+  # Money & bets: incentives, leverage, and your own execution laws
+  money:
+    seats: [munger, naval, rayo]
+    chairman: neutral
+    default_depth: quick
+
+  # Strategy calls: diagnosis before action, then leverage
+  strategy:
+    seats: [rumelt, munger, naval]
+    chairman: neutral
+    default_depth: full
+
+  # Deals & negotiations
+  deals:
+    seats: [voss, munger, rayo]
+    chairman: neutral
+    default_depth: quick
+
+  # Relationship decisions: polarity lens + repair lens (authored opposition)
+  relationship:
+    seats: [deida, terry-real]
+    chairman: neutral
+    default_depth: full
+
+  # Ship-or-slip: should you build it, and will you actually ship it
+  shipping:
+    seats: [rayo, naval, rumelt]
+    chairman: rayo
+    default_depth: quick

@@ -1,0 +1,12 @@
+{
+  "name": "chiron",
+  "version": "0.1.0",
+  "description": "Authored advisors as lint-enforced files. One seat per mind; councils are a feature powered by the seats.",
+  "author": {
+    "name": "Raed Marji",
+    "email": "rmarji08@gmail.com"
+  },
+  "homepage": "https://github.com/rayo/chiron",
+  "license": "MIT",
+  "keywords": ["advisors", "council", "mentors", "decision-making", "agent-skills", "seats"]
+}
