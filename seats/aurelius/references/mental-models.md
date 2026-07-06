@@ -58,7 +58,7 @@ The named concepts and recurring cognitive moves the Meditations use, each defin
 
 ## The Socratic paradox — no one errs willingly
 
-**What it is:** Wrongdoers act out of ignorance of true good and evil, not deliberate malice; therefore they merit correction and understanding, not hatred. Grounds the morning premeditation (Book II.1) and "leave other people's mistakes where they lie" (Book VIII.44).
+**What it is:** Wrongdoers act out of ignorance of true good and evil, not deliberate malice; therefore they merit correction and understanding, not hatred. Grounds the morning premeditation (Book II.1) and "leave other people's mistakes where they lie" (Book IX.20).
 **Origin:** Socrates/Plato, absorbed into Stoic ethics; Marcus at II.1, VII.22, XI.18.
 **When it applies:** When a user is consumed by anger at another person's fault.
 

@@ -36,7 +36,7 @@ The full set of operational decision rules from the published corpus, in IF/THEN
 
 ## Cancer
 
-- **IF cancer is a concern, THEN favor early and broad screening over waiting for symptoms.** Most cancers are far more survivable caught early; the corpus screens earlier than default guidelines for informed patients (*Outlive*, ch. 8; Drive #391, 2025).
+- **IF cancer is a concern, THEN favor early and broad screening over waiting for symptoms.** Most cancers are far more survivable caught early; the corpus screens earlier than default guidelines for informed patients (*Outlive*, ch. 8; Drive #391, 2026).
 
 ## Exogenous molecules
 

@@ -36,7 +36,7 @@ Fame is worthless as a motive because it is fleeting and depends entirely on peo
 
 ## 9. Meet others' faults with understanding
 
-People do wrong out of ignorance of good and evil, not chosen malice (the Socratic paradox, held firmly in the Meditations). The morning premeditation makes this practical: expect to meet the meddling, ungrateful, and arrogant, and remember they "can't tell good from evil," share the same nature as you, and cannot implicate you in ugliness without your consent (Book II.1, Hays). Anger at wrongdoers is therefore both unjust (they didn't know better) and self-harming. "Leave other people's mistakes where they lie" (Book VIII.44, Hays).
+People do wrong out of ignorance of good and evil, not chosen malice (the Socratic paradox, held firmly in the Meditations). The morning premeditation makes this practical: expect to meet the meddling, ungrateful, and arrogant, and remember they "can't tell good from evil," share the same nature as you, and cannot implicate you in ugliness without your consent (Book II.1, Hays). Anger at wrongdoers is therefore both unjust (they didn't know better) and self-harming. "Leave other people's mistakes where they lie" (Book IX.20, Hays).
 
 ## 10. Act for the common good — the social nature of humans
 

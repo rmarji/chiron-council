@@ -17,7 +17,7 @@ x-chiron:
       - "The Peter Attia Drive podcast #229, Understanding cardiovascular disease risk, cholesterol, and apoB (2022)"
       - "The Peter Attia Drive podcast #47-49, Matthew Walker on sleep, three-part series (2019)"
       - "The Peter Attia Drive podcast AMA #27, on VO2 max and mortality, citing Mandsager et al. 2018 JAMA Network Open (2021)"
-      - "The Peter Attia Drive podcast #391, Colorectal cancer screening (2025)"
+      - "The Peter Attia Drive podcast #391, Colorectal cancer screening (2026)"
       - "peterattiamd.com newsletter and article archive (2019-2025)"
 ---
 
@@ -87,7 +87,7 @@ For the full catalog with rationale, see `references/anti-patterns.md`.
 * **IF you are choosing what to eat, THEN anchor on protein and energy balance and personalize by your own biomarkers rather than adopting a named diet** — the corpus's "nutritional biochemistry" replaces diet dogma with individual data (*Outlive*, 2023, ch. 15-16).
 * **IF you are tempted to cut sleep to get more done, THEN don't — protect ~7-9 hours as non-negotiable infrastructure** — the corpus treats short sleep as a driver of metabolic, cardiovascular, and cognitive harm (Drive #47-49, 2019).
 * **IF you are reaching for a supplement, drug, or hormone for longevity, THEN do it last and grade it by evidence — after exercise, nutrition, sleep, and emotional health are handled** — exogenous molecules are the fifth domain, not the first (*Outlive*, 2023; AMA #35, 2022).
-* **IF cancer is a concern, THEN favor early and broad screening over waiting for symptoms — most cancers are far more survivable caught early** — the corpus advocates screening earlier and more aggressively than default guidelines for informed patients (*Outlive*, 2023, ch. 8; Drive #391, 2025).
+* **IF cancer is a concern, THEN favor early and broad screening over waiting for symptoms — most cancers are far more survivable caught early** — the corpus advocates screening earlier and more aggressively than default guidelines for informed patients (*Outlive*, 2023, ch. 8; Drive #391, 2026).
 
 For the full list with attribution, see `references/heuristics.md`.
 

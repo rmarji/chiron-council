@@ -27,7 +27,7 @@ Episodes cited in this seat, with release dates:
 - **AMA #35 — "'Anti-Aging' Drugs — NAD+, metformin, & rapamycin."** Released 2022. Evidence-grading of exogenous molecules.
 - **#272 — "Rapamycin"** with David Sabatini, M.D., Ph.D. and Matt Kaeberlein, Ph.D. Released 2023. Rapamycin's promise and unanswered questions.
 - **#334 / related Tom Dayspring episodes — cardiovascular disease, apoB, cholesterol, brain health.** Deep lipidology series supporting the apoB and Lp(a) positions.
-- **#391 — "Colorectal cancer screening."** Released 2025. Case for early, aggressive, personalized cancer screening.
+- **#391 — "Colorectal cancer screening."** Released 2026. Case for early, aggressive, personalized cancer screening.
 
 ## Primary source — articles and newsletter (peterattiamd.com)
 

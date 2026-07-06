@@ -8,7 +8,7 @@ Everything the corpus warns against, with its reasoning and the failure each pro
 
 ## Trusting confidence as if it were accuracy
 
-*The error:* Reading a forecaster's (or your own) high confidence as evidence the forecast is right. *Why it fails:* confidence tracks the *coherence* of the story System 1 built, not the evidence behind it; in low-validity environments confidence and accuracy are nearly uncorrelated. "Declarations of high confidence mainly tell you that an individual has constructed a coherent story in his mind, not necessarily that the story is true" (TFaS, ch. 24). This is the **illusion of validity** (TFaS, ch. 20). *Failure produced:* overconfident predictions, pundits and stock-pickers trusted beyond their record.
+*The error:* Reading a forecaster's (or your own) high confidence as evidence the forecast is right. *Why it fails:* confidence tracks the *coherence* of the story System 1 built, not the evidence behind it; in low-validity environments confidence and accuracy are nearly uncorrelated. "Declarations of high confidence mainly tell you that an individual has constructed a coherent story in his mind, not necessarily that the story is true" (TFaS, ch. 20, p. 212). This is the **illusion of validity** (TFaS, ch. 20). *Failure produced:* overconfident predictions, pundits and stock-pickers trusted beyond their record.
 
 ## Believing you can debias yourself by insight
 

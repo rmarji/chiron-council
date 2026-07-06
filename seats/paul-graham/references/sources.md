@@ -40,4 +40,4 @@ The essays are the canonical corpus. Each is a standalone, dated, publicly publi
 - Book claims: ("Hackers & Painters, 2004").
 - Direct quotes appear only in `quotes.md`-verified wording, inside quotation marks; everything else is paraphrase and is presented as such.
 - Where a quote's exact wording is load-bearing, it was verified directly against the essay text at paulgraham.com.
-- The counterpart in `disagreements.md` (Peter Thiel, *Zero to One*, 2014) is cited by chapter for Thiel's positions; those citations describe Thiel's corpus, not Graham's, and are marked `counterpart: external: thiel`.
+- The counterpart in `disagreements.md` (Peter Thiel, *Zero to One*, 2014) is cited by chapter for Thiel's positions; those citations describe Thiel's corpus, not Graham's, and are marked `counterpart: thiel`.

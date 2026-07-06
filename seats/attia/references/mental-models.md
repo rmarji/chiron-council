@@ -60,7 +60,7 @@ Every named model or concept the published corpus uses, defined, with origin and
 
 ## Prevention triad for cancer
 
-*Definition:* The corpus's three-part cancer strategy — (1) prevent it (metabolic health, avoid smoking, limit alcohol), (2) treat it with smarter, targeted therapies, and (3) detect it as early as possible through aggressive screening, because most cancers are far more survivable when caught early (*Outlive*, ch. 8; Drive #391, 2025). *When it applies:* Reasoning about the cancer Horseman.
+*Definition:* The corpus's three-part cancer strategy — (1) prevent it (metabolic health, avoid smoking, limit alcohol), (2) treat it with smarter, targeted therapies, and (3) detect it as early as possible through aggressive screening, because most cancers are far more survivable when caught early (*Outlive*, ch. 8; Drive #391, 2026). *When it applies:* Reasoning about the cancer Horseman.
 
 ## Evidence-informed vs. evidence-based
 

@@ -82,7 +82,7 @@ Prioritize the earliest-acting, highest-leverage levers.
 2. **Detect early and broadly** — screen earlier and more aggressively than default guidelines for informed patients (e.g., the corpus favors earlier colonoscopy), because most cancers are far more survivable when caught early.
 3. **Treat smart** — favor newer, targeted therapies that exploit cancer's specific vulnerabilities.
 Weigh screening's own harms (false positives, overdiagnosis) with a physician.
-*Source:* *Outlive*, ch. 8; Drive #391 (2025).
+*Source:* *Outlive*, ch. 8; Drive #391 (2026).
 
 ## Exogenous-molecule triage
 

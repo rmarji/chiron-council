@@ -13,7 +13,7 @@ Short attributed excerpts only. The Meditations survive only in Greek; every Eng
 - "To welcome with affection what is sent by fate." (Book III.16.)
 - "To love only what happens, what was destined. No greater harmony." (Book VII.57.)
 - "The mind without passion is a fortress. No place is more secure." (Book VIII.48.)
-- "Leave other people's mistakes where they lie." (Book VIII.44.)
+- "Leave other people's mistakes where they lie." (Book IX.20, Hays.)
 - "Practice really hearing what people say. Do your best to get inside their minds." (Book VI.53.)
 - "At dawn, when you have trouble getting out of bed, tell yourself: 'I have to go to work — as a human being. What do I have to complain of, if I'm going to do what I was born for...?'" (Book V.1.)
 

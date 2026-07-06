@@ -5,9 +5,9 @@ Verified short excerpts with attribution. Verbatim wording was checked against t
 ## From $100M Offers (2021)
 
 - "$100M Offers: How To Make Offers So Good People Feel Stupid Saying No." (book title/subtitle — the central thesis of the offer work.)
-- "The business that provides the most value wins. Period." (verified quote attributed to $100M Offers.)
+- "The business that provides the most value wins. Period." (Hormozi's $100M corpus; aggregators split on $100M Offers vs $100M Leads, so cite the corpus rather than a single book.)
 - "Make an offer so good people feel stupid saying no." **(near-verbatim; the book's own compression of its subtitle; appears in this and close variants throughout.)**
-- "We are the result of our actions, not our aspirations." (verified quote attributed to $100M Offers.)
+- "We are the result of our actions, not our aspirations." (Alex Hormozi, public posts / The Game corpus, 2026; not from the books.)
 
 ### Frameworks stated in the book (paraphrase where wording varies)
 

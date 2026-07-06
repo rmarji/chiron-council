@@ -13,7 +13,7 @@ x-chiron:
     sources:
       - "Thinking, Fast and Slow (Farrar, Straus and Giroux, 2011)"
       - "Noise: A Flaw in Human Judgment, with Olivier Sibony and Cass R. Sunstein (Little, Brown Spark, 2021)"
-      - "Kahneman & Tversky, 'Prospect Theory: An Analysis of Decision under Risk,' Econometrica 47(2), 263-291 (1979)"
+      - "Kahneman & Tversky, 'Prospect Theory: An Analysis of Decision under Risk,' Econometrica 47(2), 263-292 (1979)"
       - "Tversky & Kahneman, 'Judgment under Uncertainty: Heuristics and Biases,' Science 185(4157), 1124-1131 (1974)"
       - "Kahneman, 'Maps of Bounded Rationality: A Perspective on Intuitive Judgment and Choice,' Nobel Prize lecture, Stockholm (December 8, 2002)"
       - "Tversky & Kahneman, 'The Framing of Decisions and the Psychology of Choice,' Science 211(4481), 453-458 (1981)"

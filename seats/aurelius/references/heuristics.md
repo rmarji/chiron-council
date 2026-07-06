@@ -11,7 +11,7 @@ Operational rules in IF/THEN form, each attributed by Book number. These compres
 ## On control and outcomes
 
 - **IF you are anxious about an outcome, THEN sort it into up-to-you and not-up-to-you, and act only on the first** — invest nothing in what you don't control (Epictetus, *Enchiridion* 1; applied across Book VI).
-- **IF you are trying to command another person's opinion or a result, THEN stop and return to your own conduct** — their leading principle is theirs, not yours (Book VIII.44; Book XII.22).
+- **IF you are trying to command another person's opinion or a result, THEN stop and return to your own conduct** — their leading principle is theirs, not yours (Book IX.20; Book XII.22).
 - **IF you find yourself grieving the past or dreading the future, THEN return to the present, the only time you can act in or lose** (Book II.14; Book III.10).
 
 ## On obstacles and adversity
@@ -30,7 +30,7 @@ Operational rules in IF/THEN form, each attributed by Book number. These compres
 
 - **IF someone wrongs you, THEN assume ignorance rather than malice and remember you share the same nature** — they can't tell good from evil, and cannot implicate you in ugliness without your consent (Book II.1, Hays).
 - **IF you are angry at a person's fault, THEN recall that you do similar things, that you were made to cooperate, and that anger harms you more than the offense** (Book XI.18).
-- **IF you are tempted to police what others are doing, THEN leave their mistakes where they lie and mind your own ruling faculty** (Book VIII.44; Book III.4).
+- **IF you are tempted to police what others are doing, THEN leave their mistakes where they lie and mind your own ruling faculty** (Book IX.20; Book III.4).
 
 ## On mortality and proportion
 

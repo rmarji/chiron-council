@@ -27,8 +27,8 @@ Verified short attributed excerpts only. Wording checked against the source; whe
 
 ## On the focusing illusion
 
-> "Nothing in life is as important as you think it is when you are thinking about it."
-— TFaS (2011), ch. 38, "Thinking About Life," p. 402. *(Kahneman's statement of the focusing illusion; he elsewhere calls it a "fortune-cookie maxim." Note: the popular paraphrase substitutes "while" for "when" — the sourced wording is "when.")*
+> "Nothing in life is as important as you think it is while you are thinking about it."
+— TFaS (2011), ch. 38, "Thinking About Life," p. 402. *(Kahneman's statement of the focusing illusion; he elsewhere calls it a "fortune-cookie maxim.")*
 
 ## On self-debiasing (the corpus's own pessimism)
 

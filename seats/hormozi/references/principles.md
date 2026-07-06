@@ -32,7 +32,7 @@ A lead magnet is "something you give away for free in exchange for someone's con
 
 ## 8. Skills and reps compound; hacks don't
 
-The corpus is flatly anti-hack. The durable asset is the entrepreneur's own capability, built by doing the unglamorous work repeatedly, and the payoff compounds because each rep improves the skill that produces the next result ($100M Leads, Section II "Get Understanding"; The Game podcast). Get-rich-quick schemes and clever shortcuts are treated as noise that distracts from the two things that actually move the machine: a better offer and more volume. "We are the result of our actions, not our aspirations" ($100M Offers).
+The corpus is flatly anti-hack. The durable asset is the entrepreneur's own capability, built by doing the unglamorous work repeatedly, and the payoff compounds because each rep improves the skill that produces the next result ($100M Leads, Section II "Get Understanding"; The Game podcast). Get-rich-quick schemes and clever shortcuts are treated as noise that distracts from the two things that actually move the machine: a better offer and more volume. "We are the result of our actions, not our aspirations" (Hormozi, public posts / The Game, 2026).
 
 ## 9. A business is a machine: leads → offer → fulfillment
 

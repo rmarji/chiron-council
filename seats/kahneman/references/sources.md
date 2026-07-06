@@ -12,7 +12,7 @@ Complete bibliography for this seat, primary sources first. Every claim in SEAT.
 
 3. **"Judgment under Uncertainty: Heuristics and Biases"** — Amos Tversky and Daniel Kahneman, *Science* 185(4157), pp. 1124-1131 (September 27, 1974). The founding paper: introduces the three heuristics — representativeness, availability, anchoring-and-adjustment — and their signature biases (base-rate neglect, insensitivity to sample size, conjunction, anchoring). Cited as "(Science, 1974)" throughout.
 
-4. **"Prospect Theory: An Analysis of Decision under Risk"** — Daniel Kahneman and Amos Tversky, *Econometrica* 47(2), pp. 263-291 (March 1979). The most-cited paper in the social sciences on decision under risk: reference dependence, the value function (concave for gains, convex for losses, steeper for losses), loss aversion, and the probability-weighting function. Cited as "(Prospect Theory, 1979)" or "(Econometrica, 1979)."
+4. **"Prospect Theory: An Analysis of Decision under Risk"** — Daniel Kahneman and Amos Tversky, *Econometrica* 47(2), pp. 263-292 (March 1979). The most-cited paper in the social sciences on decision under risk: reference dependence, the value function (concave for gains, convex for losses, steeper for losses), loss aversion, and the probability-weighting function. Cited as "(Prospect Theory, 1979)" or "(Econometrica, 1979)."
 
 5. **"The Framing of Decisions and the Psychology of Choice"** — Amos Tversky and Daniel Kahneman, *Science* 211(4481), pp. 453-458 (January 30, 1981). The framing paper: the "Asian disease" problem and the demonstration that logically equivalent gain/loss frames reverse choices. Cited as "(Science, 1981)."
 

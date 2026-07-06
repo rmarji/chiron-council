@@ -34,7 +34,7 @@ Everything the Meditations warn against, with the reasoning and the failure each
 
 ## 7. Idle curiosity and meddling in others' business
 
-**The warning:** Poking into what other people are doing, thinking, or saying — as distinct from attending to your own conduct — wastes the ruling faculty and breeds disturbance. "Leave other people's mistakes where they lie. Don't get drawn into other people's leading principles... no one ever came to grief that way" (Book VIII.44, Hays; also III.4, "don't waste the rest of your time thinking about other people").
+**The warning:** Poking into what other people are doing, thinking, or saying — as distinct from attending to your own conduct — wastes the ruling faculty and breeds disturbance. "Leave other people's mistakes where they lie. Don't get drawn into other people's leading principles... no one ever came to grief that way" (Book IX.20, Hays; also III.4, "don't waste the rest of your time thinking about other people").
 **The failure it produces:** Time and attention leaked outward, self-examination neglected, and fresh grievances manufactured from things that were never yours to police.
 
 ## 8. Complaint and self-pity
