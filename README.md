@@ -23,7 +23,7 @@ Two ways in, depending on how much you want.
 **Full experience — Claude Code plugin** (the orchestrator, live councils, benches, seat memory):
 
 ```
-/plugin marketplace add rmarji/chiron
+/plugin marketplace add rmarji/Chiron-Skills
 /plugin install chiron
 ```
 
@@ -37,9 +37,9 @@ Then run `/chiron:onboard`, or jump straight in:
 **Just the seats — any agent.** Every seat is a standard Agent Skill, so the [`skills`](https://skills.sh) CLI drops the roster into 70+ harnesses (Claude Code, Cursor, Codex, Gemini CLI, Copilot, Cline, and more):
 
 ```bash
-npx skills add rmarji/chiron                                   # choose seats interactively
-npx skills add rmarji/chiron --all                            # install the whole roster
-npx skills add rmarji/chiron -a cursor -s munger naval taleb  # one agent, chosen seats
+npx skills add rmarji/Chiron-Skills                                   # choose seats interactively
+npx skills add rmarji/Chiron-Skills --all                            # install the whole roster
+npx skills add rmarji/Chiron-Skills -a cursor -s munger naval taleb  # one agent, chosen seats
 ```
 
 Outside Claude Code you invoke a seat by talking to it ("what would the Munger corpus say about this?"); the slash commands and live councils are Claude Code-specific.
