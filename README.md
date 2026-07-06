@@ -1,8 +1,16 @@
-# Chiron
+<p align="center">
+  <img src="assets/chiron-header.png" alt="Chiron — an authored council of real thinkers for Claude Code" width="820">
+</p>
 
-**An authored council of real thinkers for Claude Code. Seats, not generated personas.**
+<p align="center"><strong>An authored council of real thinkers for Claude Code. Seats, not generated personas.</strong></p>
 
-![version](https://img.shields.io/badge/version-0.1.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) ![standard](https://img.shields.io/badge/standard-Agent%20Skills-8A2BE2) ![seats](https://img.shields.io/badge/seats-15-orange) ![lint](https://img.shields.io/badge/lint-15%2F15%20passing-brightgreen)
+<p align="center">
+  <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="version">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
+  <img src="https://img.shields.io/badge/standard-Agent%20Skills-8A2BE2" alt="standard">
+  <img src="https://img.shields.io/badge/seats-15-orange" alt="seats">
+  <img src="https://img.shields.io/badge/lint-15%2F15%20passing-brightgreen" alt="lint">
+</p>
 
 You make expensive, irreversible calls alone, and a single model just agrees with you. Studies now put AI sycophancy at roughly 50% more affirming than a human would be, which makes one agreeable chatbot a dangerous advisor for a decision you cannot take back. The usual fix, an "AI board of advisors," is worse: five voices of one model nodding along, or celebrity name-tags with nothing real behind them.
 
@@ -11,7 +19,7 @@ Chiron is different. Each **seat** is one mind, distilled from what that person 
 ## Install
 
 ```
-/plugin marketplace add rayo/chiron
+/plugin marketplace add rmarji/chiron
 /plugin install chiron
 ```
 
