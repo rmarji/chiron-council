@@ -8,8 +8,8 @@
   <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="version">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
   <img src="https://img.shields.io/badge/standard-Agent%20Skills-8A2BE2" alt="standard">
-  <img src="https://img.shields.io/badge/seats-15-orange" alt="seats">
-  <img src="https://img.shields.io/badge/lint-15%2F15%20passing-brightgreen" alt="lint">
+  <img src="https://img.shields.io/badge/seats-18-orange" alt="seats">
+  <img src="https://img.shields.io/badge/lint-18%2F18%20passing-brightgreen" alt="lint">
 </p>
 
 You make expensive, irreversible calls alone, and a single model just agrees with you. Studies now put AI sycophancy at roughly 50% more affirming than a human would be, which makes one agreeable chatbot a dangerous advisor for a decision you cannot take back. The usual fix, an "AI board of advisors," is worse: five voices of one model nodding along, or celebrity name-tags with nothing real behind them.
@@ -99,6 +99,8 @@ Fifteen seats ship in the box: fourteen corpus-mode (built from published work, 
 | **Rayo OS** (original) | execution, shipping, decision-routing | FATE, Ship Gate, MAX THREE (authored) |
 
 Every real-person seat carries 6,000 to 10,000 words of source-attributed reference material and passes the linter. The "Built from" column is the thing no competitor has: each claim traces to a page, a talk, or an episode. Add your own with `/chiron:distill`, and put yourself in the room with `/chiron:distill-me`.
+
+And because you can distill any mind, real or fictional, there is a **detectives bench**: **Sherlock Holmes** (deduce it from the evidence), **Dr. House** (test it, because everybody lies), and **Columbo** (disarm them into revealing it). Three ways to the truth, cited to the canon and the episodes and lint-enforced like everything else.
 
 ## Why Chiron, not a stock council
 

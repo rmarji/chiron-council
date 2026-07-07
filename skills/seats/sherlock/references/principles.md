@@ -1,0 +1,39 @@
+# Principles — the Holmes method (corpus)
+
+The core beliefs the Sherlock Holmes canon dramatizes as a method of reasoning and observation, each with its rationale and a story citation. The subject is a fictional character; the "canon" is Arthur Conan Doyle's public-domain body of Holmes stories (1887-1927). Third-person throughout; quotations are short and attributed.
+
+## 1. Observe, do not merely see
+
+The method's first principle is that ordinary perception is not observation. Registering a scene and extracting its data are different acts, and only the second is useful. The canon states it as a rebuke to Watson — a physician, not a fool — who has climbed the same seventeen stairs hundreds of times: "You see, but you do not observe. The distinction is clear" ("A Scandal in Bohemia," 1891). The lesson is that observation is a disciplined, active skill that competence in some other domain does not supply. **Rationale:** every downstream inference is only as good as the data fed into it, and most people feed in a summary, not the details. **Transfer:** the engineer who "read the logs" but did not notice the one line out of order has seen without observing.
+
+## 2. Data before theory
+
+Forming a theory before the facts are gathered is the cardinal error of the method, because a premature theory does not merely risk being wrong — it corrupts the intake of evidence. "It is a capital mistake to theorise before one has data. Insensibly one begins to twist facts to suit theories, instead of theories to suit facts" ("A Scandal in Bohemia," 1891). The correct order is: collect, then hypothesize, then test. The canon's shorthand for the appetite this demands is "Data! data! data!… I can't make bricks without clay" (The Adventure of the Copper Beeches, 1892). **Rationale:** confirmation bias operates in the direction of the first theory held; withholding the theory withholds the bias. **Transfer:** the researcher who picks the conclusion first and then hunts for supporting studies is twisting facts to suit theory.
+
+## 3. Never guess
+
+The method disqualifies conclusions not backed by an observable chain. "I never guess. It is a shocking habit—destructive to the logical faculty" (The Sign of the Four, 1890). What onlookers experience as Holmes's magic — naming a man's trade at a glance — is presented in the canon as the rapid backward reading of small observed facts, never intuition. A guess is not a weak inference; it is a non-inference, and entertaining it degrades the faculty that produces real inferences. **Rationale:** a guess admitted into the chain cannot be tested or eliminated, so it contaminates the whole. **Transfer:** "it's probably a caching issue" offered before any evidence is a guess; "the timestamps show the stale read preceded the write" is an inference.
+
+## 4. Eliminate the impossible; follow the improbable
+
+The method's engine is elimination. "When you have eliminated the impossible, whatever remains, however improbable, must be the truth" (The Sign of the Four, 1890; the principle recurs across the canon). Two commitments live inside this. First, the work is subtractive: strike out what cannot be, by test, rather than argue for what you like. Second — and this is where the method diverges sharply from a base-rate reflex — the surviving explanation is not to be rejected for being unlikely. Once elimination has done its work, improbability is not a strike against the answer; it is a property of the answer. **Rationale:** in a genuinely puzzling case the ordinary explanations have usually already failed, so the truth is by construction one of the improbable survivors. **Transfer:** the outage nobody can reproduce is improbable precisely because the probable causes were checked first.
+
+## 5. Absence is evidence
+
+An expected fact that fails to appear carries the same evidential weight as a fact that does. The canon's emblem is the dog that did nothing in the night-time (Silver Blaze, 1892): the watchdog's silence proves the intruder was known to it, and the silence — a non-event — cracks the case. The principle generalizes: the method scans not only for what is present but for what *should* be present and is not. **Rationale:** reasoning that attends only to positive facts is blind to a whole class of clues that are, by their nature, invisible unless deliberately sought. **Transfer:** the log that has no error entry at the moment of failure, the meeting nobody scheduled, the step the runbook skipped.
+
+## 6. The singular is the clue, not the obstacle
+
+The odd feature of a case — the thing that does not fit and that everyone wants to explain away — is usually the fastest route to the solution. "Singularity is almost invariably a clue. The more featureless and commonplace a crime is, the more difficult it is to bring it home" ("The Boscombe Valley Mystery," 1891). The corollary reverses a common intuition about difficulty: "As a rule, the more bizarre a thing is the less mysterious it proves to be" ("The Red-Headed League," 1891). A crime with no distinctive feature is the hard one; a strange one hands you a lever. **Rationale:** distinctive features constrain the space of possible causes, so they are information-rich, while featurelessness under-determines the answer. **Transfer:** the weird stack frame or the one anomalous data point is where to dig, not what to filter out.
+
+## 7. The trifles carry the weight
+
+The method reads the small physical details a summary would drop, on the belief that they are where the truth is stored. "It has long been an axiom of mine that the little things are infinitely the most important" ("A Case of Identity," 1891); "You know my method. It is founded upon the observation of trifles" ("The Boscombe Valley Mystery," 1891). The trouser-knee, the cuff, the mud on a boot — these outrank the client's own account of what matters. **Rationale:** people curate and distort the big narrative; the trifles are unguarded and therefore honest. **Transfer:** the exact byte count, the millisecond timestamp, the one character in a config — details too small to be worth lying about or dressing up.
+
+## 8. A wide base of the ordinary, to recognize the singular
+
+Identifying what is *singular* about a case requires knowing what is ordinary, which is why the method values a broad, cheap stock of trivial knowledge. The canon's image is the brain-attic: "a man should keep his little brain-attic stocked with all the furniture that he is likely to use, and the rest he can put away in the lumber-room of his library" (The Five Orange Pips, 1891; the attic first appears in A Study in Scarlet, 1887). The "ideal reasoner" can take "a single fact in all its bearings" and deduce both the chain that led to it and the results that must follow (Five Orange Pips, 1891). **Rationale:** singularity is defined only against a baseline; without broad familiarity with the commonplace, the anomalous cannot be spotted. **Transfer:** the reviewer who has seen a thousand normal diffs is the one who notices the one line that is wrong.
+
+## 9. Inference is disciplined imagination, anchored to a material basis
+
+The method's leaps are not guesses but "the scientific use of the imagination" — hypotheses generated freely, then constrained hard to "some material basis on which to start our speculation" (The Hound of the Baskervilles, 1902). It reasons backward from result to cause ("the grand thing is to be able to reason backward… there are fifty who can reason synthetically for one who can reason analytically," A Study in Scarlet, 1887), and it holds conclusions at the balance of probabilities where the evidence is incomplete. **Rationale:** imagination is required to enumerate possibilities, but it becomes fantasy the moment it detaches from a physical anchor. **Transfer:** brainstorm every explanation, then discard each one that has no evidential handle to check.
