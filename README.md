@@ -20,12 +20,10 @@ Chiron is different. Each **seat** is one mind, distilled from what that person 
 
 Two ways in, depending on how much you want.
 
-**Full experience — Claude Code plugin** (the orchestrator, live councils, benches, seat memory):
+**Full experience — the plugin** (the orchestrator, live councils, benches, seat memory). Works in **Claude Code** and **Cowork**, which share the plugin format:
 
-```
-/plugin marketplace add rmarji/chiron-council
-/plugin install chiron
-```
+- **Claude Code:** `/plugin marketplace add rmarji/chiron-council` then `/plugin install chiron`
+- **Cowork:** download [`chiron.plugin`](https://github.com/rmarji/chiron-council/releases/latest) and accept it in the app
 
 Then run `/chiron:onboard`, or jump straight in:
 
@@ -39,10 +37,10 @@ Then run `/chiron:onboard`, or jump straight in:
 ```bash
 npx skills add rmarji/chiron-council                                   # choose seats interactively
 npx skills add rmarji/chiron-council --all                            # install the whole roster
-npx skills add rmarji/chiron-council -a cursor -s munger naval taleb  # one agent, chosen seats
+npx skills add rmarji/chiron-council -a codex -s munger naval taleb   # Codex (or -a cursor, gemini-cli, ...)
 ```
 
-Outside Claude Code you invoke a seat by talking to it ("what would the Munger corpus say about this?"); the slash commands and live councils are Claude Code-specific.
+Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"); the slash commands and live councils need the plugin (Claude Code or Cowork).
 
 ## See it work
 
