@@ -8,14 +8,19 @@
   /* ============================================================
      Chiron council demo — single deterministic CSS timeline.
      Self-contained: no external fonts, images, CDNs, or network.
-     Plays ONCE over ~23s, holds on the tagline for a clean poster
+     Plays ONCE over ~28s, holds on the tagline for a clean poster
      frame. Rendered to MP4 by HeyGen HyperFrames (headless Chrome
      seek + FFmpeg). See window.__timelines adapter at the bottom.
+
+     Decision on the table: DISTRIBUTION. "I built something good
+     but almost no one knows. Keep building, or go tell people?"
+     Dramatizes luck surface = Doing × Telling across 3 authored
+     seats (Naval, Rayo OS, Munger) with a real, cited disagreement.
      ============================================================ */
 
   :root {
     /* master timeline length; every animation-delay is a slice of this */
-    --T: 23s;
+    --T: 28s;
 
     --bg:        #0a0c0e;
     --bg-2:      #0d0f12;
@@ -27,6 +32,7 @@
     --amber:     #e0a55b;   /* soft amber accent */
     --seat:      #9db8e6;   /* muted blue for seat names */
     --seat-2:    #c8a6e0;   /* muted violet, second seat */
+    --seat-3:    #8fbfad;   /* muted teal, third seat */
     --cite:      #5f6a75;   /* citation grey */
     --rule:      #2a313a;
     --caret:     #7fd88a;
@@ -115,9 +121,9 @@
 
   .screen {
     flex: 1 1 auto;
-    padding: 26px 34px;
+    padding: 24px 34px;
     font-size: 15px;
-    line-height: 1.62;
+    line-height: 1.58;
     color: var(--text);
     overflow: hidden;
   }
@@ -127,6 +133,7 @@
   .glyph    { color: var(--amber); }
   .seat-a   { color: var(--seat);   font-weight: 600; }
   .seat-b   { color: var(--seat-2); font-weight: 600; }
+  .seat-c   { color: var(--seat-3); font-weight: 600; }
   .conf     { color: var(--amber); }
   .meta     { color: var(--dim); }
   .cite     { color: var(--cite); font-style: italic; }
@@ -151,12 +158,12 @@
     white-space: nowrap;
     vertical-align: bottom;
     color: var(--text);
-    animation: type 2.1s steps(80, end) forwards;
+    animation: type 2.6s steps(112, end) forwards;
     animation-delay: 0.9s;
   }
   .typed .cmd { color: var(--prompt); }
   .typed .arg { color: var(--text); }
-  @keyframes type { to { max-width: 80ch; } }
+  @keyframes type { to { max-width: 112ch; } }
 
   .caret {
     display: inline-block;
@@ -166,7 +173,7 @@
     background: var(--caret);
     vertical-align: text-bottom;
     transform: translateY(2px);
-    /* blink until typing done (~2.9s), then hold-off */
+    /* blink until typing done (~3.5s), then hold-off */
     animation:
       blink 0.9s steps(1) 0.9s 3,
       caret-off 0.01s linear 3.6s forwards;
@@ -184,21 +191,30 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* per-beat sequencing (each block breathes ~2.5-3.5s) */
-  .routing   { animation-delay: 3.7s;  margin: 10px 0 6px; }
-  .seat1     { animation-delay: 6.2s;  margin: 14px 0 2px; }
-  .seat2     { animation-delay: 9.4s;  margin: 16px 0 2px; }
-  .banner    { animation-delay: 12.8s; margin: 16px 0 2px; }
-  .synthesis { animation-delay: 16.0s; margin: 16px 0 2px; }
+  /* per-beat sequencing (each block breathes ~3.0-3.2s) */
+  .routing   { animation-delay: 4.2s;  margin: 10px 0 6px; }
+  .seat1     { animation-delay: 7.2s;  margin: 12px 0 2px; }
+  .seat2     { animation-delay: 10.3s; margin: 14px 0 2px; }
+  .seat3     { animation-delay: 13.4s; margin: 14px 0 2px; }
+  .banner    { animation-delay: 16.5s; margin: 14px 0 2px; }
+  .synthesis { animation-delay: 19.8s; margin: 14px 0 2px; }
 
   /* the transcript scrolls up gently to keep the newest beat in view,
-     matching the feel of a live terminal filling past the fold */
+     matching the feel of a live terminal filling past the fold. The
+     animation shares the master clock (var(--T)); keyframe percentages
+     map 1:1 to seconds, so it stays flat until the stack overflows,
+     then eases up as the disagreement + synthesis land. */
   .stream {
     will-change: transform;
-    animation: scroll-up 1s ease-in-out forwards;
-    animation-delay: 15.6s;
+    animation: stream-scroll var(--T) ease-in-out forwards;
   }
-  @keyframes scroll-up { to { transform: translateY(-64px); } }
+  @keyframes stream-scroll {
+    0%   { transform: translateY(0); }
+    58%  { transform: translateY(0); }        /* ~16.2s — everything still fits */
+    66%  { transform: translateY(-60px); }    /* ~18.5s — nudge as disagreement settles */
+    78%  { transform: translateY(-164px); }   /* ~21.8s — full synthesis framed */
+    100% { transform: translateY(-164px); }
+  }
 
   .indent { padding-left: 2ch; }
   .block-head { margin-bottom: 1px; }
@@ -207,14 +223,14 @@
   .rule {
     height: 1px;
     background: var(--rule);
-    margin: 12px 0;
+    margin: 11px 0;
     opacity: 0;
     animation: reveal 0.6s ease forwards;
   }
-  .rule.r1 { animation-delay: 12.6s; }
-  .rule.r2 { animation-delay: 15.8s; }
+  .rule.r1 { animation-delay: 16.3s; }
+  .rule.r2 { animation-delay: 19.6s; }
 
-  /* ---------- Beat 7: final tagline card ---------- */
+  /* ---------- Beat 8: final tagline card ---------- */
   .tagline {
     position: absolute;
     inset: 0;
@@ -227,7 +243,7 @@
       radial-gradient(900px 520px at 50% 45%, #0e1216 0%, var(--bg) 70%);
     opacity: 0;
     animation: tag-in 1.1s ease-out forwards;
-    animation-delay: 19.4s;
+    animation-delay: 24.0s;
   }
   @keyframes tag-in { to { opacity: 1; } }
 
@@ -263,12 +279,12 @@
   <div id="root"
        data-composition-id="chiron-council"
        data-start="0"
-       data-duration="23"
+       data-duration="28"
        data-width="1280"
        data-height="720">
 
     <div class="terminal clip" id="council-terminal"
-         data-start="0" data-duration="23" data-track-index="0">
+         data-start="0" data-duration="28" data-track-index="0">
       <div class="titlebar">
         <span class="dot r"></span>
         <span class="dot y"></span>
@@ -280,51 +296,62 @@
         <div class="stream">
           <!-- Beat 1: prompt types in -->
           <div class="promptline">
-            <span class="sigil">&gt;</span><span class="typed"><span class="cmd">/chiron:council</span> <span class="arg">relationship "should I hold my frame or move toward my partner?"</span></span><span class="caret"></span>
+            <span class="sigil">&gt;</span><span class="typed"><span class="cmd">/chiron:council</span> <span class="arg">distribution "I built something good but almost no one knows. Keep building, or go tell people?"</span></span><span class="caret"></span>
           </div>
 
           <!-- Beat 2: routing note -->
           <div class="beat routing line">
-            <span class="glyph">▸</span> <span class="meta">convening 2 seats · authored disagreement on record · ~3k tokens</span>
+            <span class="glyph">▸</span> <span class="meta">convening 3 seats · authored disagreement on record · ~4k tokens</span>
           </div>
 
-          <!-- Beat 3: seat take 1 -->
+          <!-- Beat 3: Naval -->
           <div class="beat seat1">
-            <div class="line block-head"><span class="glyph">▸</span> <span class="seat-a">Deida</span> <span class="meta">(corpus)</span>   <span class="conf">confidence 4/5</span></div>
-            <div class="line indent body">Reads accommodation here as collapse. Attraction runs on polarity;</div>
-            <div class="line indent body">abandoning your direction to soothe tension trades desire for peace.</div>
-            <div class="line indent cite">(The Way of the Superior Man, 1997)</div>
+            <div class="line block-head"><span class="glyph">▸</span> <span class="seat-a">Naval</span> <span class="meta">(corpus)</span>   <span class="conf">confidence 5/5</span></div>
+            <div class="line indent body">Build your luck surface. Specific knowledge plus permissionless</div>
+            <div class="line indent body">leverage — code and media — is how luck starts finding you. Ship</div>
+            <div class="line indent body">the work AS media; it compounds while you sleep.</div>
+            <div class="line indent cite">(How to Get Rich, 2018; the four kinds of luck)</div>
           </div>
 
-          <!-- Beat 4: seat take 2 -->
+          <!-- Beat 4: Rayo OS -->
           <div class="beat seat2">
-            <div class="line block-head"><span class="glyph">▸</span> <span class="seat-b">Terry Real</span> <span class="meta">(corpus)</span>   <span class="conf">confidence 4/5</span></div>
-            <div class="line indent body">Reads frame-holding as the injury. The stoic, self-sufficient posture</div>
-            <div class="line indent body">is what breeds distance and dead marriages; the move is repair.</div>
-            <div class="line indent cite">(Us, 2022; I Don't Want to Talk About It, 1997)</div>
+            <div class="line block-head"><span class="glyph">▸</span> <span class="seat-b">Rayo OS</span> <span class="meta">(corpus)</span>   <span class="conf">confidence 5/5</span></div>
+            <div class="line indent body">Luck = Doing × Telling. Untold work has a luck surface of zero,</div>
+            <div class="line indent body">regardless of quality. The Ship Gate: nothing new starts until the</div>
+            <div class="line indent body">last finished thing is told. Stop building. Go tell.</div>
+            <div class="line indent cite">(Rayo OS: luck surface, Ship Gate)</div>
+          </div>
+
+          <!-- Beat 5: Munger Lens -->
+          <div class="beat seat3">
+            <div class="line block-head"><span class="glyph">▸</span> <span class="seat-c">Munger Lens</span> <span class="meta">(corpus)</span>   <span class="conf">confidence 3/5</span></div>
+            <div class="line indent body">The big money is in the waiting; most activity is a tax dressed as</div>
+            <div class="line indent body">diligence. Don't confuse motion with progress.</div>
+            <div class="line indent cite">(Poor Charlie's Almanack, 2005)</div>
           </div>
 
           <div class="rule r1"></div>
 
-          <!-- Beat 5: disagreement banner -->
+          <!-- Beat 6: disagreement banner -->
           <div class="beat banner">
-            <div class="line block-head"><span class="glyph">▸</span> <span class="disagree">authored disagreement</span>  ·  <span class="seat-a">Deida</span> <span class="meta">vs</span> <span class="seat-b">Terry Real</span></div>
-            <div class="line indent body">Is the distant, purpose-anchored man the problem, or the abdicating one?</div>
-            <div class="line indent body">They disagree at the level of diagnosis. Both positions cited.</div>
+            <div class="line block-head"><span class="glyph">▸</span> <span class="disagree">authored disagreement</span>  ·  <span class="seat-b">Rayo</span> <span class="meta">vs</span> <span class="seat-c">Munger</span></div>
+            <div class="line indent body">Telling-now vs patience. Rayo: telling is the constraint you keep</div>
+            <div class="line indent body">starving. Munger: act only on the rare fat pitch. Both cited.</div>
           </div>
 
           <div class="rule r2"></div>
 
-          <!-- Beat 6: synthesis -->
+          <!-- Beat 7: synthesis -->
           <div class="beat synthesis">
             <div class="line block-head"><span class="glyph">▸</span> <span class="synth">synthesis</span> <span class="meta">(neutral chair)</span></div>
-            <div class="line indent body">Name which failure is actually yours before you act. Dissent preserved,</div>
-            <div class="line indent body">not averaged.</div>
+            <div class="line indent body">Tell the finished thing, loudly, now — that's closing the loop, not</div>
+            <div class="line indent body">motion for its own sake. Dissent preserved: if it isn't truly done,</div>
+            <div class="line indent body">Munger is right and you're hiding in noise.</div>
           </div>
         </div>
       </div>
 
-      <!-- Beat 7: tagline overlay, holds still to the end -->
+      <!-- Beat 8: tagline overlay, holds still to the end -->
       <div class="tagline">
         <div class="mark">C H I R O N</div>
         <div class="tag-line-accent"></div>
@@ -339,7 +366,7 @@
      HyperFrames seek adapter.
 
      The animation above is pure CSS @keyframes on one deterministic
-     clock (var(--T) = 23s, every reveal placed via animation-delay).
+     clock (var(--T) = 28s, every reveal placed via animation-delay).
      Standalone in a browser it simply autoplays once.
 
      For deterministic frame-by-frame capture, HyperFrames seeks a
@@ -353,7 +380,7 @@
      ------------------------------------------------------------------ */
   (function () {
     var COMPOSITION_ID = "chiron-council";
-    var DURATION_S = 23;
+    var DURATION_S = 28;
 
     function allAnimations() {
       // getAnimations() on document returns every CSS animation on the page.

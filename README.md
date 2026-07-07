@@ -44,36 +44,37 @@ Outside the plugin you invoke a seat by talking to it ("what would the Munger co
 
 ## See it work
 
-A council does not average its seats into mush. It makes them argue from the record, then preserves the dissent. Here two seats hit an authored disagreement:
+A council does not average its seats into mush. It makes them argue from the record, then preserves the dissent. Here three seats hit a real distribution call, and a real authored disagreement:
+
+<p align="center">
+  <img src="demo/council-demo.gif" alt="Chiron convening a council on a distribution decision" width="820">
+</p>
 
 ```
-/chiron:council relationship "should I hold my frame or move toward my partner?"
+/chiron:council distribution "I built something good but almost no one knows. Keep building, or go tell people?"
 
-▸ Deida (corpus)        confidence 4/5
-  The corpus reads accommodation here as collapse. Attraction runs on
-  polarity; a man who abandons his direction to soothe tension trades
-  desire for peace. (The Way of the Superior Man, Parts 1-2, 1997)
+▸ Naval (corpus)   confidence 5/5
+  Build your luck surface. Specific knowledge plus permissionless
+  leverage, code and media, is how luck starts finding you. Ship the
+  work as media; it compounds while you sleep. (How to Get Rich, 2018)
 
-▸ Terry Real (corpus)   confidence 4/5
-  The RLT corpus reads frame-holding as the injury, not the cure. The
-  stoic, self-sufficient posture is what breeds covert depression and
-  dead marriages; the move is repair, not dominance. (Us, 2022; I Don't
-  Want to Talk About It, 1997)
+▸ Rayo OS   confidence 5/5
+  Luck = Doing × Telling. Untold work has a luck surface of zero,
+  regardless of quality. Stop building. Go tell. (Ship Gate; luck surface)
 
-▸ Authored disagreement on record
-  Deida vs Terry Real: is the distant, purpose-anchored man the problem,
-  or the abdicating, directionless one? These two disagree at the level
-  of diagnosis. Both positions cited above.
+▸ Munger Lens   confidence 3/5
+  The big money is in the waiting; most activity is a tax dressed as
+  diligence. (Poor Charlie's Almanack, 2005)
 
-▸ Synthesis (neutral chair)
-  Recommendation: name which failure is actually yours before you act.
-  Dissent preserved, not averaged. What would change it: whether your
-  pattern is avoidance (Real is right) or appeasement (Deida is right).
+▸ authored disagreement · Rayo vs Munger
+  Telling-now vs patience. Both positions cited from the record.
+
+▸ synthesis (neutral chair)
+  Tell the finished thing, loudly, now. Dissent preserved: if it isn't
+  truly done, Munger is right and you're hiding in noise.
 ```
 
-No other tool in this category ships that: sourced positions, a conflict pulled from what the authors really argued, and a synthesis that refuses to split the difference.
-
-The rendered demo lives at [`demo/council-demo.mp4`](demo/council-demo.mp4) (a 23-second terminal recording of exactly this council). It is the single most differentiated asset in this category, since every competitor ships static screenshots.
+No other tool in this category ships that: sourced positions, a conflict pulled from what the authors really argued, and a synthesis that refuses to split the difference. Higher-res recording: [`demo/council-demo.mp4`](demo/council-demo.mp4).
 
 ## The roster
 
