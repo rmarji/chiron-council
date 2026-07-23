@@ -7,7 +7,7 @@ argument-hint: <seat-id> [--open-loops]
 
 The user asked: `$ARGUMENTS`
 
-Read `seats/<id>/log.md` (under `${CLAUDE_PLUGIN_ROOT}` for bundled seats). If it doesn't exist: "No consults recorded with this seat yet." and stop.
+Read the seat's `log.md` — its directory is the `path` the registry returns for `<id>` (bundled seats resolve under `${CLAUDE_PLUGIN_ROOT}/skills/<id>/`). If it doesn't exist: "No consults recorded with this seat yet." and stop.
 
 ## Default view
 

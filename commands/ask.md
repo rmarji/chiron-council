@@ -11,7 +11,7 @@ Parse the first token as a seat or bench name, the rest as the question.
 
 ## 1. Resolve
 
-- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats).
+- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats).
 - Match the first argument against seat ids first, then bench names (project `.chiron/benches.yaml`, then `~/.claude/chiron/benches.yaml`). **Seat wins ties.**
 - If it matches a **bench**, this becomes a council — follow `/chiron:council` semantics at the bench's `default_depth` instead of continuing here.
 - **CH-E1 (unknown id):** suggest the top 3 fuzzy matches from the registry, point to `/chiron:roster`, stop.
@@ -19,10 +19,10 @@ Parse the first token as a seat or bench name, the rest as the question.
 
 ## 2. Load the seat
 
-Read, in this order:
-1. `seats/<id>/SKILL.md` — frontmatter + all core sections. Honor the `## Voice` contract and `## Refusals` absolutely.
-2. `seats/<id>/log.md` — **last 10 entries only** (if the file exists). The seat remembers what it told this user and whether they listened. If a past entry is relevant to the current question, reference it explicitly ("On 2026-06-12 this seat advised X; the recorded decision was Y").
-3. `seats/<id>/references/*` — load **only** the files the question actually needs (progressive disclosure). A negotiation question loads frameworks.md; a "what would he say about my situation" question may need principles + anti-patterns.
+Read, in this order (the seat's directory is the `path` the registry returned for `<id>` — a bundled seat resolves under `${CLAUDE_PLUGIN_ROOT}/skills/<id>/`, an installed one under `~/.claude/skills/<id>/` or a project's `.chiron/seats/<id>/`):
+1. `<seat-dir>/SKILL.md` — frontmatter + all core sections. Honor the `## Voice` contract and `## Refusals` absolutely.
+2. `<seat-dir>/log.md` — **last 10 entries only** (if the file exists). The seat remembers what it told this user and whether they listened. If a past entry is relevant to the current question, reference it explicitly ("On 2026-06-12 this seat advised X; the recorded decision was Y").
+3. `<seat-dir>/references/*` — load **only** the files the question actually needs (progressive disclosure). A negotiation question loads frameworks.md; a "what would he say about my situation" question may need principles + anti-patterns.
 
 ## 3. Respond — the voice contract
 
@@ -34,7 +34,7 @@ Read, in this order:
 
 ## 4. Record
 
-Append to `seats/<id>/log.md` (create the file with a `# Log — <id>` heading if missing; NEVER rewrite prior entries):
+Append to `<seat-dir>/log.md` (create the file with a `# Log — <id>` heading if missing; NEVER rewrite prior entries):
 
 ```markdown
 ## {today ISO date} · ask

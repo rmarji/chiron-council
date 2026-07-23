@@ -273,9 +273,12 @@ class CliContractTests(unittest.TestCase):
         shutil.rmtree(self.root)
 
     def run_lint(self, *args):
+        args = list(args)
+        if "--seats-dir" not in args:
+            args += ["--seats-dir", self.seats]
         return subprocess.run(
             [sys.executable, os.path.join(REPO, "scripts", "lint_seat.py")]
-            + list(args),
+            + args,
             capture_output=True, text=True, cwd=self.root)
 
     def test_exit_codes_and_json_contract(self):
@@ -327,7 +330,7 @@ class CliContractTests(unittest.TestCase):
         # registry never emits a duplicate id with a loadable status.
         proc = subprocess.run(
             [sys.executable, os.path.join(REPO, "scripts", "registry.py"),
-             "--json"],
+             "--json", "--seats-dir", self.seats],
             capture_output=True, text=True, cwd=self.root)
         registry = json.loads(proc.stdout)
         # The registry is keyed by id, so a within-scope collision collapses to
@@ -343,7 +346,7 @@ class CliContractTests(unittest.TestCase):
         make_seat(self.seats, "good-seat")
         proc = subprocess.run(
             [sys.executable, os.path.join(REPO, "scripts", "registry.py"),
-             "--json"],
+             "--json", "--seats-dir", self.seats],
             capture_output=True, text=True, cwd=self.root)
         self.assertEqual(proc.returncode, 0)
         registry = json.loads(proc.stdout)
@@ -352,6 +355,25 @@ class CliContractTests(unittest.TestCase):
         for key in ("id", "display_name", "mode", "domains", "lint", "path"):
             self.assertIn(key, entry)
         self.assertEqual(entry["lint"], "pass")
+
+    def test_all_flags_seat_missing_x_chiron(self):
+        # A seat dir whose SKILL.md has no x-chiron block must be CAUGHT by
+        # lint --all (a load-blocking failure), never silently skipped by
+        # discovery. Regression guard: registry filters on x-chiron, but lint
+        # must still see and fail a malformed/incomplete bundled seat.
+        make_seat(self.seats, "good-seat")
+        broken = os.path.join(self.seats, "broken-seat")
+        os.makedirs(broken)
+        with open(os.path.join(broken, "SKILL.md"), "w", encoding="utf-8") as fh:
+            fh.write("---\nname: broken-seat\n"
+                     "description: A seat missing its x-chiron block.\n---\n\n# body\n")
+        proc = self.run_lint("--all", "--format", "json")
+        self.assertEqual(proc.returncode, 2)
+        reports = json.loads(proc.stdout)
+        broken_reports = [r for r in reports if r["path"].endswith("broken-seat")]
+        self.assertEqual(len(broken_reports), 1,
+                         "lint --all must not hide a seat missing x-chiron: %r" % reports)
+        self.assertEqual(broken_reports[0]["lint"], "fail")
 
 
 class RegistryMultiDirTests(unittest.TestCase):
