@@ -88,7 +88,7 @@ def main(argv=None):
     parser.add_argument("--domain", help="filter by domain tag")
     args = parser.parse_args(argv)
 
-    seats_dirs = args.seats_dirs or ["seats"]
+    seats_dirs = args.seats_dirs or ["skills"]
     registry = build_registry(seats_dirs)
     if registry is None:
         err = {"error": "no seats directory found; run /chiron:distill or install a pack"}

@@ -8,9 +8,9 @@ argument-hint: [seat-id | --all] [--strict] [--explain]
 Run the linter (stdlib-only Python; CI runs the same file):
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py --all --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py --all --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills
 # or a single seat:
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py ${CLAUDE_PLUGIN_ROOT}/skills/seats/<id> [--level strict] [--explain]
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py ${CLAUDE_PLUGIN_ROOT}/skills/<id> [--level strict] [--explain]
 ```
 
 Exit codes: 0 = pass, 1 = warnings only, 2 = errors (a failing seat will not load).

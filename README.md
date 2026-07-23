@@ -138,7 +138,7 @@ Your `me` seat is **private**: it lives in `~/.claude/chiron/seats/` (or a proje
 ## Anatomy of a seat
 
 ```
-skills/seats/munger/
+skills/munger/
 ├── SKILL.md              # the mind: priors, heuristics, refusals, voice (< 6k tokens)
 ├── disagreements.md     # authored conflicts with other seats, positions cited
 ├── references/          # the depth: complete extraction of the published thinking
@@ -152,13 +152,13 @@ Everything is files. No database, no server, no API keys. The full standard and 
 
 ## Portability
 
-A seat is a real, drop-in Agent Skill. It follows the [Agent Skills](https://agentskills.io) open standard (standard `name`/`description` frontmatter), with Chiron's extras (`x-chiron:`, `disagreements.md`, `references/`) that other harnesses harmlessly ignore. Beyond the `npx skills` installer above, you can copy one by hand into any agent's skills directory:
+A seat is a real, drop-in Agent Skill that auto-activates like any other skill. It follows the [Agent Skills](https://agentskills.io) open standard (standard `name`/`description` frontmatter), with Chiron's extras (`x-chiron:`, `disagreements.md`, `references/`) that other harnesses harmlessly ignore. Beyond the `npx skills` installer above, you can copy one by hand into any agent's skills directory:
 
 ```bash
 # Claude Code          Cursor                Codex CLI            Gemini CLI / generic
 ~/.claude/skills/      ~/.cursor/skills/     ~/.codex/skills/     ~/.agents/skills/
 
-cp -r skills/seats/munger ~/.claude/skills/munger
+cp -r skills/munger ~/.claude/skills/munger
 ```
 
 The slash commands, orchestrator, and live councils are Claude Code-specific; the seats themselves run anywhere.
@@ -169,7 +169,7 @@ The slash commands, orchestrator, and live councils are Claude Code-specific; th
 
 ```bash
 python3 scripts/lint_seat.py --all                  # exit 0 pass / 1 warns / 2 errors
-python3 scripts/lint_seat.py skills/seats/munger --explain
+python3 scripts/lint_seat.py skills/munger --explain
 python3 scripts/registry.py --json                  # roster index
 ```
 

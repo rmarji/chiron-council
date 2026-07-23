@@ -13,7 +13,7 @@ First token = bench name (resolve project `.chiron/benches.yaml`, then `~/.claud
 
 ## CONVENE
 
-1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`.
+1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`.
 2. Guards:
    - **CH-E2:** bench references a missing seat → name it, offer to run with the remainder, abort if declined.
    - **CH-E4:** more than 8 seats → refuse; explain the token/quality cost; suggest splitting into two benches.

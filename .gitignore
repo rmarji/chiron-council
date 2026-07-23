@@ -1,5 +1,5 @@
 # Seat logs contain user decisions — private by default (opt in by removing this line)
-skills/seats/*/log.md
+skills/*/log.md
 
 # Python
 __pycache__/
@@ -10,3 +10,10 @@ __pycache__/
 
 # Planning docs (funnel, pricing, GTM), not published
 .planning/
+
+# Private "me" seat, personal benches, and any project-scoped Chiron config:
+# personal data, never shipped from this repo.
+.chiron/
+
+# Work-in-progress seat drafts, not yet at the depth bar
+.wip-seats/

@@ -479,13 +479,52 @@ def lint_status(findings):
     return "pass"
 
 
-def discover_seats(seats_dir):
+# Skills that can share a skills root with seats but are NOT advisor seats
+# (the conversational router). lint --all excludes these; everything else with a
+# SKILL.md is a candidate seat, so a malformed one is failed, not hidden.
+NON_SEAT_SKILLS = frozenset({"chiron"})
+
+
+def _has_x_chiron(path):
+    """True if path/SKILL.md carries an `x-chiron` frontmatter block. The registry
+    uses this to pick seats out of a shared skills root (~/.claude/skills, or a
+    plugin's flat skills/ dir) full of unrelated skills and the router."""
+    skill_md = os.path.join(path, "SKILL.md")
+    if not os.path.isfile(skill_md):
+        return False
+    try:
+        with open(skill_md, encoding="utf-8") as fh:
+            fm, _body, _err = split_frontmatter(fh.read())
+    except OSError:
+        return False
+    return bool(fm and fm.get("x-chiron"))
+
+
+def discover_seats(seats_dir, for_lint=False):
+    """List seat directories under seats_dir.
+
+    Default (registry / runtime): return only dirs whose SKILL.md carries an
+    x-chiron block, so scanning a shared skills root picks out seats and ignores
+    unrelated skills and the router.
+
+    for_lint=True (lint --all / CI): return every non-hidden dir that contains a
+    SKILL.md, except known non-seat skills (NON_SEAT_SKILLS). Deliberately
+    permissive so lint SEES a seat whose x-chiron is missing or malformed and
+    FAILS it, instead of silently hiding a broken bundled seat from validation.
+    """
     if not os.path.isdir(seats_dir):
         return None
     out = []
     for entry in sorted(os.listdir(seats_dir)):
         path = os.path.join(seats_dir, entry)
-        if os.path.isdir(path) and not entry.startswith("."):
+        if not (os.path.isdir(path) and not entry.startswith(".")):
+            continue
+        if not os.path.isfile(os.path.join(path, "SKILL.md")):
+            continue
+        if for_lint:
+            if entry not in NON_SEAT_SKILLS:
+                out.append(path)
+        elif _has_x_chiron(path):
             out.append(path)
     return out
 
@@ -494,14 +533,14 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Lint Chiron seats")
     parser.add_argument("paths", nargs="*", help="seat directories to lint")
     parser.add_argument("--all", action="store_true", help="lint every seat in --seats-dir")
-    parser.add_argument("--seats-dir", default="seats")
+    parser.add_argument("--seats-dir", default="skills")
     parser.add_argument("--format", choices=("text", "json"), default="text")
     parser.add_argument("--level", choices=("standard", "strict"), default="standard")
     parser.add_argument("--explain", action="store_true", help="show rule descriptions")
     args = parser.parse_args(argv)
 
     if args.all:
-        paths = discover_seats(args.seats_dir)
+        paths = discover_seats(args.seats_dir, for_lint=True)
         if paths is None:
             msg = {"error": "no seats directory found; run /chiron:distill or install a pack"}
             print(json.dumps(msg) if args.format == "json" else msg["error"])
@@ -512,7 +551,7 @@ def main(argv=None):
         parser.error("provide seat paths or --all")
 
     installed_ids = {os.path.basename(p.rstrip("/")) for p in
-                     (discover_seats(args.seats_dir) or [])}
+                     (discover_seats(args.seats_dir, for_lint=True) or [])}
 
     reports = []
     worst = 0

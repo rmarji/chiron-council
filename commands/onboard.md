@@ -7,12 +7,14 @@ argument-hint: [none]
 
 Get a new user from install to their first useful council. Move quickly, do the work for them, and end on a concrete next action. Keep it conversational, not a wizard.
 
+**Narrate as you go.** Before any step that reads files or runs a script, say in one plain sentence what you are about to do and why ("Reading your CLAUDE.md and recent notes to learn how you work…"). Never let the user watch a bare tool run and wonder what is happening. And prefer offering concrete options over firing open-ended questions.
+
 ## 1. Orient (brief)
 
 One short paragraph: Chiron is a council of authored advisors ("seats") built from real published work, cited, not generated personas. You ask one seat, or convene several, and it can pick the right ones for you. Then show what's installed:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats
 ```
 
 Render the roster grouped by domain so they see who's in the box.

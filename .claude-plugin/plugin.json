@@ -1,6 +1,6 @@
 {
   "name": "chiron",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An authored council of real thinkers for Claude Code: cited, lint-enforced seats, not generated personas. Ask one mind or convene many.",
   "author": {
     "name": "Raed Marji",

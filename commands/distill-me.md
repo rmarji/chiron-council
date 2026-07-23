@@ -7,19 +7,19 @@ argument-hint: [optional: point at notes/a vault/a folder to read]
 
 This distills *you* the way `/chiron:distill` distills a thinker: a deep, structured breakdown of how you actually operate, written as an **original-mode seat** so your own operating system can sit in the room, chair your councils, and be argued with. It also reads out your **go-to experts** and turns them into a recommended roster.
 
-Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` first. Model the output on an original-mode seat: `${CLAUDE_PLUGIN_ROOT}/skills/seats/rayo/SKILL.md`.
+Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` first. Model the output on an original-mode seat: `${CLAUDE_PLUGIN_ROOT}/skills/rayo/SKILL.md`.
 
 ## Privacy first (state this, then honor it)
 
 The `me` seat holds your mission, values, goals, and decisions. It is **private and local**. Tell the user up front:
 
-- It writes to `~/.claude/chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project) — **never** into the Chiron plugin repo, never committed, never shipped.
+- It writes to `~/.claude/chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project) — **never** into the Chiron plugin repo, never committed, never shipped. In Cowork (no `~/.claude` write access), use the project path `<project>/.chiron/seats/me/`, which the registry scans.
 - If written into a project, add `.chiron/seats/` to that project's `.gitignore` (offer to do it).
 - You will read personal sources only with consent, name each source before reading it, and never transmit any of it anywhere.
 
 ## 1. Gather (consent-gated)
 
-Ask which of these to draw on; read only what they approve. Name each source out loud before reading.
+Ask which of these to draw on; read only what they approve. Name each source out loud before reading. Run the interview as a conversation, not an interrogation: offer concrete suggestions and options ("a lot of people channel someone like Munger for money calls — who's yours?") rather than a wall of open questions, so the user is never overwhelmed.
 
 - **This conversation and recent Claude Code history** — the frameworks, phrases, and decisions the user actually reaches for.
 - **Instruction + memory files** — `~/.claude/CLAUDE.md`, project `CLAUDE.md`/`AGENTS.md`, and any `~/.claude/.../memory/` files. These already encode operating rules.
@@ -49,7 +49,7 @@ Write `~/.claude/chiron/seats/me/` (or the project path), full SEAT_SPEC structu
 
 ## 4. Read out the go-to experts → recommend a roster
 
-Map the user's named go-to experts against the installed roster (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills/seats --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`):
+Map the user's named go-to experts against the installed roster (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`):
 
 - **Already installed** → note them.
 - **Not yet installed but available/known** → offer to `/chiron:distill` each.

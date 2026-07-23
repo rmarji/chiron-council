@@ -2,12 +2,14 @@
 
 A **seat** is an authored mind: one advisor, distilled from their actual published thinking into a lint-enforced file format that any Agent Skills-compatible harness can load. Seats are the unit of value in Chiron. Councils, benches, and every other feature are powered by seats.
 
+A seat is a native Agent Skill: it lives at `skills/<id>/SKILL.md` and Claude auto-activates it like any other skill. What makes it a *seat* and not just a skill is that it passes this spec — cited provenance, explicit refusals, and an authored voice. The `x-chiron` frontmatter block is the marker that flags a skill as a seat.
+
 This document is the open standard. `scripts/lint_seat.py` enforces it mechanically; anything the linter cannot see is spelled out here as a normative requirement.
 
 ## 1. Anatomy of a seat
 
 ```
-skills/seats/<id>/
+skills/<id>/
 ├── SKILL.md              # the mind: frontmatter contract + core sections (< 6k tokens)
 ├── disagreements.md     # authored conflicts with other seats, with cited positions
 ├── references/          # the depth: complete extraction of the subject's thinking
@@ -25,13 +27,14 @@ Progressive disclosure is the load contract: a summoned seat loads SKILL.md fron
 
 ## Where seats live
 
-Chiron merges seats from three locations, in precedence order (a later scope shadows an earlier one on a shared id):
+Chiron merges seats from several locations, in precedence order (a later scope shadows an earlier one on a shared id). Every location is scanned for skills carrying an `x-chiron` block, so a shared skills directory full of unrelated skills is safe:
 
-1. **Bundled** — the plugin's `skills/seats/` (the shipped roster). Public, versioned, lint-enforced.
-2. **Global user seats** — `~/.claude/chiron/seats/`. Yours across every project; where `/chiron:distill` and `/chiron:distill-me` write by default.
-3. **Project seats** — `<project>/.chiron/seats/`. Scoped to one repo; shadows global on a shared id.
+1. **Bundled** — the plugin's `skills/` (the shipped roster, one flat dir per seat). Public, versioned, lint-enforced.
+2. **Global skills** — `~/.claude/skills/`, where `/chiron:distill` installs an advisor so it auto-activates in every session.
+3. **Global "me" seat** — `~/.claude/chiron/seats/`, the private home `/chiron:distill-me` writes to (never a globally auto-activating skill).
+4. **Project** — `<project>/.claude/skills/` and `<project>/.chiron/seats/`. Scoped to one repo; shadow global on a shared id.
 
-The registry scans all three (`registry.py --seats-dir <bundled> --seats-dir ~/.claude/chiron/seats --seats-dir .chiron/seats`); missing dirs are skipped. A user seat with the same id as a bundled one overrides it (e.g. your own richer `munger`).
+The registry scans all of these (`registry.py --seats-dir <bundled>/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`); missing dirs are skipped, and each dir is filtered to skills carrying an `x-chiron` block. A user seat with the same id as a bundled one overrides it (e.g. your own richer `munger`; note the native skill loader then sees two skills named `munger`, and the registry resolves the override).
 
 **The `me` seat.** `/chiron:distill-me` writes an original-mode seat with id `me`: your own operating system (mission, values, goals, frameworks, go-to experts), so you can chair your own councils and be argued with. It is **private** — it holds personal data, lives only in your user or project seat dir, is never committed to the plugin repo, and is never shipped. Gitignore `.chiron/seats/` in any project. Treat the `me` seat like `log.md`: local, personal, yours.
 
