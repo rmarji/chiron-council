@@ -32,3 +32,11 @@ benches:
     seats: [rayo, naval, rumelt]
     chairman: rayo
     default_depth: quick
+
+  # Work & time design: how hard to work, and what to cut. Ferriss (minimize,
+  # eliminate, automate a muse) vs Hormozi (volume, long hours) is authored
+  # opposition; Naval brings the leverage synthesis. Neutral chairman.
+  work-design:
+    seats: [tim-ferriss, hormozi, naval]
+    chairman: neutral
+    default_depth: full
