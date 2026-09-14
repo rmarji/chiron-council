@@ -136,6 +136,7 @@ The AI-council space is crowded, and almost all of it fails the same few ways. C
 |---|---|
 | `/chiron:onboard` | First-run setup: meet the roster, distill yourself, get starter benches |
 | `/chiron:consult <q>` | **Auto-routes.** Chiron picks the right expert(s), and decides whether a council is even worth convening |
+| `/chiron:coach <q>` | A guided decision session: frames the real call, consults the right seats as evidence, drives you to one committed, logged decision |
 | `/chiron:ask <seat> <q>` | One authored lens, cited, with its memory of your past calls |
 | `/chiron:council <bench> <q>` | Independent takes gathered in isolation, real disagreements surfaced, one synthesis with dissent preserved |
 | `/chiron:bench` | Create and edit benches (your curated line-ups) as plain YAML |

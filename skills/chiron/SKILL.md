@@ -1,6 +1,6 @@
 ---
 name: chiron
-description: Route advisor requests to Chiron seats, and auto-orchestrate decisions to the right expert(s). Use when the user asks what a named advisor/seat would say ("what would munger say", "ask naval about this"), describes a decision without naming anyone ("should I take this deal", "help me think through this", "I'm stuck on pricing"), wants to run a question by a bench or council ("run this by my product bench", "convene the council"), wants to see available advisors ("who can I ask"), or wants to add a seat ("distill a seat for X", "add an advisor"), wants to get set up ("onboard me", "get me started"), or wants to distill themselves into a seat ("distill me", "build my seat", "put me on the council"). Covers consult (auto-routing), ask, council, bench, roster, distill, distill-me, onboard, lint, and log without slash syntax.
+description: Route advisor requests to Chiron seats, and auto-orchestrate decisions to the right expert(s). Use when the user asks what a named advisor/seat would say ("what would munger say", "ask naval about this"), describes a decision without naming anyone ("should I take this deal", "help me think through this", "I'm stuck on pricing"), wants to be coached through a decision and held to a committed call ("coach me", "walk me through this", "help me decide and keep me honest"), wants to run a question by a bench or council ("run this by my product bench", "convene the council"), wants to see available advisors ("who can I ask"), or wants to add a seat ("distill a seat for X", "add an advisor"), wants to get set up ("onboard me", "get me started"), or wants to distill themselves into a seat ("distill me", "build my seat", "put me on the council"). Covers consult (auto-routing), coach (a guided decision session), ask, council, bench, roster, distill, distill-me, onboard, lint, and log without slash syntax.
 ---
 
 # Chiron router
@@ -12,6 +12,7 @@ The user invoked Chiron conversationally. Map their intent to the matching comma
 | Intent sounds like | Follow |
 |---|---|
 | a decision/situation with no seat named ("should I...", "I'm torn on...", "help me decide...") | `commands/consult.md` (auto-route) |
+| wants to be worked through a decision and held to a committed call ("coach me", "walk me through this", "help me decide and keep me honest") | `commands/coach.md` (coach loop) |
 | "get started", "set me up", "onboard me" (first run) | `commands/onboard.md` |
 | "distill me", "build my seat", "put me on the council" | `commands/distill-me.md` |
 | "ask <seat> ...", "what would <seat> say about ..." | `commands/ask.md` |
@@ -25,5 +26,6 @@ The user invoked Chiron conversationally. Map their intent to the matching comma
 Resolution notes:
 - Seat and bench names arrive fuzzy ("munger", "the Munger seat", "my pricing people"). Resolve against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` and the bench YAMLs (project `.chiron/benches.yaml`, global `~/.claude/chiron/benches.yaml`). Seat wins ties; ask once if genuinely ambiguous.
 - Explicit beats inferred: if the user names a seat, honor it (ask); if they say "they/the bench/the council" or name a bench, go to council. Only auto-route (consult) when they leave the choice open.
+- Consult vs coach: use `consult` when they want the decision routed to the right expert(s) and answered in one shot; use `coach` when they want to be walked through it and driven to a committed call with a next action. If they sound like they want a working session, prefer coach; a one-shot question, consult.
 - When the user is mid-decision but has not asked Chiron for anything, offer to route rather than hijacking the turn.
 - Never invent a seat that isn't installed. Offer `/chiron:distill` instead.

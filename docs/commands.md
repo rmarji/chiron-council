@@ -1,6 +1,6 @@
 # Commands reference
 
-Chiron adds ten slash commands under the `/chiron:` namespace. This page documents each one: its syntax, what it does, a real example, and when to reach for it. If you only remember two, remember `/chiron:consult` (let Chiron route the decision) and `/chiron:ask` (go straight to one seat). Everything below assumes the plugin is installed in Claude Code or Cowork. See [installation](./installation.md) if it is not.
+Chiron adds eleven slash commands under the `/chiron:` namespace. This page documents each one: its syntax, what it does, a real example, and when to reach for it. If you only remember two, remember `/chiron:consult` (let Chiron route the decision) and `/chiron:ask` (go straight to one seat). Everything below assumes the plugin is installed in Claude Code or Cowork. See [installation](./installation.md) if it is not.
 
 You never have to memorize the exact grammar. Every command has a plain-language equivalent: "run this by my money bench," "what would the Munger corpus say about this," "who do I have for negotiation." Chiron reads that and reaches for the right command. The slash forms are here so you know exactly what happens when it does.
 
@@ -10,6 +10,7 @@ You never have to memorize the exact grammar. Every command has a plain-language
 |---|---|---|
 | [`/chiron:onboard`](#chirononboard) | First-run setup: meet the roster, distill yourself, get starter benches | You just installed and want a guided start |
 | [`/chiron:consult <q>`](#chironconsult) | Auto-routes: picks the right seat(s), or decides no council is warranted | You have a decision and do not want to pick who weighs in. The default. |
+| [`/chiron:coach <q>`](#chironcoach) | A guided decision session: frames the real call, consults the right seats as evidence, drives you to one committed, logged decision | You want to be worked through a decision, not just handed an answer |
 | [`/chiron:ask <seat> <q>`](#chironask) | One authored lens, cited, with its memory of your past calls | You already know which mind you want |
 | [`/chiron:council <bench> <q>`](#chironcouncil) | Independent takes in isolation, authored conflicts surfaced, one synthesis with dissent kept | The call is expensive, irreversible, or cross-domain |
 | [`/chiron:bench`](#chironbench) | Create, list, or remove benches (curated seat line-ups) as plain YAML | You keep convening the same group |
@@ -96,6 +97,53 @@ standing here. It is "effect" (the noun). No council needed.
 ```
 
 **Reach for it when** you have a decision and do not want to think about who should weigh in. This is the default entry point. When you already know the mind you want, skip straight to `/chiron:ask`. More on how routing thinks in [concepts](./concepts.md).
+
+---
+
+## /chiron:coach
+
+```
+/chiron:coach <your decision or situation> [--quick]
+```
+
+Every other command answers a question. This one runs a working session with an executive coach in the room. Where `/chiron:consult` routes your question and hands back an answer, `/chiron:coach` interrogates the decision, brings the right seats in as **evidence**, and drives you to **one committed call with a next action** — then logs it. It is the accountability layer that sits above the seats and orchestrates them.
+
+The session runs a five-step loop:
+
+- **Frame** — it digs past the presenting question to the real decision and what a good outcome looks like, and reads the stakes and reversibility. If it is genuinely trivial or factual, it says so and answers directly rather than manufacturing a session.
+- **Ground** — it gets the real constraints on the table. If you have distilled a private `me` seat, it grounds the session in your own goals, values, and frameworks, and names it out loud when a move conflicts with your own operating system (for example, a fourth active priority when your own rule caps at three).
+- **Consult** — it pulls in the seats by delegating to the `/chiron:consult` router (skip, ask one, or convene a council), shows the route and rough cost first, and brings each seat's take back as cited evidence — never as the final word. It surfaces only authored disagreements, never invented conflict.
+- **Decide** — it lays out the live two or three options, applies a reversibility-first scaffold (one-way vs two-way door, expected value and asymmetry, opportunity cost), makes you state your lean, and drives to one pick with a confidence (1-5) and what would change it. It will not let you split the difference; if you stall, it names the avoidance.
+- **Commit** — it defines one concrete, timeboxed next action, records the decision to the consulted seats' memory (and your `me` seat's, if you have one), and offers to check in later.
+
+`--quick` runs a compressed single pass for low-stakes or time-boxed calls.
+
+**Example**
+
+```
+/chiron:coach "I keep saying I'll launch the paid tier but I haven't shipped anything in a month"
+
+Frame: the real decision isn't "when do I launch" — it's "what is the one
+thing that has to be true this week for a launch to be real?" Reversible,
+so we move fast.
+
+Ground: your me seat's Ship Gate says nothing new starts until one thing is
+told. You've started three things and told none. That's the conflict.
+
+Consult: routing to Hormozi (offer) and Ferriss (elimination). ~3k tokens.
+  - Hormozi: you don't have a launch problem, you have an offer you haven't
+    made once. Sell it manually to one person first.
+  - Ferriss: eliminate before you build — what are you doing this week that
+    isn't the launch?
+
+Decide: option A, keep polishing; option B, hand-sell the tier to one person
+by Friday. B is the two-way door with the real signal. Your lean?
+
+Commit: DM three people the offer by Thursday, close one by Friday.
+Confidence 4. Logged. Want me to check in Friday?
+```
+
+**Reach for it when** you do not just want an answer — you want to be worked through the decision, pushed to commit, and held to it. When you only want the routed answer, use `/chiron:consult`. When you want the raw debate, use `/chiron:council`.
 
 ---
 

@@ -2,7 +2,7 @@
 
 This page gets Chiron installed and verified. There are three paths: the full plugin in Claude Code, the same plugin in Cowork, and seats-only into any other agent via the `skills` CLI. Pick the one that matches where you work, then run the verify step at the bottom to confirm it took.
 
-Chiron is all files. No server, no database, no API keys, MIT licensed. Installing it copies text into a skills directory and, for the plugin, registers ten slash commands.
+Chiron is all files. No server, no database, no API keys, MIT licensed. Installing it copies text into a skills directory and, for the plugin, registers eleven slash commands.
 
 ## Prerequisites
 
