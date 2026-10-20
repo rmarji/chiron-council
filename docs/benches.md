@@ -4,7 +4,7 @@ A bench is a curated line-up of seats you convene as a group. This page covers t
 
 ## What a bench is
 
-Chiron ships eighteen [seats](./concepts.md), each one mind distilled from a real record. A bench is a named set of those seats you have decided belong in the room together for a class of decision: a money bench, a strategy bench, a relationship bench. When you convene it, Chiron runs the [council state machine](./commands.md#chironcouncil): each seat gives its take in isolation, any authored disagreements between them get surfaced from the record, and a chairman writes one synthesis with the dissent preserved.
+Chiron ships nineteen [seats](./concepts.md), each one mind distilled from a real record. A bench is a named set of those seats you have decided belong in the room together for a class of decision: a money bench, a strategy bench, a relationship bench. When you convene it, Chiron runs the [council state machine](./commands.md#chironcouncil): each seat gives its take in isolation, any authored disagreements between them get surfaced from the record, and a chairman writes one synthesis with the dissent preserved.
 
 Benches are plain YAML. The file is the API. You can create them with [`/chiron:bench`](./commands.md) or open the file in an editor and type. Nothing is hidden behind a database or a server.
 
@@ -39,6 +39,10 @@ Two locations, same shape:
 - **Global:** `~/.claude/chiron/benches.yaml`. Available in every project.
 - **Project:** `.chiron/benches.yaml`. Scoped to the repo you are in.
 
+`/chiron:bench create` and `/chiron:onboard` write to the **project** file when you are inside a project, and to the global file with `--global` or when you are not in one. Claude Code almost always runs inside a project directory, so in practice a new bench lands in that repo's `.chiron/benches.yaml` unless you pass `--global`. Both commands tell you which file they wrote.
+
+**Before you have either file**, Chiron uses the example benches bundled with the plugin (`benches/examples/benches.yaml`): `money`, `strategy`, `deals`, `relationship`, `shipping`, and `work-design`. That is why `/chiron:council relationship "..."` works on a fresh install. The examples are a fallback, not a third scope: once you have a benches file of your own, they drop out, so `/chiron:bench create` offers to copy them into your file first. To see what is in effect from a shell, run `python3 scripts/benches.py` from the plugin directory.
+
 On a name collision, **project shadows global**. If you have a global `strategy` bench and a project `strategy` bench, the project one wins inside that repo, and Chiron notes the shadowing once per session when it applies. Removing the project entry falls back to the global one.
 
 The project `.chiron/` directory is gitignored by Chiron's own repo because it also holds your private `me` seat and personal config. In your own project you decide whether to commit `.chiron/benches.yaml`. Commit it to share a team's benches; leave it ignored to keep them personal.
@@ -70,7 +74,7 @@ Flags:
 | `--chairman <id>` | set the chairman to a seat id (default `neutral`) |
 | `--depth <quick\|full>` | set `default_depth` (default `quick`) |
 
-`list` reads both files and renders a table of name, seats, chairman, depth, and source (project or global), marking any shadowed globals and flagging any bench that references a seat you no longer have installed. `remove <name>` deletes the entry from the scope where it lives (it asks which if the name exists in both) and shows the diff. Removing a bench never touches seat folders; a bench is just a grouping.
+`list` renders a table of name, seats, chairman, depth, and source (project, global, or example), marking any shadowed globals and flagging any bench that references a seat you no longer have installed. `remove <name>` deletes the entry from the scope where it lives (it asks which if the name exists in both) and shows the diff. Removing a bench never touches seat folders; a bench is just a grouping.
 
 ### By hand
 
@@ -116,7 +120,7 @@ The run header shows the seats, the chairman, the depth, and a token estimate be
 
 ## Example benches
 
-Line-ups worth copying. Ship a few of these into your global file and adjust the seats to your roster.
+The plugin bundles six benches in [`benches/examples/benches.yaml`](../benches/examples/benches.yaml): `money`, `strategy`, `deals`, `relationship`, `shipping` (chaired by Rayo), and `work-design` (Ferriss, Hormozi, Naval). They are what you get before you write your own file. Here are four of them, plus one that is not bundled:
 
 ```yaml
 benches:
@@ -144,7 +148,7 @@ benches:
     chairman: neutral
     default_depth: full
 
-  # Diagnosis: three routes to the truth from the detectives bench
+  # Not bundled. Create it with: /chiron:bench create detectives house sherlock columbo --depth full
   detectives:
     seats: [house, sherlock, columbo]
     chairman: neutral
@@ -156,7 +160,7 @@ Why these hold together:
 - **money** pairs incentive and misjudgment analysis (Munger) with leverage and judgment (Naval) and your own execution laws (Rayo). Kept at `quick` because most money calls are frequent and want a fast read.
 - **strategy** front-loads diagnosis before action (Rumelt), then pressure-tests it on incentives (Munger) and leverage (Naval). Set to `full` because a strategy call is usually expensive enough to earn the deeper pass.
 - **relationship** is deliberately two seats that argue: Deida on polarity and Terry Real on relational repair carry an authored disagreement on the record, so the council surfaces a real tension instead of two voices nodding along. This is the case where a bench of two is exactly right.
-- **detectives** is the diagnosis bench: House tests it because everybody lies, Sherlock deduces it from the evidence, Columbo disarms it into the open. Three genuinely different routes to one answer, cited to the canon and the episodes. Point it at a bug, a broken metric, or a story that does not add up.
+- **detectives** is not in the bundled file, but all three seats ship, so one `/chiron:bench create` makes it. It is the diagnosis bench: House tests it because everybody lies, Sherlock deduces it from the evidence, Columbo disarms it into the open. Three genuinely different routes to one answer, cited to the canon and the episodes. Point it at a bug, a broken metric, or a story that does not add up.
 
 ## Sizing a bench
 

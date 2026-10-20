@@ -11,7 +11,7 @@ This document is the open standard. `scripts/lint_seat.py` enforces it mechanica
 ```
 skills/<id>/
 ├── SKILL.md              # the mind: frontmatter contract + core sections (< 6k tokens)
-├── disagreements.md     # authored conflicts with other seats, with cited positions
+├── disagreements.md     # authored conflicts with other seats, with cited positions (only if it has any)
 ├── references/          # the depth: complete extraction of the subject's thinking
 │   ├── principles.md
 │   ├── mental-models.md

@@ -41,16 +41,16 @@ The important consequence: the mind is baked into `SKILL.md` itself. Priors, heu
 
 ## Install into other harnesses with the skills CLI
 
-The [`skills`](https://skills.sh) CLI installs any Agent Skill into 70+ harnesses and knows where each one keeps its skills, so you do not manage directories yourself. Point it at the Chiron repo and pick seats:
+The [`skills`](https://skills.sh) CLI installs any Agent Skill into many harnesses and knows where each one keeps its skills, so you do not manage directories yourself. Point it at the Chiron repo and pick seats:
 
 ```bash
 npx skills add rmarji/chiron-council                                   # pick seats interactively
-npx skills add rmarji/chiron-council --all                             # install the whole roster
+npx skills add rmarji/chiron-council --all                             # every skill, every agent, no prompts
 npx skills add rmarji/chiron-council -a codex -s munger naval taleb    # target a harness, pick seats
 ```
 
-- `--all` installs every seat in the roster.
-- `-a <agent>` selects the target harness (omit it and the CLI installs into Claude Code, or prompts).
+- `--all` is shorthand for every skill into every supported agent, without prompting. That includes `chiron`, the plugin's router, which is not a seat and does nothing outside the plugin. To get just the roster, use `-s` with the seat ids instead.
+- `-a <agent>` selects the target harness (omit it and the CLI asks).
 - `-s <seat...>` selects specific seats by id (space-separated). Seat ids are the folder names: `munger`, `naval`, `taleb`, `hormozi`, `voss`, `sherlock`, `house`, `columbo`, and so on. Run [`/chiron:roster`](./commands.md) or `python3 scripts/registry.py` to list them.
 
 Common `-a` targets:

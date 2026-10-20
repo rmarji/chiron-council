@@ -94,7 +94,7 @@ Here is roughly what a run looks like end to end:
   found: tactical empathy · calibrated questions · the accusation audit ·
   mirroring · labeling · "That's right" vs "you're right" · the 7-38-55 rule
 
-▸ authoring skills/voss/  (writing SKILL.md + 7 references + disagreements.md)
+▸ authoring ~/.claude/skills/voss/  (writing SKILL.md + 7 references + disagreements.md)
 
 ▸ lint
   PASS [voss] ~/.claude/skills/voss
@@ -123,7 +123,7 @@ You can distill any mind, not only living authors.
 
 ### One at a time, never a shallow batch
 
-If you ask for several advisors at once, Chiron distills them sequentially, each with its own full deep-research pass. It will not batch them into a single shallow sweep. Thinness and repetition across seats is the tell of a rushed job, and it is exactly what the depth bar exists to prevent. Expect each real-person seat to carry 6,000 to 10,000 words of cited reference material across the seven files. That takes minutes per seat, and that is the point.
+If you ask for several advisors at once, Chiron distills them sequentially, each with its own full deep-research pass. It will not batch them into a single shallow sweep. Thinness and repetition across seats is the tell of a rushed job, and it is exactly what the depth bar exists to prevent. Expect each real-person seat to carry roughly 6,000 to 8,500 words of cited reference material across the seven files. That takes minutes per seat, and that is the point.
 
 ### Tips for a good distill
 

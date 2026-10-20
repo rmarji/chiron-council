@@ -76,7 +76,7 @@ In practice, a deep `/chiron:distill` or a large `/chiron:council` runs entirely
 
 ## Deep research in Cowork
 
-The deep-research phase of `/chiron:distill`, surveying a subject's published corpus and extracting frameworks, heuristics, and citations into the reference files, runs inside Cowork's sandbox. The work and the depth bar are the same: real-person seats still carry 6,000 to 10,000 words of source-attributed references, and the linter still hard-fails a thin one.
+The deep-research phase of `/chiron:distill`, surveying a subject's published corpus and extracting frameworks, heuristics, and citations into the reference files, runs inside Cowork's sandbox. The work and the depth bar are the same: real-person seats still carry roughly 6,000 to 8,500 words of source-attributed references, and the linter still hard-fails a thin one.
 
 Two honest differences from Claude Code:
 

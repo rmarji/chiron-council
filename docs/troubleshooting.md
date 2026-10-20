@@ -120,8 +120,8 @@ Two caveats:
 
 Install issues live in [installation.md](./installation.md); the highlights:
 
-- **The marketplace does not appear after `/plugin marketplace add`.** Confirm you ran `/plugin marketplace add rmarji/chiron-council` exactly (the marketplace repo slug), then `/plugin install chiron` (the plugin name is `chiron`, not the repo name). If the add succeeded but install cannot find `chiron`, re-run the add and reopen the plugin menu so the listing refreshes.
-- **"Cloud not linked" or a sign-in prompt during install.** The plugin marketplace flow needs your Claude Code client linked to your account. This is a client and account state issue, not a Chiron issue: complete the link or sign-in the client asks for, then retry `/plugin install chiron`. Chiron itself needs no account, no keys, and no server.
+- **The marketplace does not appear after `/plugin marketplace add`.** Confirm you ran `/plugin marketplace add rmarji/chiron-council` exactly (the marketplace repo slug), then `/plugin install chiron@compound-club` (the plugin is `chiron` and the marketplace is `compound-club`, neither of which is the repo name). Naming the marketplace makes Claude Code refresh it before the lookup. If install still cannot find `chiron`, run `/plugin marketplace list` to confirm `compound-club` is there.
+- **"Cloud not linked" or a sign-in prompt during install.** The plugin marketplace flow needs your Claude Code client linked to your account. This is a client and account state issue, not a Chiron issue: complete the link or sign-in the client asks for, then retry `/plugin install chiron@compound-club`. Chiron itself needs no account, no keys, and no server.
 - **In Cowork, there is no marketplace command.** You install by downloading [`chiron.plugin`](https://github.com/rmarji/chiron-council/releases/latest) from the latest release and accepting it in the app. See [cowork.md](./cowork.md).
 
 ## FAQ
@@ -136,7 +136,7 @@ No. Each seat's `log.md` is append-only, local, and gitignored by default. It ho
 The seats do. Everything is files: no server, no API keys, no network calls to run a council or ask a seat. The one exception is `/chiron:distill`, which needs web access to do the deep research over a subject's published corpus. Distilling a new seat requires a connection; using the seats you already have does not.
 
 **Which agents are supported?**
-The plugin (slash commands, the `/chiron:consult` orchestrator, live councils, benches, per-seat memory) runs in Claude Code and Cowork. The seats themselves are standard Agent Skills and drop into 70+ harnesses (Cursor, Codex, Gemini CLI, Copilot, Cline, and more) via `npx skills add rmarji/chiron-council`, or by copying a seat folder into the agent's skills directory. Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). Full detail in [portability.md](./portability.md).
+The plugin (slash commands, the `/chiron:consult` orchestrator, live councils, benches, per-seat memory) runs in Claude Code and Cowork. The seats themselves are standard Agent Skills and drop into other harnesses (Cursor, Codex, Gemini CLI, Copilot, Cline, and more) via `npx skills add rmarji/chiron-council`, or by copying a seat folder into the agent's skills directory. Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). Full detail in [portability.md](./portability.md).
 
 **A council gave consensus with no disagreement. Is it broken?**
 No. Councils surface **only** authored disagreements, conflicts pulled from what the people actually argued, both positions cited. If no authored disagreement exists between the seated experts on your topic, the council says so rather than inventing one. Manufactured conflict is the failure mode Chiron exists to avoid. See [concepts.md](./concepts.md).

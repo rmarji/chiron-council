@@ -15,7 +15,7 @@ Seats are the unit of value. Councils, benches, and every other feature in the p
 ```
 skills/<id>/
 ├── SKILL.md              # the mind: frontmatter contract + core sections (< 6k tokens)
-├── disagreements.md      # authored conflicts with other seats, positions cited
+├── disagreements.md      # authored conflicts with other seats, positions cited (only if it has any)
 ├── references/           # the depth: complete extraction of the subject's thinking
 │   ├── principles.md
 │   ├── mental-models.md
@@ -27,7 +27,7 @@ skills/<id>/
 └── log.md                # append-only consult memory (created on first use, gitignored)
 ```
 
-The load contract is progressive disclosure. When a seat is summoned it loads the `SKILL.md` frontmatter, the core sections, and its last 10 `log.md` entries. The `references/` files load on demand. That is why `SKILL.md` must stay under roughly 6k tokens (lint L6) and why the depth lives in `references/`. Real-person seats carry 6,000 to 10,000 words of source-attributed reference material split across those seven files.
+The load contract is progressive disclosure. When a seat is summoned it loads the `SKILL.md` frontmatter, the core sections, and its last 10 `log.md` entries. The `references/` files load on demand. That is why `SKILL.md` must stay under roughly 6k tokens (lint L6) and why the depth lives in `references/`. Real-person seats carry roughly 6,000 to 8,500 words of source-attributed reference material split across those seven files.
 
 ## The mind: SKILL.md
 
@@ -122,7 +122,7 @@ The `counterpart:` value must name an installed seat id, or be marked `counterpa
 
 ## The linter
 
-`scripts/lint_seat.py` enforces the standard mechanically. It is stdlib-only Python by design, so CI and any non-Claude harness run the exact same file and get the exact same result. Anything the linter cannot see is spelled out in [`../SEAT_SPEC.md`](../SEAT_SPEC.md) as a normative requirement.
+`scripts/lint_seat.py` enforces the standard mechanically. It is stdlib-only Python by design, so this repo's CI ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) and any non-Claude harness run the exact same file and get the exact same result. Anything the linter cannot see is spelled out in [`../SEAT_SPEC.md`](../SEAT_SPEC.md) as a normative requirement.
 
 ```bash
 python3 scripts/lint_seat.py --all                    # lint every seat under skills/

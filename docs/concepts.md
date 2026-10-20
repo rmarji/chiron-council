@@ -54,7 +54,7 @@ Every seat declares a `mode`. The mode decides how it may speak.
 | **original** | Your own operating system, or an invented advisor | First person in its own voice | No provenance constraints (nobody to cite but the author) |
 | **persona** | First-person emulation of a subject | Speaks as the subject | Never a default. Forbidden for a living subject without a granted license |
 
-**Corpus mode** is the backbone of the roster. A corpus seat speaks *about* the record, never *as* the person: "the Munger corpus would flag the incentive here (The Psychology of Human Misjudgment, 1995)," not "I, Charlie, would flag this." Fourteen of the fifteen founding seats are corpus mode.
+**Corpus mode** is the backbone of the roster. A corpus seat speaks *about* the record, never *as* the person: "the Munger corpus would flag the incentive here (The Psychology of Human Misjudgment, 1995)," not "I, Charlie, would flag this." Eighteen of the nineteen bundled seats are corpus mode; Rayo is the one original-mode seat.
 
 **Original mode** is for a mind that is its own source. Rayo OS is one: an authored execution and decision-routing operating system (FATE, the Ship Gate, MAX THREE) with no external subject to cite. Your own `me` seat is another. When you run [`/chiron:distill-me`](./distilling.md), Chiron reads how you actually operate and writes an original-mode seat holding your mission, values, goals, frameworks, and the experts you already reach for, so your own operating system can chair a council and be argued with. That `me` seat is **private**: it lives in `~/.claude/chiron/seats/` or a project's `.chiron/seats/`, both gitignored, never committed, and never shipped from the plugin repo.
 
@@ -68,7 +68,7 @@ The quality line: sourced heuristics beat generated cosplay. A corpus seat that 
 
 ## The depth bar
 
-Seats are not stubs. A name and a one-paragraph description is exactly what Chiron refuses to ship. Every real-person seat carries the seven standard reference files (`principles`, `mental-models`, `frameworks`, `anti-patterns`, `heuristics`, `quotes`, `sources`), each a full extraction of that dimension of the subject's thinking with a named source per claim. In practice that is 6,000 to 10,000 words of cited material per seat.
+Seats are not stubs. A name and a one-paragraph description is exactly what Chiron refuses to ship. Every real-person seat carries the seven standard reference files (`principles`, `mental-models`, `frameworks`, `anti-patterns`, `heuristics`, `quotes`, `sources`), each a full extraction of that dimension of the subject's thinking with a named source per claim. In practice that is roughly 6,000 to 8,500 words of cited material per seat.
 
 The linter defends the bar so "a seat" always means the same thing:
 
@@ -132,7 +132,7 @@ benches:
     default_depth: quick   # quick | full
 ```
 
-Benches live globally at `~/.claude/chiron/benches.yaml` and per project at `.chiron/benches.yaml`, and project shadows global on a name collision. Name a bench where a council expects a seat list and it convenes that line-up. See [benches.md](./benches.md) for the full mechanics.
+Benches live globally at `~/.claude/chiron/benches.yaml` and per project at `.chiron/benches.yaml`, and project shadows global on a name collision. Until you have either file, the example benches bundled with the plugin are used. Name a bench where a council expects a seat list and it convenes that line-up. See [benches.md](./benches.md) for the full mechanics.
 
 ## Authored versus generated
 

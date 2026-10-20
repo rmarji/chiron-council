@@ -193,7 +193,7 @@ Record your decision? (updates the seat's log)
 /chiron:council <bench-or-seat-list> <question> [--depth quick|full]
 ```
 
-Convene a bench and get a real debate, not consensus theater. The first token is a bench name or an inline comma-separated seat list (`munger,naval,rumelt`), the rest is the question. `--depth` overrides the bench's `default_depth`; the default is `quick`.
+Convene a bench and get a real debate, not consensus theater. The first token is a bench name or an inline comma-separated seat list (`munger,naval,rumelt`), the rest is the question. Bench names resolve from your project and global benches files, or from the bundled example benches if you have neither yet. `--depth` overrides the bench's `default_depth`; the default is `quick`.
 
 This is a four-phase state machine, and the phases are the point:
 
@@ -253,7 +253,7 @@ Manage benches, which are curated seat line-ups you convene by name. Benches are
 - **Project:** `.chiron/benches.yaml` (the default write target inside a project)
 - **Global:** `~/.claude/chiron/benches.yaml` (write here with `--global`, or when not in a project)
 
-On a name collision, the project bench shadows the global one. The file shape:
+On a name collision, the project bench shadows the global one. Until you have either file, the bundled examples in `benches/examples/benches.yaml` are in effect; your first benches file replaces them, and `create` offers to copy them over first. The file shape:
 
 ```yaml
 benches:
@@ -265,14 +265,14 @@ benches:
 
 **create** validates the name against `^[a-z0-9-]{2,32}$`, validates every seat id against the registry (an unknown id is not written; you get fuzzy matches instead), and requires two to eight seats. One seat is refused ("use /chiron:ask, a bench of one is a person"). Six or more seats is allowed but warns about token cost and decision theater. If the same name exists in the other scope (**CH-E7**), it creates anyway and tells you which one now shadows which.
 
-**list** reads both files and renders a table of name, seats, chairman, depth, and source, marking shadowed globals and flagging any bench that references an uninstalled seat.
+**list** renders a table of name, seats, chairman, depth, and source (project, global, or example), marking shadowed globals and flagging any bench that references an uninstalled seat.
 
 **remove** deletes the entry from the scope where it is defined (asking which, if it exists in both) and shows the diff. It never touches seat folders. Removing a bench never deletes seats.
 
 **Example**
 
 ```
-/chiron:bench create money munger naval rayo
+/chiron:bench create money munger naval rayo --global
 
 Wrote to ~/.claude/chiron/benches.yaml:
 
@@ -284,7 +284,7 @@ Wrote to ~/.claude/chiron/benches.yaml:
 Convene it with: /chiron:council money "<your question>"
 ```
 
-**Reach for it when** you keep convening the same group. Name it once, then call it by name. You can also just say "make me a bench for pricing decisions with Hormozi, Cialdini, and Voss." Chiron ships a set of starter benches you can copy from `benches/examples/benches.yaml`.
+**Reach for it when** you keep convening the same group. Name it once, then call it by name. You can also just say "make me a bench for pricing decisions with Hormozi, Cialdini, and Voss." Chiron ships six starter benches in `benches/examples/benches.yaml`; they work by name until you write your own file.
 
 ---
 
@@ -343,7 +343,7 @@ Quick check before I research:
 
 [on confirm: multi-round deep research, then authoring, then]
 
-Linted skills/brad-frost: PASS
+Linted ~/.claude/skills/brad-frost: PASS
   mode corpus · domains [design-systems, frontend, ux] · 8 sources
   references: principles 1,180w · frameworks 1,340w · ... (7 files)
 Use it: /chiron:ask brad-frost "how granular should our tokens be?"
@@ -397,7 +397,7 @@ Put it to work: /chiron:consult "<a real decision you are facing>"
 /chiron:lint [seat-id | --all] [--strict] [--explain]
 ```
 
-Validate seats against the [SEAT_SPEC](../SEAT_SPEC.md) standard. The linter is stdlib-only Python and CI runs the same file, so the standard is enforceable by anyone, not just inside Claude. Exit codes are `0` pass, `1` warnings only, and `2` errors (a seat with errors will not load).
+Validate seats against the [SEAT_SPEC](../SEAT_SPEC.md) standard. The linter is stdlib-only Python and this repo's CI ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) runs the same file on every push and pull request, so the standard is enforceable by anyone, not just inside Claude. Exit codes are `0` pass, `1` warnings only, and `2` errors (a seat with errors will not load).
 
 Each finding shows the rule id, what it means (`--explain` prints the rule descriptions), and the concrete fix. The load-blocking rules are the ones that make a seat a seat and not a name:
 
@@ -424,7 +424,7 @@ python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py --all --format json --seats-d
 
 Note the raw script takes `--level strict` where the slash command takes `--strict`, and `--format json` for machine-readable output.
 
-**Reach for it when** you authored or edited a seat, before you rely on it. All eighteen shipped seats pass. Full rule table in [the standard](./the-standard.md) and [SEAT_SPEC.md](../SEAT_SPEC.md) section 7.
+**Reach for it when** you authored or edited a seat, before you rely on it. All nineteen shipped seats pass. Full rule table in [the standard](./the-standard.md) and [SEAT_SPEC.md](../SEAT_SPEC.md) section 7.
 
 ---
 
