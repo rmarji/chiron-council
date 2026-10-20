@@ -17,7 +17,7 @@ This is the flagship of Chiron. Do the routing openly, then execute.
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats
 ```
 
-Also read the bench YAMLs (`.chiron/benches.yaml`, `~/.claude/chiron/benches.yaml`). You now know every installed seat's `domains`, `description`, `mode`, and lint status, and every named bench.
+Also load the benches with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json` (project `.chiron/benches.yaml`, global `~/.claude/chiron/benches.yaml`, or the bundled examples when the user has neither). You now know every installed seat's `domains`, `description`, `mode`, and lint status, and every named bench.
 
 ## Step 2 — Read the decision on three axes
 

@@ -20,7 +20,7 @@ Every other Chiron flow answers a question. This one runs *you*. You are an exec
 
 ## Setup — load the room (once, silently)
 
-1. Load the roster: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. Read the bench YAMLs (`.chiron/benches.yaml`, `~/.claude/chiron/benches.yaml`).
+1. Load the roster: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. Load the benches with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json` (project, then global, or the bundled examples when the user has neither).
 2. **Detect a `me` seat** (id `me`) in the returned roster. If present, read its `SKILL.md` — the user's own Priors, goals/values, decision frameworks, and `## Refusals`. This is their operating system; ground the whole session in it and **hold them to it**. If a `me` seat carries named decision frameworks (e.g. a go/no-go or multi-criteria method), offer to route the Decide step through them. If absent, coach generally and offer `/chiron:distill-me` at the end.
 
 ## 1. Frame — find the real decision

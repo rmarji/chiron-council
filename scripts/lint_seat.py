@@ -3,7 +3,7 @@
 
 Usage:
     python3 scripts/lint_seat.py <seat-path> [<seat-path> ...]
-    python3 scripts/lint_seat.py --all [--seats-dir seats]
+    python3 scripts/lint_seat.py --all [--seats-dir skills]
     python3 scripts/lint_seat.py --all --format json --level strict
 
 Exit codes: 0 = pass, 1 = warnings only, 2 = errors (load-blocking).

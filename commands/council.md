@@ -7,7 +7,7 @@ argument-hint: <bench-or-seat-list> <question> [--depth quick|full]
 
 The user asked: `$ARGUMENTS`
 
-First token = bench name (resolve project `.chiron/benches.yaml`, then `~/.claude/chiron/benches.yaml`; project shadows global — note it once) or an inline comma-separated seat list. Rest = the question. `--depth` overrides the bench's `default_depth` (default: quick).
+First token = bench name (resolve with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json <name>`: project `.chiron/benches.yaml` shadows global `~/.claude/chiron/benches.yaml` — note it once; with no user benches file it falls back to the bundled examples, so say "using the bundled example bench") or an inline comma-separated seat list. Rest = the question. `--depth` overrides the bench's `default_depth` (default: quick).
 
 **Why this exists:** generated councils produce consensus theater — five flavors of one model agreeing. This state machine manufactures *structural* independence and surfaces only *authored* conflict. Do not shortcut it.
 
