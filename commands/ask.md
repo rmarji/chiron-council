@@ -21,7 +21,7 @@ Parse the first token as a seat or bench name, the rest as the question.
 
 Read, in this order (the seat's directory is the `path` the registry returned for `<id>` — a bundled seat resolves under `${CLAUDE_PLUGIN_ROOT}/skills/<id>/`, an installed one under `~/.claude/skills/<id>/` or a project's `.chiron/seats/<id>/`):
 1. `<seat-dir>/SKILL.md` — frontmatter + all core sections. Honor the `## Voice` contract and `## Refusals` absolutely.
-2. `<seat-dir>/log.md` — **last 10 entries only** (if the file exists). The seat remembers what it told this user and whether they listened. If a past entry is relevant to the current question, reference it explicitly ("On 2026-06-12 this seat advised X; the recorded decision was Y").
+2. The seat's consult log, **last 10 entries only**. Resolve it with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id>` and read that file (it may not exist yet). Never `<seat-dir>/log.md`, and never anything under `${CLAUDE_PLUGIN_ROOT}`: the plugin cache is wiped on update and Claude Code blocks writes there. The seat remembers what it told this user and whether they listened. If a past entry is relevant, reference it explicitly ("On 2026-06-12 this seat advised X; the recorded decision was Y").
 3. `<seat-dir>/references/*` — load **only** the files the question actually needs (progressive disclosure). A negotiation question loads frameworks.md; a "what would he say about my situation" question may need principles + anti-patterns.
 
 ## 3. Respond — the voice contract
@@ -34,7 +34,7 @@ Read, in this order (the seat's directory is the `path` the registry returned fo
 
 ## 4. Record
 
-Append to `<seat-dir>/log.md` (create the file with a `# Log — <id>` heading if missing; NEVER rewrite prior entries):
+Append to the path from `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` (create the file with a `# Log — <id>` heading if missing; NEVER rewrite prior entries). That is `~/.claude/chiron/logs/<id>/log.md`, or `$CHIRON_HOME/logs/<id>/log.md` when the variable is set. In Cowork, where the home directory is not writable, pass `--home .chiron`. Do not write the log inside the plugin install:
 
 ```markdown
 ## {today ISO date} · ask

@@ -25,7 +25,7 @@ First token = bench name (resolve with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/be
 
 Spawn **one subagent per seat, in parallel** (Task tool). Each subagent's context contains ONLY:
 - that seat's `SKILL.md`
-- that seat's last 10 `log.md` entries
+- that seat's last 10 consult-log entries, from `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id>` (not from the seat directory, and not from anywhere under `${CLAUDE_PLUGIN_ROOT}`)
 - the question
 
 It must NOT see: other seats, other takes, the bench composition, or this conversation. Disagreement must be structural, not simulated.
@@ -56,7 +56,7 @@ Written in the chairman's voice (if the bench names a chairman seat, load its Vo
 
 ## RECORD (phase 4)
 
-1. Append one entry to EACH participating seat's `log.md` (schema below; create file if missing; never rewrite prior entries):
+1. Append one entry to EACH participating seat's consult log (schema below; create the file if missing; never rewrite prior entries). The path is `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure`: `~/.claude/chiron/logs/<id>/log.md` by default, `$CHIRON_HOME` when set, and `--home .chiron` in Cowork. Never write a log under `${CLAUDE_PLUGIN_ROOT}`.
 
 ```markdown
 ## {today ISO date} · council:{bench-name}

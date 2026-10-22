@@ -82,7 +82,7 @@ Because the file is the API, editing is the same as writing YAML. Open `~/.claud
 
 ```yaml
 benches:
-  # Money and bets: incentives, leverage, and your own execution laws
+  # Money and bets: incentives, leverage, and Rayo's (the author's) execution laws
   money:
     seats: [munger, naval, rayo]
     chairman: neutral
@@ -124,7 +124,7 @@ The plugin bundles six benches in [`benches/examples/benches.yaml`](../benches/e
 
 ```yaml
 benches:
-  # Money and bets: incentives, leverage, your own execution laws
+  # Money and bets: incentives, leverage, Rayo's (the author's) execution laws
   money:
     seats: [munger, naval, rayo]
     chairman: neutral
@@ -157,7 +157,7 @@ benches:
 
 Why these hold together:
 
-- **money** pairs incentive and misjudgment analysis (Munger) with leverage and judgment (Naval) and your own execution laws (Rayo). Kept at `quick` because most money calls are frequent and want a fast read.
+- **money** pairs incentive and misjudgment analysis (Munger) with leverage and judgment (Naval) and Rayo's execution laws, which are the author's and which anyone can borrow. Kept at `quick` because most money calls are frequent and want a fast read.
 - **strategy** front-loads diagnosis before action (Rumelt), then pressure-tests it on incentives (Munger) and leverage (Naval). Set to `full` because a strategy call is usually expensive enough to earn the deeper pass.
 - **relationship** is deliberately two seats that argue: Deida on polarity and Terry Real on relational repair carry an authored disagreement on the record, so the council surfaces a real tension instead of two voices nodding along. This is the case where a bench of two is exactly right.
 - **detectives** is not in the bundled file, but all three seats ship, so one `/chiron:bench create` makes it. It is the diagnosis bench: House tests it because everybody lies, Sherlock deduces it from the evidence, Columbo disarms it into the open. Three genuinely different routes to one answer, cited to the canon and the episodes. Point it at a bug, a broken metric, or a story that does not add up.

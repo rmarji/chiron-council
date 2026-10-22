@@ -62,8 +62,9 @@ If your request is vague, Chiron does not interrogate you. It offers two or thre
 │   ├── principles.md     ├── mental-models.md   ├── frameworks.md
 │   ├── anti-patterns.md  ├── heuristics.md       ├── quotes.md
 │   └── sources.md
-└── log.md                # created on first consult, gitignored
 ```
+
+The consult log is not part of the seat. The first consult creates `~/.claude/chiron/logs/<id>/log.md`, outside the plugin install.
 
 `SKILL.md` carries the frontmatter contract (a `name` matching the folder, a triggering `description`, and an `x-chiron` block with `display_name`, `mode`, `domains`, an `alias` for living subjects, and `provenance` with three or more sources). Its body carries the required `## Priors` (five or more), `## Heuristics` (five or more, in IF/THEN shape), `## Refusals` (two or more), and `## Voice`, plus the narrative sections that give a seat its texture. Real-person seats end with the disclaimer block. The subject's two or three signature mental models get named inline in the body, so the mind is visible without loading the reference files.
 

@@ -39,6 +39,8 @@ That does not break Chiron. The registry scans several directories and merges th
 
 So the sanctioned homes for a seat in Cowork are the workspace `.chiron/seats/` folder, or a `.plugin` you accept. Not `~/.claude`.
 
+Consult logs follow the same constraint. In Claude Code they go to `~/.claude/chiron/logs/<id>/log.md`. In Cowork the commands pass `--home .chiron`, so the log is `.chiron/logs/<id>/log.md` in the workspace. Either way it is outside the plugin install.
+
 ## Distilling a seat in Cowork
 
 `/chiron:distill` runs the same flow described in [./distilling.md](./distilling.md): interview, deep research, author the full cited seat, then lint. Only the final delivery step changes, because of the sandbox.

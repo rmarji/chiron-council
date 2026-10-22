@@ -36,7 +36,7 @@ You do not have to make that call yourself. That is what the orchestrator is for
 ▸ Reversible copy tweak, single domain. No council. Routing to Voss alone. Proceeding.
 
 /chiron:consult "take the 15k/mo retainer or walk?"
-▸ Irreversible, cross-domain (leverage, incentives, your own execution laws).
+▸ Irreversible, cross-domain (leverage, incentives, Rayo's execution laws).
   Convening Munger, Naval, Rayo. Naval and Munger carry an authored
   disagreement on concentration that bears on this. ~7k tokens. Proceeding.
 ```
@@ -115,7 +115,7 @@ Your `me` seat is **private**. It lives in `~/.claude/chiron/seats/me/` (global)
 
 ## Use the memory
 
-Every consult appends to the seat's `log.md`, and a summoned seat reads its last ten entries, so it remembers what it told you and whether you listened. That memory is only worth having if you look at it.
+Every consult appends to `~/.claude/chiron/logs/<id>/log.md`, and a summoned seat reads its last ten entries, so it remembers what it told you and whether you listened. That file sits outside the plugin install, so an update does not erase it. The memory is only worth having if you look at it.
 
 ```bash
 /chiron:log rayo                 # everything this seat has weighed in on, newest first

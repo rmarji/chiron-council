@@ -130,7 +130,7 @@ Install issues live in [installation.md](./installation.md); the highlights:
 Yes. `/chiron:distill-me` writes an original-mode `me` seat to `~/.claude/chiron/seats/me/` (or `<project>/.chiron/seats/me/`). It holds your mission, values, goals, and decisions. It is never committed to the plugin repo and never shipped. If it is written into a project, add `.chiron/seats/` to that project's `.gitignore` (the flow offers to do this). Treat it like `log.md`: local, personal, yours.
 
 **Does the per-seat memory get shared?**
-No. Each seat's `log.md` is append-only, local, and gitignored by default. It holds your decisions, not the seat's content, so it stays on your machine.
+No. Each seat's consult log is append-only and local, at `~/.claude/chiron/logs/<id>/log.md`. It holds your decisions, not the seat's content, and it is not inside the plugin install, so it stays on your machine across updates.
 
 **Does Chiron work offline?**
 The seats do. Everything is files: no server, no API keys, no network calls to run a council or ask a seat. The one exception is `/chiron:distill`, which needs web access to do the deep research over a subject's published corpus. Distilling a new seat requires a connection; using the seats you already have does not.

@@ -30,3 +30,19 @@ The bar is [SEAT_SPEC.md](SEAT_SPEC.md); [docs/the-standard.md](docs/the-standar
 - If you add or remove a seat, update the seat count in `README.md` (badge, intro, roster table) and the docs that mention it. `ls -d skills/*/ | grep -vc '/chiron/$'` gives the number.
 - Keep README and docs claims true of the repo as it is: commands, bench names, and paths in examples should exist.
 - Note user-visible changes in [CHANGELOG.md](CHANGELOG.md).
+
+## Releasing
+
+CI does not publish a release or a tag. It builds `chiron.plugin` and uploads it as the `chiron-plugin` artifact, so a maintainer can download the bundle a pull request produced.
+
+To cut a release by hand:
+
+1. Bump `.claude-plugin/plugin.json` and add the entry in [CHANGELOG.md](CHANGELOG.md). The bundle check expects the version it finds in `plugin.json` to be `0.3.0` until that check is updated with the new version.
+2. Build and check the Cowork bundle:
+
+   ```bash
+   python3 scripts/build_bundle.py dist/chiron.plugin
+   python3 scripts/build_bundle.py --check dist/chiron.plugin
+   ```
+
+3. Tag the commit and publish a GitHub release with `dist/chiron.plugin` attached. Cowork installs that file. The marketplace install tracks the branch and does not need the release.

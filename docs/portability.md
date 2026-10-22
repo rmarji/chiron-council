@@ -92,7 +92,7 @@ Draw the line between the seats and the plugin around them.
 
 The seats themselves run anywhere Agent Skills load. The orchestration around them, the slash commands, the self-routing consult, live councils, benches, and the memory that logs what a seat told you, lives in the Chiron plugin. The plugin runs in Claude Code and in Cowork, which share the plugin format (see [Installation](./installation.md) and [Cowork](./cowork.md)). Outside those two, you get the seats without the conductor.
 
-Be aware of the memory caveat: `log.md` is written by the plugin's `ask` and `council` flows. In a bare harness the seat activates and advises, but nothing appends to its log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
+Be aware of the memory caveat: consult logs are written by the plugin's `ask` and `council` flows, to `~/.claude/chiron/logs/<id>/log.md`, not into the seat. In a bare harness the seat activates and advises, but nothing appends a log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
 
 ## Invoke a seat outside the plugin
 

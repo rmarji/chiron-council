@@ -3,7 +3,7 @@
 # Benches are plain YAML; edit by hand freely. 2-8 seats; >5 gets noisy.
 
 benches:
-  # Money & bets: incentives, leverage, and your own execution laws
+  # Money and bets: incentives, leverage, and Rayo's (the author's) execution laws
   money:
     seats: [munger, naval, rayo]
     chairman: neutral

@@ -20,8 +20,9 @@ skills/<id>/
 │   ├── heuristics.md
 │   ├── quotes.md
 │   └── sources.md
-└── log.md               # append-only consult memory (created on first use, gitignored)
 ```
+
+Consult memory is not in this tree. It is user data at `~/.claude/chiron/logs/<id>/log.md` (or `$CHIRON_HOME/logs/<id>/log.md`), resolved by `scripts/memory.py`, because the plugin install is wiped on update. See §6.
 
 Progressive disclosure is the load contract: a summoned seat loads SKILL.md frontmatter + core sections + its last 10 log entries. References load on demand. This is why SKILL.md must stay under ~6k tokens (lint L6) and why the depth lives in `references/`.
 
@@ -131,7 +132,7 @@ Rules: `counterpart:` must name an installed seat id or be marked `counterpart: 
 
 ## 6. log.md
 
-Append-only consult memory, created on first consult, gitignored by default (it contains your decisions, not the seat's). Entry schema:
+Append-only consult memory, created on first consult. It contains the user's decisions, not the seat's content, so it does not live in the seat directory and it is never inside the plugin install. `scripts/memory.py log <id>` prints the path: `~/.claude/chiron/logs/<id>/log.md` by default, `$CHIRON_HOME/logs/<id>/log.md` when that variable is set. Entry schema:
 
 ```markdown
 ## 2026-07-06 · council:cc-pricing

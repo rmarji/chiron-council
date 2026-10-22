@@ -157,7 +157,7 @@ One seat, one question, one authored lens, with that seat's memory of your past 
 
 The seat responds in its voice contract. Corpus-mode seats speak in the third person and cite a source for each substantive claim ("the Munger corpus would flag..."), never in first person. The shape is fixed: position first (three to six lines), then reasoning, a confidence of 1 to 5, and what would change the seat's mind. One recommendation, not a menu. If your question hits one of the seat's `## Refusals`, it declines that part and redirects rather than opining outside its competence.
 
-After answering, it appends a one-line entry to the seat's `log.md` and asks once whether to record your decision. That is how the seat remembers what it told you and whether you listened.
+After answering, it appends an entry to `~/.claude/chiron/logs/<id>/log.md` (never inside the plugin install) and asks once whether to record your decision. That is how the seat remembers what it told you and whether you listened.
 
 **Example**
 
@@ -380,7 +380,7 @@ you mentioned? (yes / pick a subset / interview only)
 [after gather + interview]
 
 Wrote ~/.claude/chiron/seats/me/  ·  linted: PASS
-  display_name: "Rayo (you)" · original · domains [execution, decisions, ...]
+  display_name: "Me" · original · domains [execution, decisions, ...]
 Your go-to experts, matched to the roster:
   Munger → installed   Naval → installed   Kapil Gupta → not installed (distill?)
 Proposed benches: money (munger, naval, me · chaired by you), ...
@@ -434,7 +434,7 @@ Note the raw script takes `--level strict` where the slash command takes `--stri
 /chiron:log <seat-id> [--open-loops]
 ```
 
-Review a seat's consult memory. Each seat keeps an append-only `log.md` of what it told you and what you decided, and a summoned seat reads its last ten entries so it remembers the thread. This command reads that ledger. Reading never mutates it.
+Review a seat's consult memory. Each seat keeps an append-only log of what it told you and what you decided, at `~/.claude/chiron/logs/<id>/log.md` (or under `$CHIRON_HOME`). A summoned seat reads its last ten entries so it remembers the thread. The log is not stored in the seat folder or in the plugin install. This command reads that ledger. Reading never mutates it.
 
 The default view renders entries newest first: date, source (`ask` or `council:<bench>`), the question, a one-line take, and the decision. If no log exists yet, it says so and stops.
 

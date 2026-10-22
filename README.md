@@ -104,7 +104,7 @@ Nineteen seats ship today. Eighteen are corpus-mode: built from published work, 
 | **Columbo** (corpus) | finding the one detail that doesn't fit | Columbo episodes |
 | **Rayo OS** (original) | execution, shipping, decision-routing | FATE, Ship Gate, MAX THREE (authored) |
 
-**Rayo OS** is the author's own operating system for deciding and shipping, packaged as a seat; it cites its own frameworks rather than a published corpus, and it sits in three of the example benches.
+**Rayo OS** is Raed Marji's operating system for deciding and shipping, the author's, packaged as a seat anyone can borrow. It cites his frameworks rather than a published corpus, and it sits in three of the example benches. It is not the reader's operating system; that would be a private `me` seat from `/chiron:distill-me`.
 
 Every real-person seat carries roughly 6,000 to 8,500 words of source-attributed reference material and passes the linter. The three detectives show a seat can be distilled from a fictional canon too, cited to the stories and episodes. Add your own with `/chiron:distill`, or put yourself in the room with `/chiron:distill-me`.
 
@@ -130,7 +130,7 @@ You can also just talk to it: "run this by my money bench," "what would Munger s
 
 A bench is a named line-up you convene with `/chiron:council <name>`. Six ship as examples in [`benches/examples/benches.yaml`](benches/examples/benches.yaml): `money`, `strategy`, `deals`, `relationship`, `shipping`, and `work-design`. They work by name until you have a benches file of your own.
 
-Your benches are plain YAML. `/chiron:bench create` writes to the project's `.chiron/benches.yaml` when you are inside a project, or to `~/.claude/chiron/benches.yaml` with `--global`. Project shadows global on a name collision.
+Your first bench replaces those examples. `/chiron:bench create` writes `.chiron/benches.yaml` in the project (or `~/.claude/chiron/benches.yaml` with `--global`), and once either file exists the bundled examples drop out entirely, including any you did not copy. The create command offers to copy the examples into that file first; take the offer, or copy [`benches/examples/benches.yaml`](benches/examples/benches.yaml) in yourself. To get the examples back later, delete the benches file you created. Project shadows global on a name collision.
 
 ```yaml
 benches:
@@ -147,6 +147,8 @@ More in [docs/benches.md](docs/benches.md).
 `/chiron:onboard` takes you from install to your first real council in a few minutes. It shows the roster, then offers `/chiron:distill-me`, which distills *you* the same way the roster distills its thinkers: it reads what you point it at (your notes, your instruction files, this conversation), interviews you, and writes a private, original-mode `me` seat holding your mission, values, goals, frameworks, and the experts you already reach for. That `me` seat can chair your councils and be argued with.
 
 Your `me` seat is **private**. It lives in `~/.claude/chiron/seats/me/` (or a project's `.chiron/seats/me/`), never in this repo, never committed, never shipped. Seats you add with `/chiron:distill` go to `~/.claude/skills/<id>/` (or a project's `.claude/skills/`). The registry merges all of these with the bundled roster (project shadows global shadows bundled), so every seat you add shows up in `/chiron:roster` and can sit on a council.
+
+What a seat tells you is kept separately, at `~/.claude/chiron/logs/<id>/log.md` (or under `$CHIRON_HOME` if you set it). That directory is yours. It is created the first time a seat records a consult, `/chiron:log` reads it back, and a plugin update does not touch it. In Cowork, where the home directory is not writable, the same logs land in the workspace at `.chiron/logs/`.
 
 ## Other ways to install
 

@@ -99,11 +99,12 @@ Nothing is hidden. Chiron reads seats from several directories and merges them, 
 | `~/.claude/skills/<id>/` | Seats you install with `npx skills` or distill in Claude Code. Auto-activate globally. | Global |
 | `~/.claude/chiron/seats/<id>/` | Your private `me` seat and any personal seats. Gitignored, never shipped. | Global, private |
 | `~/.claude/chiron/benches.yaml` | Your global benches (curated line-ups). Plain YAML. | Global |
+| `~/.claude/chiron/logs/<id>/log.md` | Consult memory for each seat. Created on first use. Set `CHIRON_HOME` to move the whole `chiron/` directory. Never written inside the plugin cache. | Global, private |
 | `<project>/.claude/skills/<id>/` | Project-scoped seats. | Project |
 | `<project>/.chiron/seats/<id>/` | Project-scoped `me` seat and distilled seats. In Cowork, this is where everything you create lands. | Project |
 | `<project>/.chiron/benches.yaml` | Project benches. Shadow global benches on a name collision. `/chiron:bench create` writes here by default when you are inside a project. | Project |
 
-If neither benches file exists, commands use the bundled `benches/examples/benches.yaml` instead. Your first benches file replaces the examples.
+If neither benches file exists, commands use the bundled `benches/examples/benches.yaml` instead. Your first benches file replaces the examples entirely. `/chiron:bench create` offers to copy them in first. To get them back later, delete the file you created.
 
 The registry picks seats out of a shared skills root (`~/.claude/skills` can hold plenty of unrelated skills) by looking for the `x-chiron` marker in each `SKILL.md`. Unrelated skills and the Chiron router are ignored, so a busy skills directory does not confuse the roster.
 
@@ -124,7 +125,7 @@ Your `me` seat is deliberately private: it holds your mission, values, goals, an
 
 - **Seats-only:** re-run the same `npx skills add` command you used. It pulls the current seats and overwrites them in place.
 
-Updating the plugin or re-running `npx skills` only touches the bundled and installed seats. Your `me` seat, your distilled seats, your benches, and each seat's `log.md` live in separate directories and are left alone.
+Updating the plugin or re-running `npx skills` only touches the bundled and installed seats. Your `me` seat, your distilled seats, your benches, and each seat's consult log (`~/.claude/chiron/logs/`) live outside the plugin cache and are left alone. The cache itself is replaced on update, which is why logs are not stored next to the seats.
 
 ## Uninstalling
 

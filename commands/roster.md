@@ -18,4 +18,5 @@ Render the roster grouped by primary domain: **id · display_name · mode · dom
 - If lint shows `warn`, add a one-line note; if `fail`, mark the seat unloadable and point to `/chiron:lint <id> --explain`.
 - If the exit code is 2 (no seats directory): tell the user to run `/chiron:distill` or install a pack.
 - At large rosters (dozens of seats), keep the grouped view — never dump every seat's details; summarize per domain and expand only the domain the user asked about.
+- **Rayo OS** is Raed Marji's operating system (the author of Chiron), shipped so anyone can borrow its laws. When you render that row, say so in one line. It is not the person asking. Their own operating system, if they have one, is the private `me` seat.
 - Close with a hint: `/chiron:ask <id> "<question>"` and `/chiron:bench create <name> <ids...>`.

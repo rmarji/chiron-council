@@ -24,10 +24,11 @@ skills/<id>/
 │   ├── heuristics.md
 │   ├── quotes.md
 │   └── sources.md
-└── log.md                # append-only consult memory (created on first use, gitignored)
 ```
 
-The load contract is progressive disclosure. When a seat is summoned it loads the `SKILL.md` frontmatter, the core sections, and its last 10 `log.md` entries. The `references/` files load on demand. That is why `SKILL.md` must stay under roughly 6k tokens (lint L6) and why the depth lives in `references/`. Real-person seats carry roughly 6,000 to 8,500 words of source-attributed reference material split across those seven files.
+Consult memory is not in the seat folder. It lives at `~/.claude/chiron/logs/<id>/log.md` (`scripts/memory.py`), outside the plugin install, which is wiped on every update.
+
+The load contract is progressive disclosure. When a seat is summoned it loads the `SKILL.md` frontmatter, the core sections, and its last 10 log entries. The `references/` files load on demand. That is why `SKILL.md` must stay under roughly 6k tokens (lint L6) and why the depth lives in `references/`. Real-person seats carry roughly 6,000 to 8,500 words of source-attributed reference material split across those seven files.
 
 ## The mind: SKILL.md
 

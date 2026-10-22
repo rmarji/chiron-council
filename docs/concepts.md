@@ -39,8 +39,9 @@ skills/munger/
 ├── references/         # the depth: full extraction of the published thinking
 │   ├── principles.md   ├── mental-models.md   ├── frameworks.md
 │   ├── anti-patterns.md ├── heuristics.md     ├── quotes.md   └── sources.md
-└── log.md              # append-only consult memory (gitignored)
 ```
+
+Consult memory is not in the seat folder. A summoned seat reads `~/.claude/chiron/logs/<id>/log.md` (see [commands](./commands.md#chironlog)), which survives a plugin update. The plugin install itself is never written to.
 
 Everything is files. No database, no server, no API keys. The full contract lives in [SEAT_SPEC.md](../SEAT_SPEC.md), summarized in [the-standard.md](./the-standard.md).
 
@@ -79,7 +80,7 @@ If a seat skimps on provenance, the build fails. That is what separates a seat f
 
 ## Memory
 
-Each seat keeps a private `log.md`: an append-only record of what it was asked, what it advised, and what you decided. When a seat loads, it reads its last 10 entries, so it remembers what it told you and whether you listened. Ask the same seat about a call it weighed in on two weeks ago and it can say "this seat advised X on that; the recorded decision was Y."
+Each seat keeps a private consult log, an append-only record of what it was asked, what it advised, and what you decided. The file is `~/.claude/chiron/logs/<id>/log.md`, not a file inside the seat, so a plugin update cannot wipe it. When a seat loads, it reads its last 10 entries, so it remembers what it told you and whether you listened. Ask the same seat about a call it weighed in on two weeks ago and it can say "this seat advised X on that; the recorded decision was Y."
 
 The log holds *your* decisions, not the seat's thinking, so it is gitignored by default and stays local. [`/chiron:log <seat>`](./commands.md) surfaces the open loops you never closed.
 

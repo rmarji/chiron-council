@@ -49,7 +49,7 @@ Every other Chiron flow answers a question. This one runs *you*. You are an exec
 ## 5. Commit — close the loop
 
 - Define **one next action**: concrete, owned by the user, timeboxed. A decision with no next action is a wish.
-- **Record it** using the `council` RECORD pattern: append one entry to each consulted seat's `log.md` (create with a `# Log — <id>` heading if missing; never rewrite prior entries):
+- **Record it** using the `council` RECORD pattern: append one entry to each consulted seat's consult log, at the path `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` prints (`~/.claude/chiron/logs/<id>/log.md` by default; `$CHIRON_HOME` when set; `--home .chiron` in Cowork). Create the file with a `# Log — <id>` heading if missing; never rewrite prior entries. Never write a log under `${CLAUDE_PLUGIN_ROOT}`.
 
 ```markdown
 ## {today ISO date} · coach
@@ -58,7 +58,7 @@ Every other Chiron flow answers a question. This one runs *you*. You are an exec
 **Decision:** {the user's committed call, verbatim — or `open loop` if they did not commit}
 ```
 
-- If a `me` seat exists, offer to also log the decision to its `log.md` so the user's own OS remembers this call.
+- If a `me` seat exists, offer to also log the decision with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log me --ensure`, so the user's own OS remembers this call. Same rule: that file lives in user data, not in the plugin and not inside the seat folder.
 - Offer a check-in ("want me to follow up on this in a week?") and, if no `me` seat is installed, offer `/chiron:distill-me` so future sessions can coach against their own operating system.
 
 ## Guardrails
