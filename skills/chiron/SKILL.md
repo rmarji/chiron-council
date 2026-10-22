@@ -7,6 +7,8 @@ description: Route advisor requests to Chiron seats, and auto-orchestrate decisi
 
 The user invoked Chiron conversationally. Map their intent to the matching command file under `${CLAUDE_PLUGIN_ROOT}/commands/` and follow it exactly. The command files are the source of truth for each flow's contract.
 
+On Claude Code, `${CLAUDE_PLUGIN_ROOT}` is the installed plugin directory. ChatGPT and Codex do not set that variable. There, the plugin root is the directory that contains `skills/` and `scripts/`, and every `${CLAUDE_PLUGIN_ROOT}` in a command file means that directory. The `ask`, `council`, `coach`, and `log` skills are the same flows for hosts with no slash commands. They follow these command files and do not carry a second copy of any seat.
+
 **Default to orchestration.** When the user describes a decision or a situation but does NOT name a specific seat or bench, do not guess or grab the whole roster. Follow `commands/consult.md`: it decides whether to skip, ask one seat, or convene a council, and picks the right experts. That routing decision is the point of the product.
 
 | Intent sounds like | Follow |

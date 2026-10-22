@@ -83,14 +83,14 @@ Because Chiron discovers seats by the `x-chiron` marker rather than by owning th
 
 Draw the line between the seats and the plugin around them.
 
-| Universal (any Agent Skills harness) | Plugin only (Claude Code and Cowork) |
+| Universal (any Agent Skills harness) | Plugin (Claude Code, Cowork, ChatGPT, Codex) |
 |---|---|
-| Seats auto-activate on relevant questions | `/chiron:*` slash commands |
-| The mind: priors, heuristics, refusals, voice, cited claims | `/chiron:consult` auto-routing to the right expert |
+| Seats auto-activate on relevant questions | `/chiron:*` slash commands in Claude Code and Cowork. ChatGPT and Codex use the `ask`, `council`, `coach`, and `log` skills, which follow the same command files |
+| The mind: priors, heuristics, refusals, voice, cited claims | `/chiron:consult` auto-routing, and the `chiron` skill on hosts with no slash commands |
 | Third-person corpus voice with a source per claim | Live councils: independent takes, surfaced disagreements, one synthesis |
-| You address a seat directly and it responds | Benches (curated line-ups) and per-seat memory (`log.md`) |
+| You address a seat directly and it responds | Benches (curated line-ups) and per-seat memory (`~/.chiron/logs/<id>/log.md`) |
 
-The seats themselves run anywhere Agent Skills load. The orchestration around them, the slash commands, the self-routing consult, live councils, benches, and the memory that logs what a seat told you, lives in the Chiron plugin. The plugin runs in Claude Code and in Cowork, which share the plugin format (see [Installation](./installation.md) and [Cowork](./cowork.md)). Outside those two, you get the seats without the conductor.
+The seats themselves run anywhere Agent Skills load. The orchestration around them, the self-routing consult, live councils, benches, and the memory that logs what a seat told you, lives in the Chiron plugin. Claude Code and Cowork share one plugin format and call it with slash commands. ChatGPT and Codex share the portable format (`plugin.json` and `.agents/plugins/marketplace.json`) and call the same flows as skills. See [Installation](./installation.md) and [Cowork](./cowork.md). A seats-only install, with `npx skills` or a copied folder, gives you the seats without the conductor.
 
 Be aware of the memory caveat: consult logs are written by the plugin's `ask` and `council` flows, to `~/.chiron/logs/<id>/log.md`, not into the seat, and not under `~/.claude`. In a bare harness the seat activates and advises, but nothing appends a log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
 

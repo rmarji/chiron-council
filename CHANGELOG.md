@@ -10,6 +10,7 @@
 - **Rayo OS** is described as Raed Marji's operating system, which a user can borrow. It is not the reader's.
 - **Cowork bundle**: `python3 scripts/build_bundle.py dist/chiron.plugin` builds the `.plugin` file from the repo at the current `plugin.json` version.
 - **Docs**: README rewritten around a quickstart; positioning moved to `docs/why-chiron.md`; install commands use the qualified `chiron@compound-club` form; seat counts, bench examples, and the bench write target corrected across `docs/`; added `CONTRIBUTING.md`.
+- **ChatGPT and Codex plugin.** The repo root `plugin.json` is a portable Agent Plugins manifest, and `.agents/plugins/marketplace.json` publishes `chiron` from the Compound Club marketplace (`source` path `./`, the repo itself). Seats stay the existing `skills/<id>/` files. `ask`, `council`, `coach`, and `log` are skills that follow the command files, because those hosts have no slash commands. User data stays in `~/.chiron`. `python3 scripts/validate_openai_plugin.py` checks the manifest and marketplace.
 
 ## 0.2.0 (2026-07-23)
 

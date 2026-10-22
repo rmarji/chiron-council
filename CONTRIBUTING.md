@@ -27,7 +27,7 @@ The bar is [SEAT_SPEC.md](SEAT_SPEC.md); [docs/the-standard.md](docs/the-standar
 
 ## Other changes
 
-- If you add or remove a seat, update the seat count in `README.md` (badge, intro, roster table) and the docs that mention it. `ls -d skills/*/ | grep -vc '/chiron/$'` gives the number.
+- If you add or remove a seat, update the seat count in `README.md` (badge, intro, roster table) and the docs that mention it. `python3 scripts/lint_seat.py --all` reports the count. `ask`, `council`, `coach`, `log`, and the `chiron` router share `skills/` and are not seats.
 - Keep README and docs claims true of the repo as it is: commands, bench names, and paths in examples should exist.
 - Note user-visible changes in [CHANGELOG.md](CHANGELOG.md).
 
@@ -37,7 +37,7 @@ CI does not publish a release or a tag. It builds `chiron.plugin` and uploads it
 
 To cut a release by hand:
 
-1. Bump `.claude-plugin/plugin.json` and add the entry in [CHANGELOG.md](CHANGELOG.md). The bundle check expects the version it finds in `plugin.json` to be `0.3.0` until that check is updated with the new version.
+1. Bump `.claude-plugin/plugin.json` and the portable root `plugin.json` to the same version, and add the entry in [CHANGELOG.md](CHANGELOG.md). `python3 scripts/validate_openai_plugin.py` fails if those versions differ. The bundle check expects the version in `.claude-plugin/plugin.json` to be `0.3.0` until `EXPECTED_VERSION` in `scripts/build_bundle.py` is updated.
 2. Build and check the Cowork bundle:
 
    ```bash

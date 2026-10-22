@@ -1,6 +1,6 @@
 # Commands reference
 
-Chiron adds eleven slash commands under the `/chiron:` namespace. This page documents each one: its syntax, what it does, a real example, and when to reach for it. If you only remember two, remember `/chiron:consult` (let Chiron route the decision) and `/chiron:ask` (go straight to one seat). Everything below assumes the plugin is installed in Claude Code or Cowork. See [installation](./installation.md) if it is not.
+Chiron adds eleven slash commands under the `/chiron:` namespace. This page documents each one: its syntax, what it does, a real example, and when to reach for it. If you only remember two, remember `/chiron:consult` (let Chiron route the decision) and `/chiron:ask` (go straight to one seat). The examples below use the Claude Code and Cowork slash commands. ChatGPT and Codex run the same flows through the `ask`, `council`, `coach`, and `log` skills, and the `chiron` skill covers the rest. See [installation](./installation.md).
 
 You never have to memorize the exact grammar. Every command has a plain-language equivalent: "run this by my money bench," "what would the Munger corpus say about this," "who do I have for negotiation." Chiron reads that and reaches for the right command. The slash forms are here so you know exactly what happens when it does.
 
@@ -476,7 +476,7 @@ You do not have to type slash commands. Chiron listens for intent in ordinary co
 
 When you are clearly mid-decision but have not asked for anything, Chiron offers to route ("want me to run this by the right seats?") rather than hijacking the turn. Fully autonomous, unprompted interjection is deliberately out of scope: you stay in control of when the council convenes.
 
-Outside the plugin (a seat installed on its own into another agent via the `skills` CLI), the slash commands are not present, but the seats still auto-activate, so you invoke them by talking to them. The orchestrator, live councils, benches, and per-seat memory need the plugin, in Claude Code or Cowork. See [portability](./portability.md).
+Outside the plugin (a seat installed on its own into another agent via the `skills` CLI), the slash commands are not present, but the seats still auto-activate, so you invoke them by talking to them. The orchestrator, live councils, benches, and per-seat memory need the plugin, in Claude Code, Cowork, ChatGPT, or Codex. See [portability](./portability.md).
 
 ---
 

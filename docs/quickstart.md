@@ -2,7 +2,7 @@
 
 This gets you from an installed plugin to a real, sourced answer on a decision you actually face, in about ten minutes. There are two paths: a guided setup that meets the roster and builds around how you work, or a single command that reads your decision and routes it to the right mind.
 
-Both assume the plugin is already installed in Claude Code or Cowork. If it is not, do [installation](./installation.md) first (about a minute), then come back here.
+Both assume the plugin is already installed in Claude Code or Cowork, where the slash commands exist. ChatGPT and Codex use the same questions without the slash (`@council`, or ask in plain language). If it is not installed, do [installation](./installation.md) first (about a minute), then come back here.
 
 If you just want the fastest possible taste, skip to [Path B](#path-b-run-one-real-decision-about-2-minutes). If you want Chiron shaped around you before you lean on it, start with Path A.
 
@@ -139,7 +139,7 @@ run this by my money bench
 poke holes in my plan the way Taleb would
 ```
 
-Ask for one mind by name and that seat answers. Ask for a bench and it convenes the council. The slash commands and live councils need the plugin (Claude Code or Cowork); the seats themselves auto-activate anywhere they are installed. If a name does not resolve or a council will not convene, [troubleshooting](./troubleshooting.md) covers it.
+Ask for one mind by name and that seat answers. Ask for a bench and it convenes the council. Slash commands are Claude Code and Cowork. Live councils also run in ChatGPT and Codex through the `council` skill. The seats themselves auto-activate anywhere they are installed. If a name does not resolve or a council will not convene, [troubleshooting](./troubleshooting.md) covers it.
 
 ## Where to go next
 

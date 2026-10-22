@@ -20,6 +20,8 @@ import os
 import sys
 import zipfile
 
+from lint_seat import NON_SEAT_SKILLS
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INCLUDE_DIRS = [".claude-plugin", "commands", "scripts", "skills", "benches"]
 INCLUDE_FILES = ["README.md", "LICENSE", "LEGAL.md", "SEAT_SPEC.md"]
@@ -78,6 +80,10 @@ def check(path, expected_version=EXPECTED_VERSION):
             "scripts/lint_seat.py",
             "skills/tim-ferriss/SKILL.md",
             "skills/chiron/SKILL.md",
+            "skills/ask/SKILL.md",
+            "skills/council/SKILL.md",
+            "skills/coach/SKILL.md",
+            "skills/log/SKILL.md",
             "benches/examples/benches.yaml",
         ]
         for rel in required:
@@ -86,7 +92,7 @@ def check(path, expected_version=EXPECTED_VERSION):
         seats = sorted({
             parts[1] for parts in (n.split("/") for n in names)
             if len(parts) >= 3 and parts[0] == "skills" and parts[-1] == "SKILL.md"
-            and parts[1] != "chiron"
+            and parts[1] not in NON_SEAT_SKILLS
         })
         if len(seats) != 19:
             problems.append("expected 19 seats, found %d: %s" % (len(seats), ", ".join(seats)))

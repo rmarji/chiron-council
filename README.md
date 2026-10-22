@@ -2,7 +2,7 @@
   <img src="assets/chiron-header.png" alt="Chiron: an authored council of real thinkers for Claude Code" width="820">
 </p>
 
-<p align="center"><strong>An authored council of real thinkers for Claude Code. Seats, not generated personas.</strong></p>
+<p align="center"><strong>An authored council of real thinkers. Seats, not generated personas. Claude Code, ChatGPT, and Codex.</strong></p>
 
 <p align="center">
   <a href="https://github.com/rmarji/chiron-council/actions/workflows/ci.yml"><img src="https://github.com/rmarji/chiron-council/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/seats-19-orange" alt="seats">
 </p>
 
-Chiron is a Claude Code plugin that gives you a council of advisors built from what real thinkers actually published: Munger, Naval, Taleb, Voss, Kahneman, and more, nineteen seats in all. Ask one of them, or convene several and get their independent takes, the disagreements they really have on record, and one recommendation with the dissent kept in.
+Chiron is a council of advisors built from what real thinkers actually published: Munger, Naval, Taleb, Voss, Kahneman, and more, nineteen seats in all. Ask one of them, or convene several and get their independent takes, the disagreements they really have on record, and one recommendation with the dissent kept in. It installs as a Claude Code plugin, and as a ChatGPT and Codex plugin from the same files.
 
 It is for people who make expensive, hard-to-reverse calls (founders, operators, anyone pricing a deal or choosing a strategy) and want pushback instead of a model that agrees with them. Every seat cites its sources, and a linter fails any seat that is thinly sourced or impersonates a living person. [Why it is built this way](docs/why-chiron.md).
 
@@ -42,7 +42,39 @@ You should see 19 seats grouped by domain, each with `lint:pass`. Now ask for a 
 
 `relationship` is one of six example benches that work before you set anything up. When you want Chiron tuned to you, run `/chiron:onboard`: it shows the roster, offers to distill you into a private seat, builds starter benches, and ends on a real consult.
 
-Other ways in: [Cowork and seats-only installs](#other-ways-to-install), and the full [installation guide](docs/installation.md).
+Other ways in: [ChatGPT desktop and Codex](#chatgpt-desktop-and-codex), [Cowork and seats-only installs](#other-ways-to-install), and the full [installation guide](docs/installation.md).
+
+## ChatGPT desktop and Codex
+
+ChatGPT (Work mode) and Codex load this repo as an OpenAI plugin. The seats are the same `skills/<id>/` folders the Claude Code plugin uses. There is no second copy. Those hosts have no `/chiron:` commands. The `ask`, `council`, `coach`, and `log` skills follow the command files, and the `chiron` skill still routes a decision when you do not name a seat. Benches, consult logs, and seats you create stay in `~/.chiron`.
+
+You need the Codex CLI and Python 3.9+ on your `PATH` as `python3`. macOS and Linux only. Windows is not supported.
+
+**Codex CLI.** `compound-club` is the marketplace; `chiron` is the plugin.
+
+```bash
+codex plugin marketplace add rmarji/chiron-council
+codex plugin add chiron@compound-club
+codex plugin list
+```
+
+A branch that is not the default goes after the last `@`, so the ref may contain a slash:
+
+```bash
+codex plugin marketplace add rmarji/chiron-council@cursor/stranger-ready-install-a398
+```
+
+Start a new `codex` session before the skills load. `codex plugin list` shows the plugin. The installed skills are the directories under that plugin's `skills/` that contain a `SKILL.md`: the 19 seats, the `chiron` router, and `ask`, `council`, `coach`, and `log`. Ask for a council in the session, or type `@council`:
+
+```
+Convene the relationship council: we keep having the same fight about money.
+```
+
+**ChatGPT desktop.** Select ChatGPT and turn on Work, or select Codex. Plugins are not in the IDE extension.
+
+1. Add the marketplace from a terminal with the command above, then restart the desktop app so it re-reads marketplaces.
+2. Open Plugins, choose Compound Club, and install Chiron.
+3. Start a new chat. Ask for the relationship council in the sentence above, or type `@council`.
 
 ## See it work
 
@@ -160,7 +192,7 @@ What a seat tells you is kept separately, at `~/.chiron/logs/<id>/log.md` (or un
   npx skills add rmarji/chiron-council -a codex -s munger naval taleb   # one harness, chosen seats
   ```
 
-  Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). The slash commands and live councils need the plugin. The `chiron` skill in this repo is the plugin's router, not a seat; skip it outside the plugin. More in [docs/portability.md](docs/portability.md).
+  Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). Slash commands are Claude Code and Cowork. ChatGPT and Codex get the same council, ask, coach, and log flows as skills ([above](#chatgpt-desktop-and-codex)). The `chiron` skill in this repo is the plugin's router, not a seat; skip it when you only want seats. More in [docs/portability.md](docs/portability.md).
 
 ## Documentation
 
