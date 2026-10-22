@@ -1,218 +1,193 @@
 <p align="center">
-  <img src="assets/chiron-header.png" alt="Chiron: an authored council of real thinkers for Claude Code" width="820">
+  <img src="assets/chiron-header.png" alt="Chiron: a council of real thinkers, ready to argue about your decision" width="820">
 </p>
 
-<p align="center"><strong>An authored council of real thinkers. Seats, not generated personas. Claude Code, ChatGPT, and Codex.</strong></p>
+<p align="center"><strong>Run a hard decision past Munger, Naval, Taleb, Voss and fifteen other thinkers. Each one answers from what they actually wrote, and they tell you where they disagree.</strong></p>
 
 <p align="center">
   <a href="https://github.com/rmarji/chiron-council/actions/workflows/ci.yml"><img src="https://github.com/rmarji/chiron-council/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
   <img src="https://img.shields.io/badge/version-0.3.0-blue" alt="version">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
-  <img src="https://img.shields.io/badge/standard-Agent%20Skills-8A2BE2" alt="standard">
-  <img src="https://img.shields.io/badge/seats-19-orange" alt="seats">
+  <img src="https://img.shields.io/badge/advisors-19-orange" alt="advisors">
 </p>
 
-Chiron is a council of advisors built from what real thinkers actually published: Munger, Naval, Taleb, Voss, Kahneman, and more, nineteen seats in all. Ask one of them, or convene several and get their independent takes, the disagreements they really have on record, and one recommendation with the dissent kept in. It installs as a Claude Code plugin, and as a ChatGPT and Codex plugin from the same files.
+You're about to raise your prices, sign a contract, or have the same argument with your partner for the fifth time. You ask an AI and it agrees with you.
 
-It is for people who make expensive, hard-to-reverse calls (founders, operators, anyone pricing a deal or choosing a strategy) and want pushback instead of a model that agrees with them. Every seat cites its sources, and a linter fails any seat that is thinly sourced or impersonates a living person. [Why it is built this way](docs/why-chiron.md).
+Chiron gives you a room of advisors instead. Each one is built from a real thinker's books, essays and talks, and every point they make comes with the source. Ask one advisor, or call a small council: they answer separately, you see where they really disagree, and you get one recommendation with the objection kept in.
 
-## Quickstart (about a minute)
+It works in Claude (web, desktop and Claude Code), Codex, and the ChatGPT desktop app. It's free, MIT licensed, and needs no API key.
 
-**You need:** Claude Code, and Python 3.9+ on your `PATH` as `python3` (macOS and most Linux already have it). Nothing to `pip install`, no API keys. macOS and Linux only; Windows is not supported.
+## Install in 60 seconds
 
-In Claude Code:
+Pick the app you already use. Each block ends with the same first question so you can see it work.
+
+### Claude on the web or desktop (no terminal)
+
+1. Open **Customize → Plugins → Add marketplace → Add from a repository**.
+2. Paste `rmarji/chiron-council` and confirm. Leave everything else as it is.
+3. Find **Chiron** under **Compound Club** and click **Install**.
+4. Start a new chat and type:
+
+   ```
+   /chiron:council relationship "we keep having the same fight about money"
+   ```
+
+If you see two Chirons in your plugin list, keep the one from **Compound Club** and remove any copy under **Local uploads**. That's an older manual upload and won't update.
+
+### Claude Code (terminal)
 
 ```
 /plugin marketplace add rmarji/chiron-council
 /plugin install chiron@compound-club
 ```
 
-`compound-club` is the marketplace this repo publishes; `chiron` is the plugin. Choose a scope when asked, and allow the `python3` scripts when Claude Code asks (they only read seat and bench files). Then check it loaded:
+Choose **user** scope when asked, so it works in every project. When Claude Code asks to run `python3`, allow it: those scripts read Chiron's own files, and a council adds a short note to `~/.chiron/logs/<advisor>/log.md` so the advisors remember what you discussed. Then:
 
 ```
-/chiron:roster
-```
-
-You should see 19 seats grouped by domain, each with `lint:pass`. Now ask for a real answer:
-
-```
-/chiron:consult "take the retainer at 15k/mo or walk?"
 /chiron:council relationship "we keep having the same fight about money"
 ```
 
-`relationship` is one of six example benches that work before you set anything up. When you want Chiron tuned to you, run `/chiron:onboard`: it shows the roster, offers to distill you into a private seat, builds starter benches, and ends on a real consult.
-
-Other ways in: [ChatGPT desktop and Codex](#chatgpt-desktop-and-codex), [Cowork and seats-only installs](#other-ways-to-install), and the full [installation guide](docs/installation.md).
-
-## ChatGPT desktop and Codex
-
-ChatGPT (Work mode) and Codex load this repo as an OpenAI plugin. The seats are the same `skills/<id>/` folders the Claude Code plugin uses. There is no second copy. Those hosts have no `/chiron:` commands. The `ask`, `council`, `coach`, and `log` skills follow the command files, and the `chiron` skill still routes a decision when you do not name a seat. Benches, consult logs, and seats you create stay in `~/.chiron`.
-
-You need the Codex CLI and Python 3.9+ on your `PATH` as `python3`. macOS and Linux only. Windows is not supported.
-
-**Codex CLI.** `compound-club` is the marketplace; `chiron` is the plugin.
+### Codex CLI
 
 ```bash
 codex plugin marketplace add rmarji/chiron-council
 codex plugin add chiron@compound-club
-codex plugin list
+codex plugin list | grep chiron        # should say: installed, enabled  0.3.0
 ```
 
-A branch that is not the default goes after the last `@`, so the ref may contain a slash:
-
-```bash
-codex plugin marketplace add rmarji/chiron-council@cursor/stranger-ready-install-a398
-```
-
-Start a new `codex` session before the skills load. `codex plugin list` shows the plugin. The installed skills are the directories under that plugin's `skills/` that contain a `SKILL.md`: the 19 seats, the `chiron` router, and `ask`, `council`, `coach`, and `log`. Ask for a council in the session, or type `@council`:
+Open a **new** `codex` session (plugins load at start), then type:
 
 ```
 Convene the relationship council: we keep having the same fight about money.
 ```
 
-**ChatGPT desktop.** Select ChatGPT and turn on Work, or select Codex. Plugins are not in the IDE extension.
+### ChatGPT desktop app
 
-1. Add the marketplace from a terminal with the command above, then restart the desktop app so it re-reads marketplaces.
-2. Open Plugins, choose Compound Club, and install Chiron.
-3. Start a new chat. Ask for the relationship council in the sentence above, or type `@council`.
+ChatGPT reads plugins from the same place Codex does, so you need the Codex CLI once.
 
-## See it work
+1. In a terminal: `codex plugin marketplace add rmarji/chiron-council`
+2. Quit and reopen ChatGPT.
+3. Turn on **Work** mode, open **Plugins**, choose **Compound Club**, and install **Chiron**.
+4. In a new chat: *Convene the relationship council: we keep having the same fight about money.*
 
-A council does not average its seats into mush. It makes them argue from the record, then keeps the dissent. Below, three seats take a distribution call and hit a real authored disagreement:
+### Claude Desktop Cowork
 
-<p align="center">
-  <img src="demo/council-demo.gif" alt="Chiron convening a council on a distribution decision" width="820">
-</p>
+Download `chiron.plugin` from the [latest release](https://github.com/rmarji/chiron-council/releases/latest), open it, and click **Trust**. If nothing happens, use **Extensions → Plugins → Upload**. Check the release version against the badge above; a release file can be older than this page.
+
+**You need** macOS or Linux and Python 3.9+ (`python3 --version` to check; macOS has it). Claude on the web needs nothing. Windows isn't supported yet.
+
+## What a good first answer looks like
+
+A council takes **one to three minutes**. You'll see the app read a few files and run a couple of small scripts first. That's Chiron loading each advisor's notes; it doesn't touch anything else on your computer.
+
+Then you get something like this:
 
 ```
-/chiron:council money "I built something good but almost no one knows. Keep building, or go tell people?"
+Two advisors looked at this: Terry Real (couples therapist) and David Deida (author on relationships).
 
-▸ Naval (corpus)   confidence 5/5
-  Build your luck surface. Specific knowledge plus permissionless
-  leverage, code and media, is how luck starts finding you. Ship the
-  work as media; it compounds while you sleep. (How to Get Rich, 2018)
+What they'd tell you
+  Terry Real: Look at your own part in the last fight before you look at theirs.
+    Turn the complaint into one specific request. (Us, 2022)
+  David Deida: Stay in the conversation when it gets uncomfortable. Don't agree
+    just to end the tension. (The Way of the Superior Man)
 
-▸ Rayo OS   confidence 5/5
-  Luck = Doing × Telling. Untold work has a luck surface of zero,
-  regardless of quality. Stop building. Go tell. (Ship Gate; luck surface)
+Where they disagree
+  Real says repair is a skill you practise together. Deida says it starts with
+  your own steadiness. Both positions are from their books, not invented.
 
-▸ Munger Lens   confidence 3/5
-  The big money is in the waiting; most activity is a tax dressed as
-  diligence. (Poor Charlie's Almanack, 2005)
+What to do
+  Pick a calm moment this week and say: "In our last argument, I contributed
+  by ___. Could we agree to ___?"
+  The catch: the money question itself may stay open after the first talk.
+  How sure: 3 out of 5. A detail from the actual fight could change this.
 
-▸ authored disagreement · Rayo vs Munger
-  Telling-now vs patience. Both positions cited from the record.
-
-▸ synthesis (neutral chair)
-  Tell the finished thing, loudly, now. Dissent preserved: if it isn't
-  truly done, Munger is right and you're hiding in noise.
+Want me to remember what you decide, so these advisors can follow up next time?
 ```
 
-The recording calls its line-up `distribution`, a custom bench name; the bundled `money` bench seats the same three (Munger, Naval, Rayo), so the command above reproduces it. Higher-res recording: [`demo/council-demo.mp4`](demo/council-demo.mp4).
+If you got a plain answer like that, with sources and one clear next step, it's working.
 
-## The roster
+## Ask it anything
 
-Nineteen seats ship today. Eighteen are corpus-mode: built from published work, cited, in the third person, no impersonation. One, Rayo OS, is original-mode.
+You don't need commands. Just say what you're weighing:
 
-| Seat | Pressure-tests | Built from (cited) |
+```
+should I take the retainer at 15k a month or walk away?
+what would Munger say about this contract?
+run my pricing idea past the money council
+```
+
+Chiron picks the right advisor, or a small council, and tells you who it picked and why before it starts. For a cheap, reversible call it'll often pick one advisor. That's on purpose.
+
+## Who's in the room
+
+| Advisor | Good for | Built from |
 |---|---|---|
-| **Munger Lens** | inversion, incentives, avoiding stupidity | Poor Charlie's Almanack; The Psychology of Human Misjudgment |
-| **Rumelt** (corpus) | strategy: diagnosis before action | Good Strategy Bad Strategy; The Crux |
-| **Thiel** (corpus) | contrarian strategy, monopoly | Zero to One; CS183 lecture notes |
-| **Paul Graham** (corpus) | startups, founders, growth | paulgraham.com essays; Hackers & Painters |
-| **Hormozi** (corpus) | offers, pricing, sales | $100M Offers; $100M Leads |
-| **Voss** (corpus) | negotiation, tactical empathy | Never Split the Difference |
-| **Cialdini** (corpus) | persuasion, influence | Influence; Pre-Suasion |
-| **Naval** (corpus) | leverage, judgment, wealth | The Almanack of Naval Ravikant; How to Get Rich |
-| **Taleb** (corpus) | risk, antifragility, uncertainty | The Black Swan; Antifragile; Skin in the Game |
-| **Kahneman** (corpus) | decisions, cognitive bias | Thinking, Fast and Slow; Noise |
-| **Ferriss** (corpus) | time, leverage, lifestyle design, fear-setting | The 4-Hour Workweek; Tools of Titans; The Tim Ferriss Show |
-| **Attia** (corpus) | longevity, health, performance | Outlive; The Drive |
-| **Deida** (corpus) | polarity, purpose, relationships | The Way of the Superior Man |
-| **Terry Real** (corpus) | relational repair, conflict | Us; The New Rules of Marriage |
-| **Marcus Aurelius** (corpus) | stoic temperament, adversity | Meditations |
-| **Sherlock Holmes** (corpus) | deduction from evidence | the Conan Doyle stories and novels |
-| **Dr. House** (corpus) | diagnosis by testing, because everybody lies | House, M.D. episodes |
-| **Columbo** (corpus) | finding the one detail that doesn't fit | Columbo episodes |
-| **Rayo OS** (original) | execution, shipping, decision-routing | FATE, Ship Gate, MAX THREE (authored) |
+| **Munger** | spotting bad incentives and avoidable mistakes | Poor Charlie's Almanack |
+| **Rumelt** | strategy: what's really the problem? | Good Strategy Bad Strategy |
+| **Thiel** | contrarian bets, building a monopoly | Zero to One |
+| **Paul Graham** | startups and founders | his essays |
+| **Hormozi** | offers and pricing | $100M Offers, $100M Leads |
+| **Voss** | negotiation | Never Split the Difference |
+| **Cialdini** | persuasion | Influence, Pre-Suasion |
+| **Naval** | leverage and wealth | The Almanack of Naval Ravikant |
+| **Taleb** | risk and uncertainty | The Black Swan, Antifragile |
+| **Kahneman** | bias in decisions | Thinking, Fast and Slow |
+| **Ferriss** | time, work design, fear-setting | The 4-Hour Workweek, Tools of Titans |
+| **Attia** | health and longevity | Outlive |
+| **Deida** | relationships and purpose | The Way of the Superior Man |
+| **Terry Real** | conflict and repair in couples | Us, The New Rules of Marriage |
+| **Marcus Aurelius** | staying steady under pressure | Meditations |
+| **Sherlock Holmes**, **Dr. House**, **Columbo** | finding what doesn't add up | the stories and episodes |
+| **Rayo OS** | shipping and deciding fast | the author's own framework (optional) |
 
-**Rayo OS** is Raed Marji's operating system for deciding and shipping, the author's, packaged as a seat anyone can borrow. It cites his frameworks rather than a published corpus, and it sits in three of the example benches. It is not the reader's operating system; that would be a private `me` seat from `/chiron:distill-me`.
+Every advisor talks *about* the thinker ("Munger's writing says…"); none of them pretends to be the person, and none is endorsed by them. Rayo OS is the author's personal operating system, shared as an example of an advisor built from your own rules. You can make one of yourself with `/chiron:distill-me`.
 
-Every real-person seat carries roughly 6,000 to 8,500 words of source-attributed reference material and passes the linter. The three detectives show a seat can be distilled from a fictional canon too, cited to the stories and episodes. Add your own with `/chiron:distill`, or put yourself in the room with `/chiron:distill-me`.
+## Councils you can call by name
 
-## Commands
+A council is a saved group of advisors. Six come ready to use:
 
-| Command | Does |
+| Name | Who sits on it |
 |---|---|
-| `/chiron:onboard` | First-run setup: meet the roster, distill yourself, get starter benches |
-| `/chiron:consult <q>` | **Auto-routes.** Chiron picks the right expert(s), and decides whether a council is even worth convening |
-| `/chiron:coach <q>` | A guided decision session: frames the real call, consults the right seats as evidence, drives you to one committed, logged decision |
-| `/chiron:ask <seat> <q>` | One authored lens, cited, with its memory of your past calls |
-| `/chiron:council <bench> <q>` | Independent takes gathered in isolation, real disagreements surfaced, one synthesis with dissent preserved |
-| `/chiron:bench` | Create and edit benches (your curated line-ups) as plain YAML |
-| `/chiron:roster` | See who is available, filter by domain |
-| `/chiron:distill <desc>` | Distill a new seat: deep research on the subject's corpus, full cited seat, linted |
-| `/chiron:distill-me` | Distill **you** into a private seat, and read out your go-to experts |
-| `/chiron:lint` | Validate seats against the SEAT_SPEC standard |
-| `/chiron:log <seat>` | Review past consults and the decisions you never closed |
+| `relationship` | Deida, Terry Real |
+| `money` | Munger, Naval, Hormozi |
+| `deals` | Voss, Munger, Cialdini |
+| `strategy` | Rumelt, Munger, Naval |
+| `work-design` | Ferriss, Hormozi, Naval |
+| `shipping` | Rayo OS, Naval, Rumelt |
 
-You can also just talk to it: "run this by my money bench," "what would Munger say about this." Full reference: [docs/commands.md](docs/commands.md).
+Make your own with `/chiron:bench create` (in Codex and ChatGPT, just ask: "make me a council called hiring with Munger and Voss"). Your first saved council replaces these examples, so Chiron offers to copy them in first.
 
-## Benches
+## Make it yours (optional)
 
-A bench is a named line-up you convene with `/chiron:council <name>`. Six ship as examples in [`benches/examples/benches.yaml`](benches/examples/benches.yaml): `money`, `strategy`, `deals`, `relationship`, `shipping`, and `work-design`. They work by name until you have a benches file of your own.
+`/chiron:onboard` takes about five minutes. It shows you the advisors, asks five short questions about what you're working on, builds a few councils around your answers, and finishes by running a real decision of yours through one. (In Codex and ChatGPT, say "set up Chiron for me".)
 
-Your first bench replaces those examples. `/chiron:bench create` writes `.chiron/benches.yaml` in the project (or `~/.chiron/benches.yaml` with `--global`), and once either file exists the bundled examples drop out entirely, including any you did not copy. The create command offers to copy the examples into that file first; take the offer, or copy [`benches/examples/benches.yaml`](benches/examples/benches.yaml) in yourself. To get the examples back later, delete the benches file you created. Project shadows global on a name collision. A benches file left over from an older install at `~/.claude/chiron/benches.yaml` is still read, and the next global write copies it into `~/.chiron/benches.yaml`. Chiron does not write the old path.
+Want an advisor who isn't here? `/chiron:distill "Ray Dalio's Principles"` researches their published work and builds one, with sources.
 
-```yaml
-benches:
-  money:
-    seats: [munger, naval, rayo]
-    chairman: neutral          # or a seat id
-    default_depth: quick       # quick | full
-```
+## Where your data goes
 
-More in [docs/benches.md](docs/benches.md).
+Everything stays on your computer as plain files in `~/.chiron/`: what each advisor told you, and any decision you chose to record. Nothing is sent anywhere except to the AI app you're already using. Delete the folder to forget everything.
 
-## Make it yours
+## When something's off
 
-`/chiron:onboard` takes you from install to your first real council in a few minutes. It shows the roster, then offers `/chiron:distill-me`, which distills *you* the same way the roster distills its thinkers: it reads what you point it at (your notes, your instruction files, this conversation), interviews you, and writes a private, original-mode `me` seat holding your mission, values, goals, frameworks, and the experts you already reach for. That `me` seat can chair your councils and be argued with.
+| What you see | What to do |
+|---|---|
+| Two Chiron plugins in Claude's list | Remove the one under **Local uploads**; keep **Compound Club**. |
+| claude.ai installed an older version | The repository dialog always uses the main branch. Remove and re-add the marketplace to refresh. |
+| Codex doesn't know about Chiron | Start a new `codex` session. Plugins load when a session starts. |
+| Codex saved notes in `.chiron/` inside your project | Codex couldn't write to your home folder, so it saved them next to your project. That's fine; approve the write next time if you want one shared history. |
+| Claude Code asks about `python3` | Allow it. The scripts read Chiron's files and add short notes under `~/.chiron/logs/`. |
+| `/chiron:...` does nothing in Codex or ChatGPT | Those apps don't have slash commands. Ask in plain words instead. |
+| You're on Windows | Not supported yet. WSL may work but hasn't been tested. |
 
-Your `me` seat is **private**. It lives in `~/.chiron/seats/me/` (or a project's `.chiron/seats/me/`), never in this repo, never committed, never shipped. Seats you add with `/chiron:distill` go to `~/.chiron/seats/<id>/` (or a project's `.chiron/seats/<id>/`). Chiron's commands find them through the registry. They do not auto-activate as native Claude skills: that directory is `~/.claude/skills/`, and Claude Code refuses writes under `~/.claude`. `npx skills add` still installs the bundled seats there, because that CLI is not the session's Write tool. The registry also still reads `~/.claude/skills/` and an older `~/.claude/chiron/seats/` if you have them. Project shadows `~/.chiron` shadows those, which shadow the bundled roster, so every seat you add shows up in `/chiron:roster` and can sit on a council.
+More in [docs/troubleshooting.md](docs/troubleshooting.md).
 
-What a seat tells you is kept separately, at `~/.chiron/logs/<id>/log.md` (or under `$CHIRON_HOME` if you set it). That directory is yours. It is created the first time a seat records a consult, `/chiron:log` reads it back, and a plugin update does not touch it. A log left at `~/.claude/chiron/logs/<id>/log.md` is still read, and the next consult copies it into the new path. In Cowork, where the home directory is not writable, the same logs land in the workspace at `.chiron/logs/`.
+## Learn more
 
-## Other ways to install
+- [Commands](docs/commands.md): every command, with examples
+- [How councils work](docs/concepts.md): why the advisors answer separately, and where the disagreements come from
+- [Build an advisor](docs/distilling.md), including one of yourself
+- [Why Chiron is built this way](docs/why-chiron.md)
+- [Use the advisors in Cursor, Gemini CLI and other agents](docs/portability.md)
+- [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Legal and sources](LEGAL.md)
 
-- **Cowork:** download [`chiron.plugin`](https://github.com/rmarji/chiron-council/releases/latest) and accept it in the app. A release file carries what shipped in that release, so it can lag this branch. See [docs/cowork.md](docs/cowork.md).
-- **Just the seats, in any agent.** Every seat is a standard Agent Skill, so the [`skills`](https://skills.sh) CLI (needs Node) can drop seats into other harnesses such as Cursor, Codex, and Gemini CLI:
-
-  ```bash
-  npx skills add rmarji/chiron-council                                  # choose seats interactively
-  npx skills add rmarji/chiron-council -a codex -s munger naval taleb   # one harness, chosen seats
-  ```
-
-  Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). Slash commands are Claude Code and Cowork. ChatGPT and Codex get the same council, ask, coach, and log flows as skills ([above](#chatgpt-desktop-and-codex)). The `chiron` skill in this repo is the plugin's router, not a seat; skip it when you only want seats. More in [docs/portability.md](docs/portability.md).
-
-## Documentation
-
-Full guides live in [`docs/`](docs/index.md):
-
-- [Installation](docs/installation.md) - every install path, verifying, updating, uninstalling
-- [Quickstart](docs/quickstart.md) - from installed to your first real council
-- [Core concepts](docs/concepts.md) - seats, modes, the router, councils, benches, memory
-- [Commands](docs/commands.md) - every command, with examples and when to reach for it
-- [Distilling seats](docs/distilling.md) - add an advisor, or put yourself in the room
-- [Benches](docs/benches.md) - curate the line-ups you convene as a group
-- [The seat standard](docs/the-standard.md) - SEAT_SPEC, the anatomy of a seat, and the linter that enforces it
-- [Portability](docs/portability.md) - run seats in Cursor, Codex, Gemini, and other agents
-- [Chiron in Cowork](docs/cowork.md) - the sandbox model and how seats activate there
-- [Getting the most out of Chiron](docs/getting-the-most.md) - power patterns and the routing philosophy
-- [Why Chiron](docs/why-chiron.md) - authored vs generated, the seat standard, and corpus mode
-- [Troubleshooting](docs/troubleshooting.md) - common fixes and FAQ
-
-Contributing a seat or a fix: [CONTRIBUTING.md](CONTRIBUTING.md). Changes by version: [CHANGELOG.md](CHANGELOG.md).
-
-## License
-
-MIT. Frameworks and ideas are paraphrased and cited from published works (ideas are not copyrightable; expression is, so quotes are short attributed excerpts). Every real-person seat is an independent study aid, not affiliated with or endorsed by its subject. See [LEGAL.md](LEGAL.md).
+MIT licensed. Ideas are paraphrased and cited from published work; quotes are short and attributed. Each advisor is an independent study aid, not affiliated with or endorsed by the person it's based on.

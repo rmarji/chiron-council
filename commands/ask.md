@@ -11,7 +11,7 @@ Parse the first token as a seat or bench name, the rest as the question.
 
 ## 1. Resolve
 
-- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats). The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
+- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats). The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command. Run every `python3` call as its own command: no `;`, `&&`, pipes, loops or `$(...)` around it, and save log entries with the file-editing tool rather than a shell heredoc. Hosts approve plain `python3` calls; anything else triggers an extra permission prompt.
 - Match the first argument against seat ids first, then bench names (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json`: project `.chiron/benches.yaml`, then `~/.chiron/benches.yaml`, then a leftover `~/.claude/chiron/benches.yaml`, or the bundled examples when the user has none of those). **Seat wins ties.**
 - If it matches a **bench**, this becomes a council — follow `/chiron:council` semantics at the bench's `default_depth` instead of continuing here.
 - **CH-E1 (unknown id):** suggest the top 3 fuzzy matches from the registry, point to `/chiron:roster`, stop.
@@ -31,6 +31,7 @@ Read, in this order (the seat's directory is the `path` the registry returned fo
 - Apply the seat's Heuristics where they trigger; say which ones fired.
 - If the question hits a `## Refusals` entry: decline that part and redirect exactly as the refusal specifies. Do not soften refusals away.
 - Shape: position first (3-6 lines), then reasoning, confidence 1-5, and what would change the seat's mind. One recommendation, not a menu.
+- Wrap it for the user as `${CLAUDE_PLUGIN_ROOT}/skills/chiron/VOICE.md` describes: a one-line opening, plain labels ("How sure: 3 out of 5"), one next step. No token counts, paths, or lint status.
 
 ## 4. Record
 
@@ -43,4 +44,4 @@ Append to the path `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --e
 **Decision:** open loop
 ```
 
-Then ask the user once: "Record your decision? (updates the seat's log)". If they answer, replace `open loop` in the entry you just wrote with their decision verbatim. If they don't, leave it as `open loop` — `/chiron:log` tracks those.
+Then end with one optional offer: "Want me to remember what you decide, so <advisor> can follow up next time?". If they answer, replace `open loop` in the entry you just wrote with their decision verbatim. If they don't, leave it as `open loop` — `/chiron:log` tracks those.

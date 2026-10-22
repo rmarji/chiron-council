@@ -1,5 +1,5 @@
 ---
-description: Convene a bench — independent authored takes, real disagreements, one synthesis with dissent preserved
+description: Ask a council of advisors. Each answers separately, you see where they really disagree, and you get one recommendation
 argument-hint: <bench-or-seat-list> <question> [--depth quick|full]
 ---
 
@@ -9,17 +9,19 @@ The user asked: `$ARGUMENTS`
 
 First token = bench name (resolve with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json <name>`: project `.chiron/benches.yaml` shadows global `~/.chiron/benches.yaml`, which shadows the older `~/.claude/chiron/benches.yaml` when that file is still there — note a shadow once; with no user benches file it falls back to the bundled examples, so say "using the bundled example bench") or an inline comma-separated seat list. Rest = the question. `--depth` overrides the bench's `default_depth` (default: quick).
 
+**How to talk to the user:** follow `${CLAUDE_PLUGIN_ROOT}/skills/chiron/VOICE.md` for everything the user reads: the opening, labels, closing, and the memory offer. Internal terms in this file (seat, bench, depth, chairman, open loop) are for you, not for them.
+
 **Why this exists:** generated councils produce consensus theater — five flavors of one model agreeing. This state machine manufactures *structural* independence and surfaces only *authored* conflict. Do not shortcut it.
 
 ## CONVENE
 
-1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
+1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command. Run every `python3` call as its own command: no `;`, `&&`, pipes, loops or `$(...)` around it, and save log entries with the file-editing tool rather than a shell heredoc. Hosts approve plain `python3` calls; anything else triggers an extra permission prompt.
 2. Guards:
    - **CH-E2:** bench references a missing seat → name it, offer to run with the remainder, abort if declined.
    - **CH-E4:** more than 8 seats → refuse; explain the token/quality cost; suggest splitting into two benches.
    - Any seat with `lint: fail` → drop it with a note (same rule as ask CH-E3).
    - Fewer than 2 seats resolved → tell the user to use `/chiron:ask` instead.
-3. Print the run header: seats, chairman (bench's `chairman:` seat or "neutral"), depth, and a token estimate (quick ≈ seats × 1.5k, full ≈ seats × 4k).
+3. **Clarify first, then announce.** If the question is too thin to answer well, ask ONE clarifying question now and wait for the answer. Never ask one after the takes have started. Then tell the user in one plain line who you're asking and how long it takes, e.g. "I'll ask Munger, Naval and Hormozi separately. It takes a minute or two, and you'll see me open their notes first." Show the technical run header (seats, chairman, depth, token estimate: quick ≈ seats × 1.5k, full ≈ seats × 4k) only if the user asks for it or passed `--depth`.
 
 ## TAKES (phase 1 — isolation is the whole point)
 
@@ -45,14 +47,20 @@ In quick depth, after takes are gathered, skip to a micro-synthesis (recommendat
 
 ## SYNTHESIS (phase 3)
 
-Written in the chairman's voice (if the bench names a chairman seat, load its Voice contract; otherwise neutral analyst). Output exactly:
+Written in the chairman's voice (if the bench names a chairman seat, load its Voice contract; otherwise neutral analyst), inside the answer shape in `skills/chiron/VOICE.md`. The content contract is unchanged; the labels the user sees are plain:
 
-- **Recommendation:** one pick, not a menu.
-- **Dissent preserved:** which seats disagree and why — named, not averaged away.
-- **What you lose:** 1-2 lines on the cost of the recommended path.
-- **Confidence:** 1-5.
-- **What would change it:** one line.
-- Cite which authored disagreements were surfaced (or that none were on record).
+| Contract field | User-facing label |
+|---|---|
+| Opening (new) | one line: who looked at it, each with a 2-4 word description ("Terry Real (couples therapist)") |
+| Takes | **What they'd tell you**: 1-3 sentences per advisor, with the source |
+| Authored disagreements surfaced | **Where they disagree**: quote with citations and add "Both positions are from their books, not invented." If none: "They don't have a recorded disagreement on this." |
+| Recommendation | **What to do**: one pick, phrased as an action the user can take soon |
+| Dissent preserved | inside **Where they disagree** or one line under **What to do**: who would push back, and why. Named, not averaged away |
+| What you lose | **The catch:** one line |
+| Confidence 1-5 | **How sure:** N out of 5 |
+| What would change it | one line after "How sure" |
+
+Keep it under about 250 words by default and offer "Want the full reasoning from each advisor?" A user who asks for the technical format (`--depth full`, or "show me the raw council") gets the original field names.
 
 ## RECORD (phase 4)
 
@@ -65,4 +73,6 @@ Written in the chairman's voice (if the bench names a chairman seat, load its Vo
 **Decision:** open loop
 ```
 
-2. Ask the user once: "Record your decision?" If answered, update `open loop` in every entry just written. Otherwise leave as open loops.
+2. End with one plain, optional offer: "Want me to remember what you decide, so these advisors can follow up next time?" If they answer with a decision, update `open loop` in every entry just written. If they decline or ignore it, leave the entries as open loops and don't ask again this session.
+3. If the log could not be written to `~/.chiron` (for example a sandbox blocked it) and you used `--home .chiron`, say so in one line: "I saved these notes in this project's `.chiron` folder because I couldn't write to your home folder." Do not mention log paths otherwise.
+4. Never mention vaults, notes folders, `me.md`, or a `me` advisor unless the user has set one up (a `me` seat is installed). Missing optional context is silent.

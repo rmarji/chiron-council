@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "chiron",
   "version": "0.3.0",
-  "description": "An authored council of real thinkers: cited, lint-enforced seats, not generated personas. Ask one mind or convene many.",
+  "description": "Run a hard decision past real thinkers like Munger, Naval, Taleb and Voss. Each answers from their own books, with sources, and you see where they disagree before you get one recommendation.",
   "author": {
     "name": "Raed Marji",
     "email": "rmarji08@gmail.com",
@@ -11,5 +11,12 @@
   "homepage": "https://github.com/rmarji/chiron-council",
   "repository": "https://github.com/rmarji/chiron-council",
   "license": "MIT",
-  "keywords": ["advisors", "council", "mentors", "decision-making", "agent-skills", "seats"]
+  "keywords": [
+    "advisors",
+    "decision-making",
+    "council",
+    "second-opinion",
+    "mentors",
+    "thinking-tools"
+  ]
 }

@@ -7,7 +7,7 @@ argument-hint: <seat-id> [--open-loops]
 
 The user asked: `$ARGUMENTS`
 
-Read the seat's consult log. Resolve the path with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --read` (`~/.chiron/logs/<id>/log.md` by default, `$CHIRON_HOME/logs/<id>/log.md` when that variable is set, or `--home .chiron` in Cowork). If the new file is missing and an older log is still at `~/.claude/chiron/logs/<id>/log.md`, `--read` prints that older path: read it, and do not write it. Do not read or write a `log.md` inside the seat directory, under `${CLAUDE_PLUGIN_ROOT}`, or anywhere under `~/.claude`. If the printed path does not exist, say "No log file is at that path yet." and stop. Do not claim the user never consulted the seat.
+Read the seat's consult log. Resolve the path with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --read` (`~/.chiron/logs/<id>/log.md` by default, `$CHIRON_HOME/logs/<id>/log.md` when that variable is set, or `--home .chiron` in Cowork). If the new file is missing and an older log is still at `~/.claude/chiron/logs/<id>/log.md`, `--read` prints that older path. Reading that one printed legacy file is allowed; never write it. Apart from that file, do not read or write a `log.md` inside the seat directory, under `${CLAUDE_PLUGIN_ROOT}`, or anywhere under `~/.claude`. If the printed path does not exist, say "No log file is at that path yet." and stop. Do not claim the user never consulted the seat.
 
 ## Default view
 
@@ -15,7 +15,7 @@ Render entries newest-first: date, source (`ask` or `council:<bench>`), question
 
 ## --open-loops
 
-Filter to entries whose Decision is still `open loop`, flag those **older than 14 days** prominently — these are decisions the user consulted on and never closed. Close with one line: "Close a loop by telling me the decision — I'll record it." If the user then supplies a decision for an entry, update ONLY that entry's `**Decision:**` line (this is the single permitted mutation; never rewrite takes or questions).
+Filter to entries whose Decision is still `open loop`, flag those **older than 14 days** prominently — these are decisions the user consulted on and never closed. Close with one line: "Close a loop by telling me the decision — I'll record it." If the user then supplies a decision for an entry, first run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` (this copies a legacy log into `~/.chiron` once) and edit the path it prints, never the legacy file. Update ONLY that entry's `**Decision:**` line (this is the single permitted mutation; never rewrite takes or questions).
 
 ## Housekeeping
 
