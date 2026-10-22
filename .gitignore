@@ -17,3 +17,6 @@ __pycache__/
 
 # Work-in-progress seat drafts, not yet at the depth bar
 .wip-seats/
+
+# Built Cowork bundle (CI uploads it as an artifact)
+dist/

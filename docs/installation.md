@@ -1,13 +1,14 @@
 # Installation
 
-This page gets Chiron installed and verified. There are three paths: the full plugin in Claude Code, the same plugin in Cowork, and seats-only into any other agent via the `skills` CLI. Pick the one that matches where you work, then run the verify step at the bottom to confirm it took.
+This page gets Chiron installed and verified. There are four paths: the full plugin in Claude Code, the same plugin in Cowork, the OpenAI plugin in ChatGPT desktop and Codex, and seats-only into any other agent via the `skills` CLI. Pick the one that matches where you work, then run the verify step at the bottom to confirm it took.
 
-Chiron is all files. No server, no database, no API keys, MIT licensed. Installing it copies text into a skills directory and, for the plugin, registers eleven slash commands.
+Chiron is all files. No server, no database, no API keys, MIT licensed. Installing it copies text into a skills directory. Claude Code and Cowork also register eleven slash commands. ChatGPT and Codex load the same seats plus `ask`, `council`, `coach`, and `log` skills, because those hosts have no slash commands.
 
 ## Prerequisites
 
-- **A host that runs it.** The full plugin (orchestrator, live councils, benches, per-seat memory) needs **Claude Code** or **Cowork**, which share the plugin format. Seats alone run in any of the 70+ agents the `skills` CLI supports (Cursor, Codex, Gemini CLI, Copilot, Cline, and more).
-- **Python 3.** The registry and linter (`scripts/registry.py`, `scripts/lint_seat.py`) are stdlib-only Python 3, and the slash commands shell out to them. macOS and most Linux boxes already have `python3`. Check with `python3 --version`.
+- **A host that runs it.** The full plugin (orchestrator, live councils, benches, per-seat memory) runs in **Claude Code**, **Cowork**, **ChatGPT desktop** (Work mode), and **Codex**. Claude Code and Cowork share one plugin format and use slash commands. ChatGPT and Codex share the portable plugin format and use skills. Seats alone run in any agent the `skills` CLI supports (Cursor, Gemini CLI, Copilot, Cline, and more).
+- **Python 3.9 or newer, on your `PATH` as `python3`.** The registry, bench resolver, and linter (`scripts/registry.py`, `scripts/benches.py`, `scripts/lint_seat.py`) are stdlib-only Python. Slash commands and the ChatGPT/Codex skills shell out to them. Nothing to `pip install`. macOS and most Linux boxes already have it; check with `python3 --version`. CI tests on 3.9 and 3.12.
+- **macOS or Linux.** Windows is not supported: the commands call `python3` and use POSIX paths like `~/.claude/...`, and nobody has tested them there. WSL may work, but it is untested too.
 - **Node / npx**, only for the seats-only path (`npx skills add ...`). Nothing else uses it.
 - **Network access** for the initial install (marketplace fetch, release download, or `npx`) and for `/chiron:distill`, which does live web research. Everything else runs offline.
 
@@ -19,10 +20,12 @@ Two commands. Add the marketplace, then install the plugin from it:
 
 ```
 /plugin marketplace add rmarji/chiron-council
-/plugin install chiron
+/plugin install chiron@compound-club
 ```
 
-`rmarji/chiron-council` is the GitHub `owner/repo`; the plugin's own name is `chiron`, which is why the install line and every command are prefixed `chiron:`. After install, restart or reload if Claude Code prompts you to, then run onboarding or jump straight in:
+`rmarji/chiron-council` is the GitHub `owner/repo`. `compound-club` is the marketplace that repo publishes, and `chiron` is the plugin in it, which is why every command is prefixed `chiron:`. Pick a scope when asked (user scope makes it available in every project), and reload if Claude Code prompts you to.
+
+Claude Code will ask permission the first time a command runs `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/...`. Those scripts only read seat and bench files and print a roster or bench list; seat logs and benches are written by Claude through its normal file tools. Then run onboarding or jump straight in:
 
 ```
 /chiron:onboard
@@ -33,9 +36,55 @@ Two commands. Add the marketplace, then install the plugin from it:
 /chiron:council relationship "we keep having the same fight about money"
 ```
 
-This path gives you the whole thing: `/chiron:consult` auto-routing, live councils, benches, and per-seat memory, plus all 18 bundled seats auto-activating as native skills.
+The `relationship` bench in that second line works before you have set anything up: until you create a benches file of your own, Chiron uses the example benches bundled with the plugin (`money`, `strategy`, `deals`, `relationship`, `shipping`, `work-design`). See [./benches.md](./benches.md).
 
-## Path 2: Cowork
+This path gives you the whole thing: `/chiron:consult` auto-routing, live councils, benches, and per-seat memory, plus all 19 bundled seats auto-activating as native skills.
+
+## Path 2: ChatGPT desktop and Codex
+
+This is the same plugin, in OpenAI's portable format. The manifest is the repo-root `plugin.json`. The marketplace is `.agents/plugins/marketplace.json`, named `compound-club`, and its plugin source is `./` (the repo root). Codex treats `./` as that root, so the install copies the existing `skills/` tree. Seats are not duplicated. User data still goes to `~/.chiron`.
+
+You need the Codex CLI for the marketplace add, including when you will use the plugin in the ChatGPT desktop app. Plugins are not in the IDE extension.
+
+**Codex CLI:**
+
+```bash
+codex plugin marketplace add rmarji/chiron-council
+codex plugin marketplace list
+codex plugin add chiron@compound-club
+codex plugin list
+```
+
+`codex plugin marketplace list` should show `compound-club`. `codex plugin list` should show `chiron` installed from it. To install a branch that is not the default, put the ref after the last `@` (a slash in the ref is fine):
+
+```bash
+codex plugin marketplace add rmarji/chiron-council@cursor/stranger-ready-install-a398
+```
+
+Do not pass `--sparse .agents/plugins`. That checkout would omit `skills/` and `plugin.json`.
+
+The add command prints `Installed plugin root`. List the skills from that tree (the version directory is `0.3.0` or `local`, depending on the client):
+
+```bash
+find ~/.codex/plugins/cache/compound-club/chiron -name SKILL.md | sed 's|.*/skills/||; s|/SKILL.md||' | sort
+```
+
+Expect the 19 seat ids, plus `ask`, `council`, `coach`, `log`, and `chiron`. Start a new `codex` session, then run one council. Type `@council` or ask in plain language:
+
+```
+Convene the relationship council: we keep having the same fight about money.
+```
+
+`relationship` is a bundled example bench (Deida and Terry Real) until you have a benches file of your own. Logs land at `~/.chiron/logs/deida/log.md` and `~/.chiron/logs/terry-real/log.md`.
+
+**ChatGPT desktop:**
+
+1. Add the marketplace from a terminal with the command above.
+2. Restart the desktop app so it re-reads marketplaces.
+3. Select ChatGPT and turn on Work, or select Codex. Open Plugins, choose Compound Club, and install Chiron.
+4. Start a new chat. Ask for the relationship council in the sentence above, or type `@council`.
+
+## Path 3: Cowork
 
 Cowork uses the same plugin format as Claude Code but installs from a file instead of a marketplace.
 
@@ -43,20 +92,20 @@ Cowork uses the same plugin format as Claude Code but installs from a file inste
 2. Open it in Cowork and accept it. When prompted, **trust the plugin** (it is the only way its commands and seats load).
 3. If the normal open-and-accept flow does not pick it up, install it manually: **Extensions > Plugins > Upload**, then select the `chiron.plugin` file.
 
-Once accepted you get the same commands as Claude Code (`/chiron:consult`, `/chiron:council`, `/chiron:onboard`, and the rest). See [./cowork.md](./cowork.md) for the one real difference that matters: Cowork's sandbox cannot write to your home directory, so seats you distill and your private `me` seat land in the workspace at `.chiron/seats/` instead of `~/.claude/`.
+Once accepted you get the commands and seats that shipped in that release (`/chiron:consult`, `/chiron:council`, `/chiron:onboard`, and the rest). The `.plugin` file is built when a release is cut, so it can lag `main`; the release notes list what it contains. See [./cowork.md](./cowork.md) for the one real difference that matters: Cowork's sandbox cannot write to your home directory, so seats you distill and your private `me` seat land in the workspace at `.chiron/seats/` instead of `~/.claude/`.
 
-## Path 3: Any agent via the skills CLI
+## Path 4: Any agent via the skills CLI
 
-Every seat is a standard [Agent Skill](https://agentskills.io), so the [`skills`](https://skills.sh) CLI drops the roster into any supported harness. This installs the seats, not the plugin: you get authored, cited advisors that auto-activate, but not the slash commands or the live-council orchestration (those are Claude Code and Cowork only).
+Every seat is a standard [Agent Skill](https://agentskills.io), so the [`skills`](https://skills.sh) CLI drops the roster into any supported harness. This installs the seats, not the plugin: you get authored, cited advisors that auto-activate, but not councils, benches, or per-seat memory. Those ship with the Claude Code, Cowork, ChatGPT, and Codex plugins. Slash commands are Claude Code and Cowork; ChatGPT and Codex use the `ask`, `council`, `coach`, and `log` skills.
 
 ```bash
 npx skills add rmarji/chiron-council                                   # choose seats interactively
-npx skills add rmarji/chiron-council --all                             # install the whole roster
+npx skills add rmarji/chiron-council --all                             # every skill, every agent, no prompts
 npx skills add rmarji/chiron-council -a codex -s munger naval taleb    # one harness, a chosen subset
 ```
 
 - **No flags:** interactive picker. It asks which agent and which seats.
-- **`--all`:** installs every seat without prompting.
+- **`--all`:** every skill into every supported agent, without prompting. It also installs `chiron`, the plugin's router, which is not a seat and does nothing outside the plugin; use `-s` with seat ids if you want only seats.
 - **`-a <agent>`:** target a specific harness (`codex`, `cursor`, `gemini-cli`, and others).
 - **`-s <seat...>`:** install only the named seats. Combine with `-a` for a scripted, one-line setup.
 
@@ -72,7 +121,7 @@ Two quick checks. First, list the roster:
 /chiron:roster
 ```
 
-You should see the seats grouped by domain, each showing `id · display_name · mode · domains · lint status`. All 18 bundled seats read `lint:pass`. If you get an error about no seats directory, the plugin did not load; see [./troubleshooting.md](./troubleshooting.md).
+You should see the seats grouped by domain, each showing `id · display_name · mode · domains · lint status`. All 19 bundled seats read `lint:pass`. If you get an error about no seats directory, the plugin did not load; see [./troubleshooting.md](./troubleshooting.md).
 
 Then run a real routing decision through the orchestrator:
 
@@ -82,6 +131,8 @@ Then run a real routing decision through the orchestrator:
 
 Chiron states its verdict before it does anything ("this is a reversible copy tweak, so no council needed, routing to Voss alone"), which confirms both the commands and the seat loading are working. A council convening when it should not is the failure mode the orchestrator is built to avoid, so a clean SKIP or single-seat ASK here is the tool working, not a bug.
 
+On the **ChatGPT and Codex path** there is no `/chiron:roster`. `codex plugin list` shows the plugin, and the `find` command in Path 2 lists the skills. A relationship council that names Deida and Terry Real, and writes `~/.chiron/logs/deida/log.md`, confirms the flows and the user-data path.
+
 On the **seats-only path** there is no `/chiron:roster`. Verify by checking your agent's skills directory for the seat folders (for example `ls ~/.claude/skills` after a Claude Code install), or just ask a seat a question and confirm it answers in the cited, third-person corpus voice.
 
 ## Where the files live
@@ -90,49 +141,72 @@ Nothing is hidden. Chiron reads seats from several directories and merges them, 
 
 | Location | What lives there | Scope |
 |---|---|---|
-| Plugin cache, e.g. `~/.claude/plugins/...` (the commands reach it as `${CLAUDE_PLUGIN_ROOT}/skills`) | The 18 bundled seats and the scripts. Do not edit these by hand. | Bundled |
-| `~/.claude/skills/<id>/` | Seats you install with `npx skills` or distill in Claude Code. Auto-activate globally. | Global |
-| `~/.claude/chiron/seats/<id>/` | Your private `me` seat and any personal seats. Gitignored, never shipped. | Global, private |
-| `~/.claude/chiron/benches.yaml` | Your global benches (curated line-ups). Plain YAML. | Global |
-| `<project>/.claude/skills/<id>/` | Project-scoped seats. | Project |
+| Plugin cache, e.g. `~/.claude/plugins/...` (the commands reach it as `${CLAUDE_PLUGIN_ROOT}/skills`) | The 19 bundled seats, the scripts, and the example benches. Do not edit these by hand. | Bundled |
+| Codex/ChatGPT plugin cache, `~/.codex/plugins/cache/compound-club/chiron/<version>/` | The same bundled seats and the `ask`, `council`, `coach`, and `log` skills. Do not edit these by hand. Writes still go to `~/.chiron`, not into this cache. | Bundled |
+| `~/.claude/skills/<id>/` | Seats you install with `npx skills`. Auto-activate globally. Chiron reads this directory and does not write it: Claude Code refuses writes under `~/.claude`. | Global |
+| `~/.claude/chiron/seats/<id>/` | Older location of the private `me` seat. Still read. New seats are not written here. | Global, legacy |
+| `~/.chiron/seats/<id>/` | Your private `me` seat and seats from `/chiron:distill`. Set `CHIRON_HOME` to move this whole directory. An explicit `CHIRON_HOME` under `~/.claude` is honored and then refused by Claude Code; the scripts do not redirect it. | Global, private |
+| `~/.chiron/benches.yaml` | Your global benches (curated line-ups). Plain YAML. `--global`, or when you are not in a project. | Global |
+| `~/.claude/chiron/benches.yaml` | Older global benches file. Still read. The next global write copies it into `~/.chiron/benches.yaml` and does not write this path. | Global, legacy |
+| `~/.chiron/logs/<id>/log.md` | Consult memory for each seat. Created on first use. Never written inside the plugin cache, and never under `~/.claude`. | Global, private |
+| `~/.claude/chiron/logs/<id>/log.md` | Older consult logs. Still read. The next consult copies a seat's log into `~/.chiron/logs/` and does not write this path. | Global, legacy |
+| `<project>/.claude/skills/<id>/` | Project skills installed outside Chiron. Read, not a Chiron write target. | Project |
 | `<project>/.chiron/seats/<id>/` | Project-scoped `me` seat and distilled seats. In Cowork, this is where everything you create lands. | Project |
-| `<project>/.chiron/benches.yaml` | Project benches. Shadow global benches on a name collision. | Project |
+| `<project>/.chiron/benches.yaml` | Project benches. Shadow global benches on a name collision. `/chiron:bench create` writes here by default when you are inside a project. | Project |
+
+If you have no benches file of your own (project, `~/.chiron/benches.yaml`, or the older `~/.claude/chiron/benches.yaml`), commands use the bundled `benches/examples/benches.yaml` instead. Your first benches file replaces the examples entirely. `/chiron:bench create` offers to copy them in first. To get them back later, delete the file you created.
 
 The registry picks seats out of a shared skills root (`~/.claude/skills` can hold plenty of unrelated skills) by looking for the `x-chiron` marker in each `SKILL.md`. Unrelated skills and the Chiron router are ignored, so a busy skills directory does not confuse the roster.
 
-Your `me` seat is deliberately private: it holds your mission, values, goals, and decisions, lives under `~/.claude/chiron/seats/` or a project's `.chiron/seats/`, is gitignored, and never gets committed or shipped from this repo. More on that in [./distilling.md](./distilling.md).
+Your `me` seat is deliberately private: it holds your mission, values, goals, and decisions, lives under `~/.chiron/seats/` or a project's `.chiron/seats/`, is gitignored, and never gets committed or shipped from this repo. More on that in [./distilling.md](./distilling.md).
 
 ## Updating
 
-- **Claude Code plugin:** refresh the marketplace, then update the plugin.
+- **Claude Code plugin:** refresh the marketplace, then update the plugin. Plugin updates run from your shell, not inside a session:
 
-  ```
-  /plugin marketplace update compound-club
-  /plugin update chiron
+  ```bash
+  claude plugin marketplace update compound-club
+  claude plugin update chiron@compound-club
   ```
 
-  `compound-club` is the marketplace name (the repo can host more than one plugin under it); `chiron` is the plugin. If you are not sure of the marketplace name, `/plugin marketplace update` with no argument refreshes all of them.
+  `compound-club` is the marketplace name (the repo can host more than one plugin under it); `chiron` is the plugin. If you are not sure of the marketplace name, `claude plugin marketplace update` with no argument refreshes all of them.
 
 - **Cowork:** re-download `chiron.plugin` from the [latest release](https://github.com/rmarji/chiron-council/releases/latest) and accept it again. The new version replaces the old.
 
+- **Codex CLI and ChatGPT desktop:** refresh the marketplace, then install again. Restart the desktop app after a marketplace change.
+
+  ```bash
+  codex plugin marketplace upgrade compound-club
+  codex plugin add chiron@compound-club
+  ```
+
 - **Seats-only:** re-run the same `npx skills add` command you used. It pulls the current seats and overwrites them in place.
 
-Updating the plugin or re-running `npx skills` only touches the bundled and installed seats. Your `me` seat, your distilled seats, your benches, and each seat's `log.md` live in separate directories and are left alone.
+Updating the plugin or re-running `npx skills` only touches the bundled and installed seats. Your `me` seat, your distilled seats, your benches, and each seat's consult log (`~/.chiron/`) live outside the plugin cache and are left alone. The cache itself is replaced on update, which is why logs are not stored next to the seats.
 
 ## Uninstalling
 
 - **Claude Code plugin:**
 
   ```
-  /plugin uninstall chiron
+  /plugin uninstall chiron@compound-club
   /plugin marketplace remove compound-club
   ```
 
 - **Cowork:** remove the Chiron plugin from **Extensions > Plugins**.
 
+- **Codex CLI and ChatGPT desktop:**
+
+  ```bash
+  codex plugin remove chiron@compound-club
+  codex plugin marketplace remove compound-club
+  ```
+
+  In the desktop app, remove Chiron from Plugins, then restart.
+
 - **Seats-only:** delete the seat folders from your agent's skills directory, for example `rm -rf ~/.claude/skills/munger` (or whichever seats you added).
 
-Uninstalling does not delete your personal data. If you want that gone too, remove `~/.claude/chiron/` (your `me` seat, personal seats, and global benches) and any project `.chiron/` directories yourself. That is your call to make, so Chiron never touches those on uninstall.
+Uninstalling does not delete your personal data. If you want that gone too, remove `~/.chiron/` (your `me` seat, personal seats, global benches, and consult logs) and any project `.chiron/` directories yourself. An older tree at `~/.claude/chiron/` is unused once you have copied it forward; remove that too if you still have it. That is your call to make, so Chiron never touches those on uninstall.
 
 ## Install troubleshooting
 

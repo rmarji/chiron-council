@@ -41,16 +41,16 @@ The important consequence: the mind is baked into `SKILL.md` itself. Priors, heu
 
 ## Install into other harnesses with the skills CLI
 
-The [`skills`](https://skills.sh) CLI installs any Agent Skill into 70+ harnesses and knows where each one keeps its skills, so you do not manage directories yourself. Point it at the Chiron repo and pick seats:
+The [`skills`](https://skills.sh) CLI installs any Agent Skill into many harnesses and knows where each one keeps its skills, so you do not manage directories yourself. Point it at the Chiron repo and pick seats:
 
 ```bash
 npx skills add rmarji/chiron-council                                   # pick seats interactively
-npx skills add rmarji/chiron-council --all                             # install the whole roster
+npx skills add rmarji/chiron-council --all                             # every skill, every agent, no prompts
 npx skills add rmarji/chiron-council -a codex -s munger naval taleb    # target a harness, pick seats
 ```
 
-- `--all` installs every seat in the roster.
-- `-a <agent>` selects the target harness (omit it and the CLI installs into Claude Code, or prompts).
+- `--all` is shorthand for every skill into every supported agent, without prompting. That includes `chiron`, the plugin's router, which is not a seat and does nothing outside the plugin. To get just the roster, use `-s` with the seat ids instead.
+- `-a <agent>` selects the target harness (omit it and the CLI asks).
 - `-s <seat...>` selects specific seats by id (space-separated). Seat ids are the folder names: `munger`, `naval`, `taleb`, `hormozi`, `voss`, `sherlock`, `house`, `columbo`, and so on. Run [`/chiron:roster`](./commands.md) or `python3 scripts/registry.py` to list them.
 
 Common `-a` targets:
@@ -83,16 +83,16 @@ Because Chiron discovers seats by the `x-chiron` marker rather than by owning th
 
 Draw the line between the seats and the plugin around them.
 
-| Universal (any Agent Skills harness) | Plugin only (Claude Code and Cowork) |
+| Universal (any Agent Skills harness) | Plugin (Claude Code, Cowork, ChatGPT, Codex) |
 |---|---|
-| Seats auto-activate on relevant questions | `/chiron:*` slash commands |
-| The mind: priors, heuristics, refusals, voice, cited claims | `/chiron:consult` auto-routing to the right expert |
+| Seats auto-activate on relevant questions | `/chiron:*` slash commands in Claude Code and Cowork. ChatGPT and Codex use the `ask`, `council`, `coach`, and `log` skills, which follow the same command files |
+| The mind: priors, heuristics, refusals, voice, cited claims | `/chiron:consult` auto-routing, and the `chiron` skill on hosts with no slash commands |
 | Third-person corpus voice with a source per claim | Live councils: independent takes, surfaced disagreements, one synthesis |
-| You address a seat directly and it responds | Benches (curated line-ups) and per-seat memory (`log.md`) |
+| You address a seat directly and it responds | Benches (curated line-ups) and per-seat memory (`~/.chiron/logs/<id>/log.md`) |
 
-The seats themselves run anywhere Agent Skills load. The orchestration around them, the slash commands, the self-routing consult, live councils, benches, and the memory that logs what a seat told you, lives in the Chiron plugin. The plugin runs in Claude Code and in Cowork, which share the plugin format (see [Installation](./installation.md) and [Cowork](./cowork.md)). Outside those two, you get the seats without the conductor.
+The seats themselves run anywhere Agent Skills load. The orchestration around them, the self-routing consult, live councils, benches, and the memory that logs what a seat told you, lives in the Chiron plugin. Claude Code and Cowork share one plugin format and call it with slash commands. ChatGPT and Codex share the portable format (`plugin.json` and `.agents/plugins/marketplace.json`) and call the same flows as skills. See [Installation](./installation.md) and [Cowork](./cowork.md). A seats-only install, with `npx skills` or a copied folder, gives you the seats without the conductor.
 
-Be aware of the memory caveat: `log.md` is written by the plugin's `ask` and `council` flows. In a bare harness the seat activates and advises, but nothing appends to its log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
+Be aware of the memory caveat: consult logs are written by the plugin's `ask` and `council` flows, to `~/.chiron/logs/<id>/log.md`, not into the seat, and not under `~/.claude`. In a bare harness the seat activates and advises, but nothing appends a log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
 
 ## Invoke a seat outside the plugin
 
@@ -119,9 +119,9 @@ You can name the subject casually ("what would Munger say...") or the lens expli
 
 ## Your own distilled seats port too
 
-Seats you create with [`/chiron:distill`](./distilling.md) are ordinary seats and travel the same way. In Claude Code, distill writes the new seat to `~/.claude/skills/<id>/`, a standard skills directory, so it auto-activates in every session and installs into other harnesses with the same `cp` or `npx skills` step.
+Seats you create with [`/chiron:distill`](./distilling.md) are ordinary seats and travel the same way. In Claude Code, distill writes the new seat to `~/.chiron/seats/<id>/`, which the Chiron registry scans, so every council finds it. Copy that directory into a harness skills folder (or install a published seat with `npx skills`) when you want it to auto-activate outside Chiron. Distill does not write `~/.claude/skills/<id>/`.
 
-The one exception is your private `me` seat from `/chiron:distill-me`. It holds personal data, so it lives in `~/.claude/chiron/seats/` (or a project's `.chiron/seats/`), which is a Chiron registry path, not a standard skills directory. It is gitignored and never shipped, and because it is not in a skills folder it does not auto-activate as a global skill in another harness. That is deliberate: your operating system stays local to Chiron. See [Concepts](./concepts.md) for the precedence rules and [../SEAT_SPEC.md](../SEAT_SPEC.md) for where seats live.
+The one exception is your private `me` seat from `/chiron:distill-me`. It holds personal data, so it lives in `~/.chiron/seats/` (or a project's `.chiron/seats/`), which is a Chiron registry path, not a standard skills directory. It is gitignored and never shipped, and because it is not in a skills folder it does not auto-activate as a global skill in another harness. That is deliberate: your operating system stays local to Chiron. See [Concepts](./concepts.md) for the precedence rules and [../SEAT_SPEC.md](../SEAT_SPEC.md) for where seats live.
 
 ## The standard travels with the seats
 

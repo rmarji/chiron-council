@@ -36,7 +36,7 @@ You do not have to make that call yourself. That is what the orchestrator is for
 ▸ Reversible copy tweak, single domain. No council. Routing to Voss alone. Proceeding.
 
 /chiron:consult "take the 15k/mo retainer or walk?"
-▸ Irreversible, cross-domain (leverage, incentives, your own execution laws).
+▸ Irreversible, cross-domain (leverage, incentives, Rayo's execution laws).
   Convening Munger, Naval, Rayo. Naval and Munger carry an authored
   disagreement on concentration that bears on this. ~7k tokens. Proceeding.
 ```
@@ -49,7 +49,7 @@ For anything cheap and reversible, skip the ceremony entirely and use `/chiron:a
 
 ## Build a small library of benches for the decisions you actually face
 
-A **bench** is a named line-up of seats you convene as a unit. Benches are plain YAML you can edit by hand: global at `~/.claude/chiron/benches.yaml`, project-local at `.chiron/benches.yaml` (project shadows global on a name collision). See [benches](./benches.md) for the full mechanics.
+A **bench** is a named line-up of seats you convene as a unit. Benches are plain YAML you can edit by hand: global at `~/.chiron/benches.yaml`, project-local at `.chiron/benches.yaml` (project shadows global on a name collision). Until you have either, the bundled example benches are in effect. An older global file at `~/.claude/chiron/benches.yaml` is still read and is not written. See [benches](./benches.md) for the full mechanics.
 
 The mistake is building a generic all-star team you admire but never call. Build benches for the decisions you *repeat*. If you price offers every month, keep an offers bench. If money calls are your recurring stress, keep a money bench.
 
@@ -69,19 +69,19 @@ benches:
     default_depth: quick    # quick | full
 ```
 
-Keep them small. Two to five seats is the sweet spot. Six or more starts to read as consensus theater and costs real tokens (a `full` run is roughly seats times 4k tokens; `quick` is roughly seats times 1.5k). The bundled `benches/examples/benches.yaml` is a good starting point to copy and trim. Deleting a bench never touches the seats it names, so prune freely.
+Keep them small. Two to five seats is the sweet spot. Six or more starts to read as consensus theater and costs real tokens (a `full` run is roughly seats times 4k tokens; `quick` is roughly seats times 1.5k). The bundled `benches/examples/benches.yaml` is a good starting point to copy and trim (`/chiron:bench create` offers to copy it for you). Deleting a bench never touches the seats it names, so prune freely.
 
 Once a bench exists you can convene it by name, or just talk to it: "run this by my money bench."
 
 ## Distill the experts you already reach for
 
-The roster ships with 18 seats, but the ones that will change your decisions are the ones you *already* channel when you are stuck. Do not build a museum of famous names. Distill the three or four minds you actually reach for, and put them where the router can find them.
+The roster ships with 19 seats, but the ones that will change your decisions are the ones you *already* channel when you are stuck. Do not build a museum of famous names. Distill the three or four minds you actually reach for, and put them where the router can find them.
 
 ```bash
 /chiron:distill "Rory Sutherland on behavioral economics and marketing"
 ```
 
-`/chiron:distill` interviews you briefly, runs deep research over the subject's published corpus, writes the full seat (SKILL.md plus all seven reference files at the depth bar, every claim cited), lints it, and installs it as a live, auto-activating skill. In Claude Code it writes to `~/.claude/skills/<id>/`, so the seat is available in every session and every council finds it with no manual move. In Cowork, which cannot write to `~/.claude`, it writes a workspace `.chiron/seats/<id>/` or emits a `.plugin` for you to accept in-app; see [cowork](./cowork.md).
+`/chiron:distill` interviews you briefly, runs deep research over the subject's published corpus, writes the full seat (SKILL.md plus all seven reference files at the depth bar, every claim cited), lints it, and installs it where every Chiron command can find it. In Claude Code it writes to `~/.chiron/seats/<id>/`, so the seat is available in every session and every council finds it with no manual move. It does not auto-activate as a native Claude skill, and it does not write `~/.claude/skills/`. In Cowork, which cannot write the home directory, it writes a workspace `.chiron/seats/<id>/` or emits a `.plugin` for you to accept in-app; see [cowork](./cowork.md).
 
 Two things worth knowing:
 
@@ -111,11 +111,11 @@ benches:
     default_depth: full
 ```
 
-Your `me` seat is **private**. It lives in `~/.claude/chiron/seats/me/` (global) or a project's `.chiron/seats/me/`, it is gitignored, never committed, and never shipped in the plugin. Treat it like your own notes, because that is what it is. If you build it inside a project, add `.chiron/seats/` to that project's `.gitignore` (the flow offers to do it for you).
+Your `me` seat is **private**. It lives in `~/.chiron/seats/me/` (global) or a project's `.chiron/seats/me/`, it is gitignored, never committed, and never shipped in the plugin. Treat it like your own notes, because that is what it is. If you build it inside a project, add `.chiron/seats/` to that project's `.gitignore` (the flow offers to do it for you).
 
 ## Use the memory
 
-Every consult appends to the seat's `log.md`, and a summoned seat reads its last ten entries, so it remembers what it told you and whether you listened. That memory is only worth having if you look at it.
+Every consult appends to `~/.chiron/logs/<id>/log.md`, and a summoned seat reads its last ten entries, so it remembers what it told you and whether you listened. That file sits outside the plugin install, so an update does not erase it. The memory is only worth having if you look at it.
 
 ```bash
 /chiron:log rayo                 # everything this seat has weighed in on, newest first

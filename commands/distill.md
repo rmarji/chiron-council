@@ -40,9 +40,9 @@ Research the subject's published corpus with web search — books, talks, podcas
 
 ## 3. Author
 
-**Deliver the seat as a real, auto-activating Agent Skill** — this is what makes it usable with no manual move. Pick the target by harness:
-- **Claude Code:** write `~/.claude/skills/<id>/` (global; the seat auto-activates next turn and every council finds it via the registry), or `<project>/.claude/skills/<id>/` if the user wants it project-scoped. Never write inside the plugin install.
-- **Cowork** (cannot write to `~/.claude`): write `<project>/.chiron/seats/<id>/` in the open workspace (the registry scans it, so councils find it with no home-dir write), or if there is no writable project, emit a one-advisor `.plugin` into `outputs/` for the user to accept in-app.
+**Deliver the seat where Chiron's commands will find it.** Claude Code refuses writes under `~/.claude` (sensitive file), so do not write `~/.claude/skills/<id>/`. Pick the target by harness:
+- **Claude Code:** write the directory `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints, plus `/<id>/` (`~/.chiron/seats/<id>/` unless `CHIRON_HOME` is set). Every council finds it through the registry. It does not auto-activate as a native Claude skill; that would require a write under `~/.claude/skills`, which this session cannot do. `npx skills` is the path that installs into the agent's skills directory. If the user wants the seat scoped to one repo, write `<project>/.chiron/seats/<id>/` instead. Never write inside the plugin install.
+- **Cowork** (cannot write the home directory at all): write `<project>/.chiron/seats/<id>/` in the open workspace (the registry scans it), or if there is no writable project, emit a one-advisor `.plugin` into `outputs/` for the user to accept in-app.
 
 The `<id>/` directory contains:
 - `SKILL.md` — frontmatter per SEAT_SPEC §2 (id, description, x-chiron: display_name with mode suffix, mode, domains, alias for living subjects, provenance with 3+ sources); body with narrative sections (model on an installed founding seat, e.g. `skills/munger/SKILL.md`) plus the required `## Priors` (≥5), `## Heuristics` (≥5, IF/THEN), `## Refusals` (≥2), `## Voice`; M4 disclaimer blockquote for real persons. Name the subject's 2-3 signature mental models inline in the body (in Priors or Heuristics), not only in `references/mental-models.md`, so the mind is visible without loading the reference files. Keep under ~6k tokens.

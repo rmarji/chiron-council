@@ -2,7 +2,7 @@
 
 This gets you from an installed plugin to a real, sourced answer on a decision you actually face, in about ten minutes. There are two paths: a guided setup that meets the roster and builds around how you work, or a single command that reads your decision and routes it to the right mind.
 
-Both assume the plugin is already installed in Claude Code or Cowork. If it is not, do [installation](./installation.md) first (about a minute), then come back here.
+Both assume the plugin is already installed in Claude Code or Cowork, where the slash commands exist. ChatGPT and Codex use the same questions without the slash (`@council`, or ask in plain language). If it is not installed, do [installation](./installation.md) first (about a minute), then come back here.
 
 If you just want the fastest possible taste, skip to [Path B](#path-b-run-one-real-decision-about-2-minutes). If you want Chiron shaped around you before you lean on it, start with Path A.
 
@@ -16,7 +16,7 @@ If you just want the fastest possible taste, skip to [Path B](#path-b-run-one-re
 
 It moves through four steps, narrating each one before it acts:
 
-1. **Meet the roster.** It reads which seats are installed and shows them grouped by domain, so you see who is in the box: Munger for incentives, Voss for negotiation, Naval for leverage, Rumelt for strategy, and so on. Eighteen seats ship by default.
+1. **Meet the roster.** It reads which seats are installed and shows them grouped by domain, so you see who is in the box: Munger for incentives, Voss for negotiation, Naval for leverage, Rumelt for strategy, and so on. Nineteen seats ship by default.
 2. **Distill you (optional, recommended).** It offers `/chiron:distill-me`, which reads what you point it at (your notes, your instruction files, this conversation), interviews you, and writes a private `me` seat holding your mission, values, goals, frameworks, and the experts you already reach for. If you would rather stay fast, it runs a five-question mini-version inline instead. Your `me` seat is private and local, gitignored, never shipped. See [distilling](./distilling.md) for the full flow.
 3. **Starter benches.** From your go-to experts and the decision you named, it maps your experts to installed seats, offers to distill any you named that are not installed yet, and writes two or three starter benches (for example a `money` bench, a `strategy` bench, a `decisions` bench) as plain YAML you can edit by hand. See [benches](./benches.md).
 4. **Your first real consult.** It runs the actual decision you gave it through the orchestrator, so onboarding produces a genuine, sourced answer.
@@ -139,7 +139,7 @@ run this by my money bench
 poke holes in my plan the way Taleb would
 ```
 
-Ask for one mind by name and that seat answers. Ask for a bench and it convenes the council. The slash commands and live councils need the plugin (Claude Code or Cowork); the seats themselves auto-activate anywhere they are installed. If a name does not resolve or a council will not convene, [troubleshooting](./troubleshooting.md) covers it.
+Ask for one mind by name and that seat answers. Ask for a bench and it convenes the council. Slash commands are Claude Code and Cowork. Live councils also run in ChatGPT and Codex through the `council` skill. The seats themselves auto-activate anywhere they are installed. If a name does not resolve or a council will not convene, [troubleshooting](./troubleshooting.md) covers it.
 
 ## Where to go next
 

@@ -62,8 +62,9 @@ If your request is vague, Chiron does not interrogate you. It offers two or thre
 │   ├── principles.md     ├── mental-models.md   ├── frameworks.md
 │   ├── anti-patterns.md  ├── heuristics.md       ├── quotes.md
 │   └── sources.md
-└── log.md                # created on first consult, gitignored
 ```
+
+The consult log is not part of the seat. The first consult creates `~/.chiron/logs/<id>/log.md`, outside the plugin install. It is not written under `~/.claude`.
 
 `SKILL.md` carries the frontmatter contract (a `name` matching the folder, a triggering `description`, and an `x-chiron` block with `display_name`, `mode`, `domains`, an `alias` for living subjects, and `provenance` with three or more sources). Its body carries the required `## Priors` (five or more), `## Heuristics` (five or more, in IF/THEN shape), `## Refusals` (two or more), and `## Voice`, plus the narrative sections that give a seat its texture. Real-person seats end with the disclaimer block. The subject's two or three signature mental models get named inline in the body, so the mind is visible without loading the reference files.
 
@@ -94,23 +95,23 @@ Here is roughly what a run looks like end to end:
   found: tactical empathy · calibrated questions · the accusation audit ·
   mirroring · labeling · "That's right" vs "you're right" · the 7-38-55 rule
 
-▸ authoring skills/voss/  (writing SKILL.md + 7 references + disagreements.md)
+▸ authoring ~/.chiron/seats/voss/  (writing SKILL.md + 7 references + disagreements.md)
 
 ▸ lint
-  PASS [voss] ~/.claude/skills/voss
+  PASS [voss] ~/.chiron/seats/voss
   references: principles 1,180w · mental-models 1,020w · frameworks 1,340w ·
   anti-patterns 900w · heuristics 1,110w · quotes 640w · sources 720w
 
   Seat ready. Try:  /chiron:ask voss "counter a lowball on the retainer"
-                    add voss to a bench in ~/.claude/chiron/benches.yaml
+                    add voss to a bench in ~/.chiron/benches.yaml
 ```
 
 ### Where the finished seat lands
 
 The delivery target depends on your harness, and in both cases the seat becomes usable with no manual move.
 
-- **Claude Code** writes to `~/.claude/skills/<id>/`, so the seat auto-activates in your next turn and every council finds it through the registry. If you want it scoped to one repo instead, it writes `<project>/.claude/skills/<id>/`. It never writes inside the plugin install.
-- **Cowork** cannot write to `~/.claude`. It writes `<project>/.chiron/seats/<id>/` in the open workspace (the registry scans that path, so councils find it with no home-directory write). If there is no writable project, it emits a one-advisor `.plugin` into `outputs/` for you to accept in the app. More on this split in [cowork.md](./cowork.md) and [portability.md](./portability.md).
+- **Claude Code** writes to `~/.chiron/seats/<id>/`, so every council finds it through the registry on the next command. It does not auto-activate as a native Claude skill, and it does not write `~/.claude/skills/<id>/` (Claude Code refuses that tree). If you want it scoped to one repo instead, it writes `<project>/.chiron/seats/<id>/`. It never writes inside the plugin install.
+- **Cowork** cannot write the home directory, and cannot write `~/.claude`. It writes `<project>/.chiron/seats/<id>/` in the open workspace (the registry scans that path, so councils find it with no home-directory write). If there is no writable project, it emits a one-advisor `.plugin` into `outputs/` for you to accept in the app. More on this split in [cowork.md](./cowork.md) and [portability.md](./portability.md).
 
 The registry merges seats by precedence: project shadows global shadows bundled. A seat you distill with the same id as a bundled one (say, a richer `munger` of your own) overrides the shipped seat everywhere you use Chiron.
 
@@ -123,7 +124,7 @@ You can distill any mind, not only living authors.
 
 ### One at a time, never a shallow batch
 
-If you ask for several advisors at once, Chiron distills them sequentially, each with its own full deep-research pass. It will not batch them into a single shallow sweep. Thinness and repetition across seats is the tell of a rushed job, and it is exactly what the depth bar exists to prevent. Expect each real-person seat to carry 6,000 to 10,000 words of cited reference material across the seven files. That takes minutes per seat, and that is the point.
+If you ask for several advisors at once, Chiron distills them sequentially, each with its own full deep-research pass. It will not batch them into a single shallow sweep. Thinness and repetition across seats is the tell of a rushed job, and it is exactly what the depth bar exists to prevent. Expect each real-person seat to carry roughly 6,000 to 8,500 words of cited reference material across the seven files. That takes minutes per seat, and that is the point.
 
 ### Tips for a good distill
 
@@ -174,7 +175,7 @@ It synthesizes, in your own terms and cited to the source where possible:
 
 ### Where it lives, and why it is private
 
-The `me` seat is written to `~/.claude/chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project). In Cowork, which cannot write to `~/.claude`, it uses the project path, which the registry scans. It is **never** written into the Chiron plugin repo, never committed, and never shipped. If it is written into a project, Chiron adds `.chiron/seats/` to that project's `.gitignore`, and offers to do it for you.
+The `me` seat is written to `~/.chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project). In Cowork, which cannot write the home directory, it uses the project path, which the registry scans. It is **never** written under `~/.claude`, never written into the Chiron plugin repo, never committed, and never shipped. If it is written into a project, Chiron adds `.chiron/seats/` to that project's `.gitignore`, and offers to do it for you.
 
 It uses the full seat structure: `SKILL.md` with `name: me`, `x-chiron` set to `display_name: "<your name> (you)"`, `mode: original`, and your domains. Original mode needs no provenance and no disclaimer, because it is self-authored. The body carries the same required sections as any seat, where `## Refusals` becomes your own guardrails: the decisions and moves you refuse to make. The seven reference files hold the depth so `SKILL.md` stays lean, and Chiron lints it until it passes.
 

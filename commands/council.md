@@ -7,13 +7,13 @@ argument-hint: <bench-or-seat-list> <question> [--depth quick|full]
 
 The user asked: `$ARGUMENTS`
 
-First token = bench name (resolve project `.chiron/benches.yaml`, then `~/.claude/chiron/benches.yaml`; project shadows global — note it once) or an inline comma-separated seat list. Rest = the question. `--depth` overrides the bench's `default_depth` (default: quick).
+First token = bench name (resolve with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json <name>`: project `.chiron/benches.yaml` shadows global `~/.chiron/benches.yaml`, which shadows the older `~/.claude/chiron/benches.yaml` when that file is still there — note a shadow once; with no user benches file it falls back to the bundled examples, so say "using the bundled example bench") or an inline comma-separated seat list. Rest = the question. `--depth` overrides the bench's `default_depth` (default: quick).
 
 **Why this exists:** generated councils produce consensus theater — five flavors of one model agreeing. This state machine manufactures *structural* independence and surfaces only *authored* conflict. Do not shortcut it.
 
 ## CONVENE
 
-1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`.
+1. Resolve the bench. Load the roster via `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
 2. Guards:
    - **CH-E2:** bench references a missing seat → name it, offer to run with the remainder, abort if declined.
    - **CH-E4:** more than 8 seats → refuse; explain the token/quality cost; suggest splitting into two benches.
@@ -25,7 +25,7 @@ First token = bench name (resolve project `.chiron/benches.yaml`, then `~/.claud
 
 Spawn **one subagent per seat, in parallel** (Task tool). Each subagent's context contains ONLY:
 - that seat's `SKILL.md`
-- that seat's last 10 `log.md` entries
+- that seat's last 10 consult-log entries, from `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --read` (add `--home .chiron` in Cowork). Not from the seat directory, and not from anywhere under `${CLAUDE_PLUGIN_ROOT}`. The file may not exist yet.
 - the question
 
 It must NOT see: other seats, other takes, the bench composition, or this conversation. Disagreement must be structural, not simulated.
@@ -56,7 +56,7 @@ Written in the chairman's voice (if the bench names a chairman seat, load its Vo
 
 ## RECORD (phase 4)
 
-1. Append one entry to EACH participating seat's `log.md` (schema below; create file if missing; never rewrite prior entries):
+1. Append one entry to EACH participating seat's consult log (schema below; create the file if missing; never rewrite prior entries). The path to write is whatever `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` prints: `~/.chiron/logs/<id>/log.md` by default, `$CHIRON_HOME/logs/<id>/log.md` when that variable is set, and `.chiron/logs/<id>/log.md` in Cowork (pass `--home .chiron`). `--ensure` copies a log that still lives at `~/.claude/chiron/logs/<id>/log.md` into the new path once. Append only to the printed path. Never write under `~/.claude` or `${CLAUDE_PLUGIN_ROOT}`.
 
 ```markdown
 ## {today ISO date} · council:{bench-name}

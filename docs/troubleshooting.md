@@ -8,10 +8,10 @@ Symptom: you ran `/chiron:distill`, or copied a seat folder by hand, but Claude 
 
 Seats are native Agent Skills. The skills loader scans your skills directories when a session starts, so a seat written mid-session may not auto-activate until the loader rescans. Work through this in order:
 
-1. **Confirm where it landed.** A seat must be a directory with a `SKILL.md` inside a scanned location. In Claude Code, `/chiron:distill` writes to `~/.claude/skills/<id>/` (global, auto-activating) or `<project>/.claude/skills/<id>/` (project-scoped). Check it is there:
+1. **Confirm where it landed.** A seat must be a directory with a `SKILL.md` inside a scanned location. In Claude Code, `/chiron:distill` writes to `~/.chiron/seats/<id>/` (or `<project>/.chiron/seats/<id>/` if you asked for one project). That is where `/chiron:roster` looks. It does not write `~/.claude/skills/<id>/`, and a seat there does not auto-activate as a native Claude skill. Check the file:
 
    ```bash
-   ls ~/.claude/skills/<id>/SKILL.md
+   ls ~/.chiron/seats/<id>/SKILL.md
    ```
 
 2. **Confirm it has an `x-chiron` block.** The registry and the roster only count a skill as a seat if its `SKILL.md` frontmatter carries an `x-chiron:` block. A skill without it loads as a plain skill but never appears as a Chiron seat. Open the file and check the frontmatter has `x-chiron:` with a `display_name`, `mode`, and `domains`.
@@ -40,7 +40,7 @@ Two different causes, and they have different fixes.
 **Cause 1: no scanned directory exists at all.** `registry.py` exits with code 2 and prints `no seats directory found; run /chiron:distill or install a pack`. This means none of the scanned locations exist yet. The scanned set, lowest precedence to highest, is:
 
 ```
-<plugin>/skills   ~/.claude/skills   ~/.claude/chiron/seats   .claude/skills   .chiron/seats
+<plugin>/skills   ~/.claude/skills   ~/.claude/chiron/seats   ~/.chiron/seats   .claude/skills   .chiron/seats
 ```
 
 If you are running the plugin, the bundled `skills/` should always be present, so this error usually means you are running the raw scripts outside the plugin root. Run from the repo checkout, or point at a real directory:
@@ -49,7 +49,7 @@ If you are running the plugin, the bundled `skills/` should always be present, s
 python3 scripts/registry.py --seats-dir skills
 ```
 
-**Cause 2: your seat is present but not in a scanned location, or has no `x-chiron` block.** The registry deliberately ignores any skill that lacks an `x-chiron:` marker, so a shared skills root full of unrelated skills (and the Chiron router itself) is safe to scan. If your seat sits in a directory that is not in the list above, or its frontmatter is missing the `x-chiron` block, it will be silently skipped, not errored. Fix: move it into a scanned dir (`~/.claude/skills/<id>/` is the usual one) and add the `x-chiron` block. Then `/chiron:roster` should list it.
+**Cause 2: your seat is present but not in a scanned location, or has no `x-chiron` block.** The registry deliberately ignores any skill that lacks an `x-chiron:` marker, so a shared skills root full of unrelated skills (and the Chiron router itself) is safe to scan. If your seat sits in a directory that is not in the list above, or its frontmatter is missing the `x-chiron` block, it will be silently skipped, not errored. Fix: move it into a scanned dir (`~/.chiron/seats/<id>/` is where Chiron writes; `~/.claude/skills/<id>/` is where `npx skills` installs) and add the `x-chiron` block. Then `/chiron:roster` should list it.
 
 To see exactly what the registry sees, run it directly with the full scan set:
 
@@ -58,6 +58,7 @@ python3 scripts/registry.py --json \
   --seats-dir skills \
   --seats-dir ~/.claude/skills \
   --seats-dir ~/.claude/chiron/seats \
+  --seats-dir ~/.chiron/seats \
   --seats-dir .claude/skills \
   --seats-dir .chiron/seats
 ```
@@ -109,7 +110,7 @@ There is no phrasing that gets you living-person persona mode without a license.
 
 ## Two seats have the same id
 
-This is expected and usually intentional: it is how you override a bundled seat with your own richer version. The registry resolves it by **precedence**, lowest to highest: bundled, then `~/.claude/skills/`, then `~/.claude/chiron/seats/`, then project `.claude/skills/`, then project `.chiron/seats/`. A later scope **shadows** an earlier one on a shared id, so your own `munger` in `~/.claude/skills/munger/` wins over the bundled `munger`. In the roster you will see the winning seat annotated with `(shadows <path>)`.
+This is expected and usually intentional: it is how you override a bundled seat with your own richer version. The registry resolves it by **precedence**, lowest to highest: bundled, then `~/.claude/skills/`, then `~/.claude/chiron/seats/` (older installs, read only), then `~/.chiron/seats/`, then project `.claude/skills/`, then project `.chiron/seats/`. A later scope **shadows** an earlier one on a shared id, so your own `munger` in `~/.chiron/seats/munger/` wins over the bundled `munger`. In the roster you will see the winning seat annotated with `(shadows <path>)`.
 
 Two caveats:
 
@@ -120,23 +121,23 @@ Two caveats:
 
 Install issues live in [installation.md](./installation.md); the highlights:
 
-- **The marketplace does not appear after `/plugin marketplace add`.** Confirm you ran `/plugin marketplace add rmarji/chiron-council` exactly (the marketplace repo slug), then `/plugin install chiron` (the plugin name is `chiron`, not the repo name). If the add succeeded but install cannot find `chiron`, re-run the add and reopen the plugin menu so the listing refreshes.
-- **"Cloud not linked" or a sign-in prompt during install.** The plugin marketplace flow needs your Claude Code client linked to your account. This is a client and account state issue, not a Chiron issue: complete the link or sign-in the client asks for, then retry `/plugin install chiron`. Chiron itself needs no account, no keys, and no server.
+- **The marketplace does not appear after `/plugin marketplace add`.** Confirm you ran `/plugin marketplace add rmarji/chiron-council` exactly (the marketplace repo slug), then `/plugin install chiron@compound-club` (the plugin is `chiron` and the marketplace is `compound-club`, neither of which is the repo name). Naming the marketplace makes Claude Code refresh it before the lookup. If install still cannot find `chiron`, run `/plugin marketplace list` to confirm `compound-club` is there.
+- **"Cloud not linked" or a sign-in prompt during install.** The plugin marketplace flow needs your Claude Code client linked to your account. This is a client and account state issue, not a Chiron issue: complete the link or sign-in the client asks for, then retry `/plugin install chiron@compound-club`. Chiron itself needs no account, no keys, and no server.
 - **In Cowork, there is no marketplace command.** You install by downloading [`chiron.plugin`](https://github.com/rmarji/chiron-council/releases/latest) from the latest release and accepting it in the app. See [cowork.md](./cowork.md).
 
 ## FAQ
 
 **Is my `me` seat private?**
-Yes. `/chiron:distill-me` writes an original-mode `me` seat to `~/.claude/chiron/seats/me/` (or `<project>/.chiron/seats/me/`). It holds your mission, values, goals, and decisions. It is never committed to the plugin repo and never shipped. If it is written into a project, add `.chiron/seats/` to that project's `.gitignore` (the flow offers to do this). Treat it like `log.md`: local, personal, yours.
+Yes. `/chiron:distill-me` writes an original-mode `me` seat to `~/.chiron/seats/me/` (or `<project>/.chiron/seats/me/`). It holds your mission, values, goals, and decisions. It is never committed to the plugin repo and never shipped, and it is not written under `~/.claude`. If it is written into a project, add `.chiron/seats/` to that project's `.gitignore` (the flow offers to do this). Treat it like `log.md`: local, personal, yours.
 
 **Does the per-seat memory get shared?**
-No. Each seat's `log.md` is append-only, local, and gitignored by default. It holds your decisions, not the seat's content, so it stays on your machine.
+No. Each seat's consult log is append-only and local, at `~/.chiron/logs/<id>/log.md`. It holds your decisions, not the seat's content, and it is not inside the plugin install, so it stays on your machine across updates. Claude Code refuses writes under `~/.claude`, which is why the log is not stored there. An older log at `~/.claude/chiron/logs/<id>/log.md` is still read.
 
 **Does Chiron work offline?**
 The seats do. Everything is files: no server, no API keys, no network calls to run a council or ask a seat. The one exception is `/chiron:distill`, which needs web access to do the deep research over a subject's published corpus. Distilling a new seat requires a connection; using the seats you already have does not.
 
 **Which agents are supported?**
-The plugin (slash commands, the `/chiron:consult` orchestrator, live councils, benches, per-seat memory) runs in Claude Code and Cowork. The seats themselves are standard Agent Skills and drop into 70+ harnesses (Cursor, Codex, Gemini CLI, Copilot, Cline, and more) via `npx skills add rmarji/chiron-council`, or by copying a seat folder into the agent's skills directory. Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). Full detail in [portability.md](./portability.md).
+The plugin (slash commands, the `/chiron:consult` orchestrator, live councils, benches, per-seat memory) runs in Claude Code and Cowork. The seats themselves are standard Agent Skills and drop into other harnesses (Cursor, Codex, Gemini CLI, Copilot, Cline, and more) via `npx skills add rmarji/chiron-council`, or by copying a seat folder into the agent's skills directory. Outside the plugin you invoke a seat by talking to it ("what would the Munger corpus say about this?"). Full detail in [portability.md](./portability.md).
 
 **A council gave consensus with no disagreement. Is it broken?**
 No. Councils surface **only** authored disagreements, conflicts pulled from what the people actually argued, both positions cited. If no authored disagreement exists between the seated experts on your topic, the council says so rather than inventing one. Manufactured conflict is the failure mode Chiron exists to avoid. See [concepts.md](./concepts.md).

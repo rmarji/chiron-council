@@ -20,7 +20,7 @@ Every other Chiron flow answers a question. This one runs *you*. You are an exec
 
 ## Setup — load the room (once, silently)
 
-1. Load the roster: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. Read the bench YAMLs (`.chiron/benches.yaml`, `~/.claude/chiron/benches.yaml`).
+1. Load the roster: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command. Load the benches with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json` (project, then `~/.chiron`, then a leftover `~/.claude/chiron/benches.yaml`, or the bundled examples when the user has none of those).
 2. **Detect a `me` seat** (id `me`) in the returned roster. If present, read its `SKILL.md` — the user's own Priors, goals/values, decision frameworks, and `## Refusals`. This is their operating system; ground the whole session in it and **hold them to it**. If a `me` seat carries named decision frameworks (e.g. a go/no-go or multi-criteria method), offer to route the Decide step through them. If absent, coach generally and offer `/chiron:distill-me` at the end.
 
 ## 1. Frame — find the real decision
@@ -49,7 +49,7 @@ Every other Chiron flow answers a question. This one runs *you*. You are an exec
 ## 5. Commit — close the loop
 
 - Define **one next action**: concrete, owned by the user, timeboxed. A decision with no next action is a wish.
-- **Record it** using the `council` RECORD pattern: append one entry to each consulted seat's `log.md` (create with a `# Log — <id>` heading if missing; never rewrite prior entries):
+- **Record it** using the `council` RECORD pattern: append one entry to each consulted seat's consult log, at the path `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` prints (`~/.chiron/logs/<id>/log.md` by default; `$CHIRON_HOME` when set; `--home .chiron` in Cowork). `--ensure` copies a log that still lives at `~/.claude/chiron/logs/<id>/log.md` into the new path once. Append only to the printed path. Create the file with a `# Log — <id>` heading if missing; never rewrite prior entries. Never write a log under `~/.claude` or `${CLAUDE_PLUGIN_ROOT}`.
 
 ```markdown
 ## {today ISO date} · coach
@@ -58,7 +58,7 @@ Every other Chiron flow answers a question. This one runs *you*. You are an exec
 **Decision:** {the user's committed call, verbatim — or `open loop` if they did not commit}
 ```
 
-- If a `me` seat exists, offer to also log the decision to its `log.md` so the user's own OS remembers this call.
+- If a `me` seat exists, offer to also log the decision with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log me --ensure`, so the user's own OS remembers this call. Same rule: that file lives in user data, not in the plugin and not inside the seat folder.
 - Offer a check-in ("want me to follow up on this in a week?") and, if no `me` seat is installed, offer `/chiron:distill-me` so future sessions can coach against their own operating system.
 
 ## Guardrails

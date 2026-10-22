@@ -3,7 +3,7 @@
 
 Usage:
     python3 scripts/lint_seat.py <seat-path> [<seat-path> ...]
-    python3 scripts/lint_seat.py --all [--seats-dir seats]
+    python3 scripts/lint_seat.py --all [--seats-dir skills]
     python3 scripts/lint_seat.py --all --format json --level strict
 
 Exit codes: 0 = pass, 1 = warnings only, 2 = errors (load-blocking).
@@ -479,10 +479,12 @@ def lint_status(findings):
     return "pass"
 
 
-# Skills that can share a skills root with seats but are NOT advisor seats
-# (the conversational router). lint --all excludes these; everything else with a
-# SKILL.md is a candidate seat, so a malformed one is failed, not hidden.
-NON_SEAT_SKILLS = frozenset({"chiron"})
+# Skills that can share a skills root with seats but are NOT advisor seats:
+# the conversational router, and the ChatGPT/Codex flow skills (those hosts have
+# no slash commands; each one follows the matching commands/*.md file). lint
+# --all excludes these; everything else with a SKILL.md is a candidate seat, so
+# a malformed one is failed, not hidden.
+NON_SEAT_SKILLS = frozenset({"chiron", "ask", "council", "coach", "log"})
 
 
 def _has_x_chiron(path):

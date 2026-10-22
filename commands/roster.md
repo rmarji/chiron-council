@@ -8,14 +8,15 @@ argument-hint: [--domain <tag>]
 Run:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats [--domain <tag>]
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats [--domain <tag>]
 ```
 
-(Use `--json` if you need to post-process.)
+(Use `--json` if you need to post-process.) The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
 
 Render the roster grouped by primary domain: **id · display_name · mode · domains · lint status**. Pass `--domain <tag>` through when the user gave one.
 
 - If lint shows `warn`, add a one-line note; if `fail`, mark the seat unloadable and point to `/chiron:lint <id> --explain`.
 - If the exit code is 2 (no seats directory): tell the user to run `/chiron:distill` or install a pack.
 - At large rosters (dozens of seats), keep the grouped view — never dump every seat's details; summarize per domain and expand only the domain the user asked about.
+- **Rayo OS** is Raed Marji's operating system (the author of Chiron), shipped so anyone can borrow its laws. When you render that row, say so in one line. It is not the person asking. Their own operating system, if they have one, is the private `me` seat.
 - Close with a hint: `/chiron:ask <id> "<question>"` and `/chiron:bench create <name> <ids...>`.

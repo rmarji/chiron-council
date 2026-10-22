@@ -30,7 +30,7 @@ or jump straight to a real question:
 
 ## The sandbox reality
 
-Here is the one fact that shapes everything downstream: **Cowork cannot write to your home directory.** In Claude Code, Chiron writes a distilled seat to `~/.claude/skills/<id>/` and it auto-activates on the next turn. Cowork has no such access, so `~/.claude/skills` and `~/.claude/chiron/seats` are off-limits mid-session. A distilled advisor cannot land in `~/.claude/skills` in Cowork, full stop.
+Here is the one fact that shapes everything downstream: **Cowork cannot write to your home directory.** Claude Code can write `~/.chiron/`, which is where a distilled seat lands (`~/.chiron/seats/<id>/`), and every Chiron command finds it through the registry. It does not auto-activate as a native Claude skill: that would be a write under `~/.claude/skills`, which Claude Code refuses. Cowork cannot write `~/.chiron` either, so `~/.claude/skills` and `~/.chiron/seats` are both off-limits mid-session. A distilled advisor cannot land in the home directory in Cowork, full stop.
 
 That does not break Chiron. The registry scans several directories and merges them (project shadows global shadows bundled), and two of those scanned locations are writable from inside a Cowork workspace:
 
@@ -39,6 +39,8 @@ That does not break Chiron. The registry scans several directories and merges th
 
 So the sanctioned homes for a seat in Cowork are the workspace `.chiron/seats/` folder, or a `.plugin` you accept. Not `~/.claude`.
 
+Consult logs follow the same constraint. In Claude Code they go to `~/.chiron/logs/<id>/log.md`. In Cowork the commands pass `--home .chiron`, so the log is `.chiron/logs/<id>/log.md` in the workspace. Either way it is outside the plugin install, and neither harness writes a log under `~/.claude`.
+
 ## Distilling a seat in Cowork
 
 `/chiron:distill` runs the same flow described in [./distilling.md](./distilling.md): interview, deep research, author the full cited seat, then lint. Only the final delivery step changes, because of the sandbox.
@@ -46,11 +48,11 @@ So the sanctioned homes for a seat in Cowork are the workspace `.chiron/seats/` 
 - **If a workspace is open**, the seat is written to `<project>/.chiron/seats/<id>/`. The registry scans it, so it activates for councils in that workspace right away. No manual move, no accept click.
 - **If there is no writable workspace**, Chiron emits a one-advisor `.plugin` into `outputs/`. You accept it in the app the same way you accepted Chiron, and then it is available across workspaces.
 
-Contrast with Claude Code, where the same command writes `~/.claude/skills/<id>/` and the seat is global with zero extra clicks. In Cowork you either take a workspace-scoped seat for free, or you pay one accept click for a portable bundle.
+Contrast with Claude Code, where the same command writes `~/.chiron/seats/<id>/` and the seat is available in every project with zero extra clicks. In Cowork you either take a workspace-scoped seat for free, or you pay one accept click for a portable bundle.
 
 ## Distilling yourself in Cowork
 
-`/chiron:distill-me` builds your private `me` seat: your mission, values, goals, frameworks, and the experts you already reach for. In Claude Code it writes `~/.claude/chiron/seats/me/`. In Cowork, with no home write, it writes the workspace path `<project>/.chiron/seats/me/`, which the registry scans.
+`/chiron:distill-me` builds your private `me` seat: your mission, values, goals, frameworks, and the experts you already reach for. In Claude Code it writes `~/.chiron/seats/me/`. In Cowork, with no home write, it writes the workspace path `<project>/.chiron/seats/me/`, which the registry scans. It does not write `~/.claude/chiron/seats/me/`.
 
 The privacy rules are unchanged. Your `me` seat is private and local, never committed, never shipped. Because it lands inside the workspace in Cowork, add `.chiron/seats/` to that project's `.gitignore` so it never gets committed. Chiron offers to do this for you.
 
@@ -62,7 +64,7 @@ Be clear-eyed about this: in Cowork there is no path that is both zero-click and
 
 | Harness | Where a distilled seat lands | Extra clicks | Scope |
 |---|---|---|---|
-| Claude Code | `~/.claude/skills/<id>/` | none | every project |
+| Claude Code | `~/.chiron/seats/<id>/` | none | every project |
 | Cowork (workspace) | `<project>/.chiron/seats/<id>/` | none | that workspace only |
 | Cowork (portable) | `.plugin` accepted in-app | one accept | every workspace |
 
@@ -76,7 +78,7 @@ In practice, a deep `/chiron:distill` or a large `/chiron:council` runs entirely
 
 ## Deep research in Cowork
 
-The deep-research phase of `/chiron:distill`, surveying a subject's published corpus and extracting frameworks, heuristics, and citations into the reference files, runs inside Cowork's sandbox. The work and the depth bar are the same: real-person seats still carry 6,000 to 10,000 words of source-attributed references, and the linter still hard-fails a thin one.
+The deep-research phase of `/chiron:distill`, surveying a subject's published corpus and extracting frameworks, heuristics, and citations into the reference files, runs inside Cowork's sandbox. The work and the depth bar are the same: real-person seats still carry roughly 6,000 to 8,500 words of source-attributed references, and the linter still hard-fails a thin one.
 
 Two honest differences from Claude Code:
 

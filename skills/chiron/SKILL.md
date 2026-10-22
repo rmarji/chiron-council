@@ -7,6 +7,8 @@ description: Route advisor requests to Chiron seats, and auto-orchestrate decisi
 
 The user invoked Chiron conversationally. Map their intent to the matching command file under `${CLAUDE_PLUGIN_ROOT}/commands/` and follow it exactly. The command files are the source of truth for each flow's contract.
 
+On Claude Code, `${CLAUDE_PLUGIN_ROOT}` is the installed plugin directory. ChatGPT and Codex do not set that variable. There, the plugin root is the directory that contains `skills/` and `scripts/`, and every `${CLAUDE_PLUGIN_ROOT}` in a command file means that directory. The `ask`, `council`, `coach`, and `log` skills are the same flows for hosts with no slash commands. They follow these command files and do not carry a second copy of any seat.
+
 **Default to orchestration.** When the user describes a decision or a situation but does NOT name a specific seat or bench, do not guess or grab the whole roster. Follow `commands/consult.md`: it decides whether to skip, ask one seat, or convene a council, and picks the right experts. That routing decision is the point of the product.
 
 | Intent sounds like | Follow |
@@ -24,7 +26,7 @@ The user invoked Chiron conversationally. Map their intent to the matching comma
 | "what did <seat> tell me", "open loops", "past consults" | `commands/log.md` |
 
 Resolution notes:
-- Seat and bench names arrive fuzzy ("munger", "the Munger seat", "my pricing people"). Resolve against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` and the bench YAMLs (project `.chiron/benches.yaml`, global `~/.claude/chiron/benches.yaml`). Seat wins ties; ask once if genuinely ambiguous.
+- Seat and bench names arrive fuzzy ("munger", "the Munger seat", "my pricing people"). Resolve against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` and `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json` (project `.chiron/benches.yaml`, global `~/.chiron/benches.yaml`, a leftover `~/.claude/chiron/benches.yaml`, or the bundled examples when the user has none of those). The `~/.claude/` seat dirs are read only; Chiron writes new seats under `~/.chiron/seats` (or the directory `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints). Seat wins ties; ask once if genuinely ambiguous. Never write under `~/.claude`.
 - Explicit beats inferred: if the user names a seat, honor it (ask); if they say "they/the bench/the council" or name a bench, go to council. Only auto-route (consult) when they leave the choice open.
 - Consult vs coach: use `consult` when they want the decision routed to the right expert(s) and answered in one shot; use `coach` when they want to be walked through it and driven to a committed call with a next action. If they sound like they want a working session, prefer coach; a one-shot question, consult.
 - When the user is mid-decision but has not asked Chiron for anything, offer to route rather than hijacking the turn.

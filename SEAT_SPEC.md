@@ -11,7 +11,7 @@ This document is the open standard. `scripts/lint_seat.py` enforces it mechanica
 ```
 skills/<id>/
 ├── SKILL.md              # the mind: frontmatter contract + core sections (< 6k tokens)
-├── disagreements.md     # authored conflicts with other seats, with cited positions
+├── disagreements.md     # authored conflicts with other seats, with cited positions (only if it has any)
 ├── references/          # the depth: complete extraction of the subject's thinking
 │   ├── principles.md
 │   ├── mental-models.md
@@ -20,8 +20,9 @@ skills/<id>/
 │   ├── heuristics.md
 │   ├── quotes.md
 │   └── sources.md
-└── log.md               # append-only consult memory (created on first use, gitignored)
 ```
+
+Consult memory is not in this tree. It is user data at `~/.chiron/logs/<id>/log.md` (or `$CHIRON_HOME/logs/<id>/log.md`), resolved by `scripts/memory.py`, because the plugin install is wiped on update and Claude Code refuses writes under `~/.claude`. See §6.
 
 Progressive disclosure is the load contract: a summoned seat loads SKILL.md frontmatter + core sections + its last 10 log entries. References load on demand. This is why SKILL.md must stay under ~6k tokens (lint L6) and why the depth lives in `references/`.
 
@@ -30,11 +31,12 @@ Progressive disclosure is the load contract: a summoned seat loads SKILL.md fron
 Chiron merges seats from several locations, in precedence order (a later scope shadows an earlier one on a shared id). Every location is scanned for skills carrying an `x-chiron` block, so a shared skills directory full of unrelated skills is safe:
 
 1. **Bundled** — the plugin's `skills/` (the shipped roster, one flat dir per seat). Public, versioned, lint-enforced.
-2. **Global skills** — `~/.claude/skills/`, where `/chiron:distill` installs an advisor so it auto-activates in every session.
-3. **Global "me" seat** — `~/.claude/chiron/seats/`, the private home `/chiron:distill-me` writes to (never a globally auto-activating skill).
-4. **Project** — `<project>/.claude/skills/` and `<project>/.chiron/seats/`. Scoped to one repo; shadow global on a shared id.
+2. **Global skills** — `~/.claude/skills/`, where `npx skills` installs a seat so it auto-activates. Chiron reads this directory and does not write it.
+3. **Older Chiron seats** — `~/.claude/chiron/seats/`. Still read. New seats are not written here.
+4. **Chiron user seats** — `~/.chiron/seats/`, where `/chiron:distill` and `/chiron:distill-me` write (the private `me` seat included). Not a native auto-activating skill directory.
+5. **Project** — `<project>/.claude/skills/` and `<project>/.chiron/seats/`. Scoped to one repo; shadow global on a shared id. Chiron writes the project copy under `.chiron/seats/`.
 
-The registry scans all of these (`registry.py --seats-dir <bundled>/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`); missing dirs are skipped, and each dir is filtered to skills carrying an `x-chiron` block. A user seat with the same id as a bundled one overrides it (e.g. your own richer `munger`; note the native skill loader then sees two skills named `munger`, and the registry resolves the override).
+The registry scans all of these (`registry.py --seats-dir <bundled>/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`); missing dirs are skipped, and each dir is filtered to skills carrying an `x-chiron` block. A user seat with the same id as a bundled one overrides it (e.g. your own richer `munger`; note the native skill loader then sees two skills named `munger`, and the registry resolves the override).
 
 **The `me` seat.** `/chiron:distill-me` writes an original-mode seat with id `me`: your own operating system (mission, values, goals, frameworks, go-to experts), so you can chair your own councils and be argued with. It is **private** — it holds personal data, lives only in your user or project seat dir, is never committed to the plugin repo, and is never shipped. Gitignore `.chiron/seats/` in any project. Treat the `me` seat like `log.md`: local, personal, yours.
 
@@ -131,7 +133,7 @@ Rules: `counterpart:` must name an installed seat id or be marked `counterpart: 
 
 ## 6. log.md
 
-Append-only consult memory, created on first consult, gitignored by default (it contains your decisions, not the seat's). Entry schema:
+Append-only consult memory, created on first consult. It contains the user's decisions, not the seat's content, so it does not live in the seat directory and it is never inside the plugin install. `scripts/memory.py log <id>` prints the path to write: `~/.chiron/logs/<id>/log.md` by default, `$CHIRON_HOME/logs/<id>/log.md` when that variable is set. `log <id> --read` prints the file to read, which is the new path, or the older `~/.claude/chiron/logs/<id>/log.md` when that is the only copy. Nothing is written under `~/.claude`. Entry schema:
 
 ```markdown
 ## 2026-07-06 · council:cc-pricing

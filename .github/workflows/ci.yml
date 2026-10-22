@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Lint every bundled seat (fails on warnings or errors)
+        run: python3 scripts/lint_seat.py --all
+      - name: Validate the ChatGPT and Codex plugin manifest
+        run: python3 scripts/validate_openai_plugin.py
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build the Cowork bundle
+        run: python3 scripts/build_bundle.py dist/chiron.plugin
+      - name: Assert version 0.3.0 and the runtime files
+        run: python3 scripts/build_bundle.py --check dist/chiron.plugin
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chiron-plugin
+          path: dist/chiron.plugin
+          if-no-files-found: error
