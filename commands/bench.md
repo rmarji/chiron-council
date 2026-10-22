@@ -21,7 +21,7 @@ File shape:
 ```yaml
 benches:
   product:
-    seats: [munger, naval, rayo]
+    seats: [munger, naval, hormozi]
     chairman: neutral        # a seat id, or "neutral"
     default_depth: quick     # quick | full
 ```
@@ -31,7 +31,7 @@ benches:
 1. Validate the name: `^[a-z0-9-]{2,32}$`.
 2. Validate every seat id against `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`. The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Unknown id → suggest the top fuzzy matches, don't write.
 3. 2-8 seats required. 1 seat → "use /chiron:ask, a bench of one is a person." More than 8 → refuse (CH-E4). **6+ → warn** about token cost and decision theater but proceed.
-4. If the user has no benches file yet (the resolver reports `source: example`), say that writing one retires the bundled examples, and offer to copy the examples into the new file first so they keep working. If a legacy file exists and you are creating the global file, copy the legacy entries in first (see above) instead of the examples.
+4. **Stop and ask before writing anything.** If the user has no benches file yet (the resolver reports `source: example`), say that writing one retires the bundled examples, offer to copy the examples into the new file first so they keep working, and wait for the answer. Do not do step 5 until they reply. If a legacy file exists and you are creating the global file, copy the legacy entries in first (see above) instead of the examples.
 5. Read the target YAML (create file + `benches:` root if missing), add the bench with `chairman: neutral` and `default_depth: quick` defaults (honor `--chairman` / `--depth` flags if given), write it back preserving existing entries and comments.
 6. **CH-E7:** if the same name exists in the other scope, create anyway and warn which one now shadows which.
 7. Confirm with the resulting YAML block and the file it was written to.

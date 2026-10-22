@@ -1,6 +1,6 @@
 {
   "name": "compound-club",
-  "description": "Authored councils of real thinkers for Claude Code. Cited seats, not generated personas.",
+  "description": "Compound Club: tools for thinking through hard decisions. Home of Chiron, a council of real thinkers you can ask for advice.",
   "owner": {
     "name": "Raed Marji",
     "email": "rmarji08@gmail.com"
@@ -9,7 +9,13 @@
     {
       "name": "chiron",
       "source": "./",
-      "description": "An authored council of real thinkers for Claude Code: cited, lint-enforced seats, not generated personas."
+      "description": "Ask Munger, Naval, Taleb, Voss and 15 other thinkers about a decision you're stuck on. Each answers from their published work, with sources. Try: \"run my pricing decision past the money council\".",
+      "category": "productivity",
+      "tags": [
+        "decision-making",
+        "advisors",
+        "thinking"
+      ]
     }
   ]
 }

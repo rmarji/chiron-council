@@ -1,7 +1,11 @@
 # Changelog
 
-## 0.3.0 (unreleased)
+## 0.3.0 (2026-10-22)
 
+- **Friendlier first run.** README has an "Install in 60 seconds" section for claude.ai, Claude Code, Claude Desktop/Cowork, Codex and ChatGPT, each with a first council to try. Plugin listings use plain words and a sample prompt.
+- **Answers read like a person wrote them.** New `skills/chiron/VOICE.md`: plain labels, jargon explained, one clear next step, and a heads-up that a council takes 1–3 minutes.
+- **Personal bits are opt-in.** Vault and `me.md` memory are offered, not assumed. The example `money` bench is now Munger, Naval and Hormozi; `deals` is Voss, Munger and Cialdini.
+- **Fixes:** `/chiron:bench` asks before copying the example benches; `/chiron:log --open-loops` creates `~/.chiron` first and reads legacy logs without a contradiction.
 - **Ferriss seat** (`tim-ferriss`, corpus mode) and the `work-design` example bench: Ferriss, Hormozi, Naval. The roster is now 19 seats.
 - **`/chiron:coach`**: a guided decision session that frames the real call, consults seats as evidence, and ends on one committed, logged decision.
 - **Example benches work out of the box.** With no benches file of your own, commands fall back to the bundled `benches/examples/benches.yaml`, so `/chiron:council relationship "..."` works on a fresh install. Your own benches file replaces the examples. New `scripts/benches.py` resolves which benches are in effect.

@@ -1,11 +1,17 @@
-# Chiron bench examples — copy into ~/.chiron/benches.yaml (global)
-# or .chiron/benches.yaml (project; shadows global on name collision).
-# Benches are plain YAML; edit by hand freely. 2-8 seats; >5 gets noisy.
+# Chiron example councils ("benches"). They work before you set anything up.
+# To keep and edit them, copy this file to ~/.chiron/benches.yaml (all projects)
+# or .chiron/benches.yaml (this project only; wins on a name clash).
+# Plain YAML. 2-8 advisors per council; more than 5 gets noisy.
+#
+# PROPOSED CHANGE: the author's personal seat (rayo) now sits only on `shipping`,
+# where it is labelled as the author's own framework. The default money and
+# deals councils use published thinkers only, so a stranger's first council
+# never depends on someone else's private rules.
 
 benches:
-  # Money and bets: incentives, leverage, and Rayo's (the author's) execution laws
+  # Money and bets: incentives, leverage, and how to price the offer
   money:
-    seats: [munger, naval, rayo]
+    seats: [munger, naval, hormozi]
     chairman: neutral
     default_depth: quick
 
@@ -15,9 +21,9 @@ benches:
     chairman: neutral
     default_depth: full
 
-  # Deals & negotiations
+  # Deals and negotiations: tactical empathy, incentives, persuasion
   deals:
-    seats: [voss, munger, rayo]
+    seats: [voss, munger, cialdini]
     chairman: neutral
     default_depth: quick
 
@@ -27,15 +33,15 @@ benches:
     chairman: neutral
     default_depth: full
 
-  # Ship-or-slip: should you build it, and will you actually ship it
+  # Ship-or-slip: should you build it, and will you actually ship it.
+  # Seats the author's own operating system (rayo) as an example of a personal seat.
   shipping:
     seats: [rayo, naval, rumelt]
-    chairman: rayo
+    chairman: neutral
     default_depth: quick
 
-  # Work & time design: how hard to work, and what to cut. Ferriss (minimize,
-  # eliminate, automate a muse) vs Hormozi (volume, long hours) is authored
-  # opposition; Naval brings the leverage synthesis. Neutral chairman.
+  # Work and time design: Ferriss (minimize, automate) vs Hormozi (volume,
+  # long hours) is authored opposition; Naval brings the leverage synthesis.
   work-design:
     seats: [tim-ferriss, hormozi, naval]
     chairman: neutral

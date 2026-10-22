@@ -43,7 +43,7 @@ class BenchFallbackTests(unittest.TestCase):
             self.assertIn(name, benches)
             self.assertEqual(benches[name]["source"], "example")
         self.assertEqual(benches["relationship"]["seats"], ["deida", "terry-real"])
-        self.assertEqual(benches["shipping"]["chairman"], "rayo")
+        self.assertEqual(benches["shipping"]["chairman"], "neutral")
 
     def test_user_global_file_replaces_examples(self):
         write(self.global_, "benches:\n  mine:\n    seats: [munger, naval]\n")
