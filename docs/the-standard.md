@@ -26,7 +26,7 @@ skills/<id>/
 │   └── sources.md
 ```
 
-Consult memory is not in the seat folder. It lives at `~/.claude/chiron/logs/<id>/log.md` (`scripts/memory.py`), outside the plugin install, which is wiped on every update.
+Consult memory is not in the seat folder. It lives at `~/.chiron/logs/<id>/log.md` (`scripts/memory.py`), outside the plugin install, which is wiped on every update. It is not written under `~/.claude`.
 
 The load contract is progressive disclosure. When a seat is summoned it loads the `SKILL.md` frontmatter, the core sections, and its last 10 log entries. The `references/` files load on demand. That is why `SKILL.md` must stay under roughly 6k tokens (lint L6) and why the depth lives in `references/`. Real-person seats carry roughly 6,000 to 8,500 words of source-attributed reference material split across those seven files.
 
@@ -175,7 +175,7 @@ If you would rather author one directly, the loop is short:
 
 Mechanical findings (frontmatter, naming, first-person rewrites) are quick fixes. Content gaps (L5 thin sections, L12 missing references) need real authoring at the depth bar, not filler.
 
-Two hard rules the standard enforces no matter how you author. You cannot produce a persona-mode seat for a living, unlicensed subject: use corpus mode or an archetype alias instead. And the private `me` seat you write with [`/chiron:distill-me`](./distilling.md) is never shipped: it holds personal data, lives only in `~/.claude/chiron/seats/` or a project `.chiron/seats/`, is gitignored, and never goes in the plugin repo.
+Two hard rules the standard enforces no matter how you author. You cannot produce a persona-mode seat for a living, unlicensed subject: use corpus mode or an archetype alias instead. And the private `me` seat you write with [`/chiron:distill-me`](./distilling.md) is never shipped: it holds personal data, lives only in `~/.chiron/seats/` or a project `.chiron/seats/`, is gitignored, and never goes in the plugin repo.
 
 ## The registry and x-chiron discovery
 
@@ -186,12 +186,13 @@ python3 scripts/registry.py \
   --seats-dir <bundled>/skills \
   --seats-dir ~/.claude/skills \
   --seats-dir ~/.claude/chiron/seats \
+  --seats-dir ~/.chiron/seats \
   --seats-dir .claude/skills \
   --seats-dir .chiron/seats \
   --json
 ```
 
-The order is: bundled roster, global skills (`~/.claude/skills/`, where `/chiron:distill` installs an advisor so it auto-activates everywhere), the private global `me` seat (`~/.claude/chiron/seats/`), then project scopes (`<project>/.claude/skills/` and `<project>/.chiron/seats/`). Missing directories are skipped. A user seat with the same id as a bundled one overrides it, so your own richer `munger` shadows the shipped one. More on this in [portability](./portability.md) and [cowork](./cowork.md).
+The order is: bundled roster, global skills (`~/.claude/skills/`, where `npx skills` installs a seat so it auto-activates), older Chiron seats (`~/.claude/chiron/seats/`, read only), seats Chiron writes (`~/.chiron/seats/`, including the private `me` seat), then project scopes (`<project>/.claude/skills/` and `<project>/.chiron/seats/`). Missing directories are skipped. A user seat with the same id as a bundled one overrides it, so your own richer `munger` shadows the shipped one. More on this in [portability](./portability.md) and [cowork](./cowork.md). `/chiron:distill` does not write `~/.claude/skills/`.
 
 The mechanism that makes a shared skills directory safe is the `x-chiron` marker. At runtime and for the registry, `discover_seats` returns only directories whose `SKILL.md` carries an `x-chiron` block. So scanning `~/.claude/skills/`, which is full of unrelated skills, picks out exactly the seats and ignores everything else, including Chiron's own conversational router skill (`chiron`), which is a skill but not a seat.
 

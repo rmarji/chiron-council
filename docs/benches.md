@@ -36,14 +36,14 @@ Notes on each field:
 
 Two locations, same shape:
 
-- **Global:** `~/.claude/chiron/benches.yaml`. Available in every project.
+- **Global:** `~/.chiron/benches.yaml` (or `$CHIRON_HOME/benches.yaml`). Available in every project. An older file at `~/.claude/chiron/benches.yaml` is still read and is not written.
 - **Project:** `.chiron/benches.yaml`. Scoped to the repo you are in.
 
 `/chiron:bench create` and `/chiron:onboard` write to the **project** file when you are inside a project, and to the global file with `--global` or when you are not in one. Claude Code almost always runs inside a project directory, so in practice a new bench lands in that repo's `.chiron/benches.yaml` unless you pass `--global`. Both commands tell you which file they wrote.
 
-**Before you have either file**, Chiron uses the example benches bundled with the plugin (`benches/examples/benches.yaml`): `money`, `strategy`, `deals`, `relationship`, `shipping`, and `work-design`. That is why `/chiron:council relationship "..."` works on a fresh install. The examples are a fallback, not a third scope: once you have a benches file of your own, they drop out, so `/chiron:bench create` offers to copy them into your file first. To see what is in effect from a shell, run `python3 scripts/benches.py` from the plugin directory.
+**Before you have a benches file of your own** (project, global, or the older `~/.claude/chiron/benches.yaml`), Chiron uses the example benches bundled with the plugin (`benches/examples/benches.yaml`): `money`, `strategy`, `deals`, `relationship`, `shipping`, and `work-design`. That is why `/chiron:council relationship "..."` works on a fresh install. The examples are a fallback, not another scope: once any of those files exists, they drop out, so `/chiron:bench create` offers to copy them into your file first. To see what is in effect from a shell, run `python3 scripts/benches.py` from the plugin directory.
 
-On a name collision, **project shadows global**. If you have a global `strategy` bench and a project `strategy` bench, the project one wins inside that repo, and Chiron notes the shadowing once per session when it applies. Removing the project entry falls back to the global one.
+On a name collision, **project shadows global, which shadows the older file**. If you have a global `strategy` bench and a project `strategy` bench, the project one wins inside that repo, and Chiron notes the shadowing once per session when it applies. Removing the project entry falls back to the global one.
 
 The project `.chiron/` directory is gitignored by Chiron's own repo because it also holds your private `me` seat and personal config. In your own project you decide whether to commit `.chiron/benches.yaml`. Commit it to share a team's benches; leave it ignored to keep them personal.
 
@@ -70,7 +70,7 @@ Flags:
 
 | Flag | Effect |
 |---|---|
-| `--global` | write to `~/.claude/chiron/benches.yaml` instead of the project file |
+| `--global` | write to `~/.chiron/benches.yaml` instead of the project file |
 | `--chairman <id>` | set the chairman to a seat id (default `neutral`) |
 | `--depth <quick\|full>` | set `default_depth` (default `quick`) |
 
@@ -78,7 +78,7 @@ Flags:
 
 ### By hand
 
-Because the file is the API, editing is the same as writing YAML. Open `~/.claude/chiron/benches.yaml` (create it if it does not exist), add a block under `benches:`, save.
+Because the file is the API, editing is the same as writing YAML. Open `~/.chiron/benches.yaml` (create it if it does not exist), add a block under `benches:`, save. Do not write `~/.claude/chiron/benches.yaml`.
 
 ```yaml
 benches:
@@ -204,7 +204,7 @@ benches:
 
 With `chairman: me`, the flow is: the other seats argue from their records in isolation, then your `me` seat reads the room and makes the call the way you would, keeping the dissent visible so you see exactly what you are overruling. It is the closest thing to sitting at the head of your own table.
 
-Your `me` seat stays private. It lives in `~/.claude/chiron/seats/` or a project's `.chiron/seats/`, is gitignored, and is never shipped. A bench that references it is only usable where that seat is installed, so keep `me`-chaired benches in the same scope (global with a global `me`, project with a project `me`). See [Distilling](./distilling.md) for how the `me` seat is built.
+Your `me` seat stays private. It lives in `~/.chiron/seats/` or a project's `.chiron/seats/`, is gitignored, and is never shipped. A bench that references it is only usable where that seat is installed, so keep `me`-chaired benches in the same scope (global with a global `me`, project with a project `me`). See [Distilling](./distilling.md) for how the `me` seat is built.
 
 ## Related
 

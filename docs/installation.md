@@ -96,19 +96,22 @@ Nothing is hidden. Chiron reads seats from several directories and merges them, 
 | Location | What lives there | Scope |
 |---|---|---|
 | Plugin cache, e.g. `~/.claude/plugins/...` (the commands reach it as `${CLAUDE_PLUGIN_ROOT}/skills`) | The 19 bundled seats, the scripts, and the example benches. Do not edit these by hand. | Bundled |
-| `~/.claude/skills/<id>/` | Seats you install with `npx skills` or distill in Claude Code. Auto-activate globally. | Global |
-| `~/.claude/chiron/seats/<id>/` | Your private `me` seat and any personal seats. Gitignored, never shipped. | Global, private |
-| `~/.claude/chiron/benches.yaml` | Your global benches (curated line-ups). Plain YAML. | Global |
-| `~/.claude/chiron/logs/<id>/log.md` | Consult memory for each seat. Created on first use. Set `CHIRON_HOME` to move the whole `chiron/` directory. Never written inside the plugin cache. | Global, private |
-| `<project>/.claude/skills/<id>/` | Project-scoped seats. | Project |
+| `~/.claude/skills/<id>/` | Seats you install with `npx skills`. Auto-activate globally. Chiron reads this directory and does not write it: Claude Code refuses writes under `~/.claude`. | Global |
+| `~/.claude/chiron/seats/<id>/` | Older location of the private `me` seat. Still read. New seats are not written here. | Global, legacy |
+| `~/.chiron/seats/<id>/` | Your private `me` seat and seats from `/chiron:distill`. Set `CHIRON_HOME` to move this whole directory. An explicit `CHIRON_HOME` under `~/.claude` is honored and then refused by Claude Code; the scripts do not redirect it. | Global, private |
+| `~/.chiron/benches.yaml` | Your global benches (curated line-ups). Plain YAML. `--global`, or when you are not in a project. | Global |
+| `~/.claude/chiron/benches.yaml` | Older global benches file. Still read. The next global write copies it into `~/.chiron/benches.yaml` and does not write this path. | Global, legacy |
+| `~/.chiron/logs/<id>/log.md` | Consult memory for each seat. Created on first use. Never written inside the plugin cache, and never under `~/.claude`. | Global, private |
+| `~/.claude/chiron/logs/<id>/log.md` | Older consult logs. Still read. The next consult copies a seat's log into `~/.chiron/logs/` and does not write this path. | Global, legacy |
+| `<project>/.claude/skills/<id>/` | Project skills installed outside Chiron. Read, not a Chiron write target. | Project |
 | `<project>/.chiron/seats/<id>/` | Project-scoped `me` seat and distilled seats. In Cowork, this is where everything you create lands. | Project |
 | `<project>/.chiron/benches.yaml` | Project benches. Shadow global benches on a name collision. `/chiron:bench create` writes here by default when you are inside a project. | Project |
 
-If neither benches file exists, commands use the bundled `benches/examples/benches.yaml` instead. Your first benches file replaces the examples entirely. `/chiron:bench create` offers to copy them in first. To get them back later, delete the file you created.
+If you have no benches file of your own (project, `~/.chiron/benches.yaml`, or the older `~/.claude/chiron/benches.yaml`), commands use the bundled `benches/examples/benches.yaml` instead. Your first benches file replaces the examples entirely. `/chiron:bench create` offers to copy them in first. To get them back later, delete the file you created.
 
 The registry picks seats out of a shared skills root (`~/.claude/skills` can hold plenty of unrelated skills) by looking for the `x-chiron` marker in each `SKILL.md`. Unrelated skills and the Chiron router are ignored, so a busy skills directory does not confuse the roster.
 
-Your `me` seat is deliberately private: it holds your mission, values, goals, and decisions, lives under `~/.claude/chiron/seats/` or a project's `.chiron/seats/`, is gitignored, and never gets committed or shipped from this repo. More on that in [./distilling.md](./distilling.md).
+Your `me` seat is deliberately private: it holds your mission, values, goals, and decisions, lives under `~/.chiron/seats/` or a project's `.chiron/seats/`, is gitignored, and never gets committed or shipped from this repo. More on that in [./distilling.md](./distilling.md).
 
 ## Updating
 
@@ -125,7 +128,7 @@ Your `me` seat is deliberately private: it holds your mission, values, goals, an
 
 - **Seats-only:** re-run the same `npx skills add` command you used. It pulls the current seats and overwrites them in place.
 
-Updating the plugin or re-running `npx skills` only touches the bundled and installed seats. Your `me` seat, your distilled seats, your benches, and each seat's consult log (`~/.claude/chiron/logs/`) live outside the plugin cache and are left alone. The cache itself is replaced on update, which is why logs are not stored next to the seats.
+Updating the plugin or re-running `npx skills` only touches the bundled and installed seats. Your `me` seat, your distilled seats, your benches, and each seat's consult log (`~/.chiron/`) live outside the plugin cache and are left alone. The cache itself is replaced on update, which is why logs are not stored next to the seats.
 
 ## Uninstalling
 
@@ -140,7 +143,7 @@ Updating the plugin or re-running `npx skills` only touches the bundled and inst
 
 - **Seats-only:** delete the seat folders from your agent's skills directory, for example `rm -rf ~/.claude/skills/munger` (or whichever seats you added).
 
-Uninstalling does not delete your personal data. If you want that gone too, remove `~/.claude/chiron/` (your `me` seat, personal seats, and global benches) and any project `.chiron/` directories yourself. That is your call to make, so Chiron never touches those on uninstall.
+Uninstalling does not delete your personal data. If you want that gone too, remove `~/.chiron/` (your `me` seat, personal seats, global benches, and consult logs) and any project `.chiron/` directories yourself. An older tree at `~/.claude/chiron/` is unused once you have copied it forward; remove that too if you still have it. That is your call to make, so Chiron never touches those on uninstall.
 
 ## Install troubleshooting
 

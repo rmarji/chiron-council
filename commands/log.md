@@ -7,7 +7,7 @@ argument-hint: <seat-id> [--open-loops]
 
 The user asked: `$ARGUMENTS`
 
-Read the seat's consult log. Resolve the path with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id>` (`~/.claude/chiron/logs/<id>/log.md`, or `$CHIRON_HOME/logs/<id>/log.md`, or `--home .chiron` in Cowork). Do not read or write a `log.md` inside the seat directory or under `${CLAUDE_PLUGIN_ROOT}`. If the file doesn't exist: "No consults recorded with this seat yet." and stop.
+Read the seat's consult log. Resolve the path with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --read` (`~/.chiron/logs/<id>/log.md` by default, `$CHIRON_HOME/logs/<id>/log.md` when that variable is set, or `--home .chiron` in Cowork). If the new file is missing and an older log is still at `~/.claude/chiron/logs/<id>/log.md`, `--read` prints that older path: read it, and do not write it. Do not read or write a `log.md` inside the seat directory, under `${CLAUDE_PLUGIN_ROOT}`, or anywhere under `~/.claude`. If the printed path does not exist, say "No log file is at that path yet." and stop. Do not claim the user never consulted the seat.
 
 ## Default view
 

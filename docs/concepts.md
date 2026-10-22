@@ -41,7 +41,7 @@ skills/munger/
 │   ├── anti-patterns.md ├── heuristics.md     ├── quotes.md   └── sources.md
 ```
 
-Consult memory is not in the seat folder. A summoned seat reads `~/.claude/chiron/logs/<id>/log.md` (see [commands](./commands.md#chironlog)), which survives a plugin update. The plugin install itself is never written to.
+Consult memory is not in the seat folder. A summoned seat reads `~/.chiron/logs/<id>/log.md` (see [commands](./commands.md#chironlog)), which survives a plugin update. The plugin install itself is never written to, and neither is `~/.claude`.
 
 Everything is files. No database, no server, no API keys. The full contract lives in [SEAT_SPEC.md](../SEAT_SPEC.md), summarized in [the-standard.md](./the-standard.md).
 
@@ -57,7 +57,7 @@ Every seat declares a `mode`. The mode decides how it may speak.
 
 **Corpus mode** is the backbone of the roster. A corpus seat speaks *about* the record, never *as* the person: "the Munger corpus would flag the incentive here (The Psychology of Human Misjudgment, 1995)," not "I, Charlie, would flag this." Eighteen of the nineteen bundled seats are corpus mode; Rayo is the one original-mode seat.
 
-**Original mode** is for a mind that is its own source. Rayo OS is one: an authored execution and decision-routing operating system (FATE, the Ship Gate, MAX THREE) with no external subject to cite. Your own `me` seat is another. When you run [`/chiron:distill-me`](./distilling.md), Chiron reads how you actually operate and writes an original-mode seat holding your mission, values, goals, frameworks, and the experts you already reach for, so your own operating system can chair a council and be argued with. That `me` seat is **private**: it lives in `~/.claude/chiron/seats/` or a project's `.chiron/seats/`, both gitignored, never committed, and never shipped from the plugin repo.
+**Original mode** is for a mind that is its own source. Rayo OS is one: an authored execution and decision-routing operating system (FATE, the Ship Gate, MAX THREE) with no external subject to cite. Your own `me` seat is another. When you run [`/chiron:distill-me`](./distilling.md), Chiron reads how you actually operate and writes an original-mode seat holding your mission, values, goals, frameworks, and the experts you already reach for, so your own operating system can chair a council and be argued with. That `me` seat is **private**: it lives in `~/.chiron/seats/` or a project's `.chiron/seats/`, both gitignored, never committed, and never shipped from the plugin repo.
 
 ### Why living people are corpus-only
 
@@ -80,7 +80,7 @@ If a seat skimps on provenance, the build fails. That is what separates a seat f
 
 ## Memory
 
-Each seat keeps a private consult log, an append-only record of what it was asked, what it advised, and what you decided. The file is `~/.claude/chiron/logs/<id>/log.md`, not a file inside the seat, so a plugin update cannot wipe it. When a seat loads, it reads its last 10 entries, so it remembers what it told you and whether you listened. Ask the same seat about a call it weighed in on two weeks ago and it can say "this seat advised X on that; the recorded decision was Y."
+Each seat keeps a private consult log, an append-only record of what it was asked, what it advised, and what you decided. The file is `~/.chiron/logs/<id>/log.md`, not a file inside the seat, so a plugin update cannot wipe it. When a seat loads, it reads its last 10 entries, so it remembers what it told you and whether you listened. Ask the same seat about a call it weighed in on two weeks ago and it can say "this seat advised X on that; the recorded decision was Y."
 
 The log holds *your* decisions, not the seat's thinking, so it is gitignored by default and stays local. [`/chiron:log <seat>`](./commands.md) surfaces the open loops you never closed.
 
@@ -133,7 +133,7 @@ benches:
     default_depth: quick   # quick | full
 ```
 
-Benches live globally at `~/.claude/chiron/benches.yaml` and per project at `.chiron/benches.yaml`, and project shadows global on a name collision. Until you have either file, the example benches bundled with the plugin are used. Name a bench where a council expects a seat list and it convenes that line-up. See [benches.md](./benches.md) for the full mechanics.
+Benches live globally at `~/.chiron/benches.yaml` and per project at `.chiron/benches.yaml`, and project shadows global on a name collision. Until you have either file (or an older `~/.claude/chiron/benches.yaml`, which is still read and not written), the example benches bundled with the plugin are used. Name a bench where a council expects a seat list and it convenes that line-up. See [benches.md](./benches.md) for the full mechanics.
 
 ## Authored versus generated
 

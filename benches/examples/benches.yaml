@@ -1,4 +1,4 @@
-# Chiron bench examples — copy into ~/.claude/chiron/benches.yaml (global)
+# Chiron bench examples — copy into ~/.chiron/benches.yaml (global)
 # or .chiron/benches.yaml (project; shadows global on name collision).
 # Benches are plain YAML; edit by hand freely. 2-8 seats; >5 gets noisy.
 

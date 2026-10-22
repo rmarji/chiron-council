@@ -8,10 +8,10 @@ argument-hint: [--domain <tag>]
 Run:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats [--domain <tag>]
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats [--domain <tag>]
 ```
 
-(Use `--json` if you need to post-process.)
+(Use `--json` if you need to post-process.) The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
 
 Render the roster grouped by primary domain: **id · display_name · mode · domains · lint status**. Pass `--domain <tag>` through when the user gave one.
 

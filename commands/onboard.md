@@ -14,8 +14,10 @@ Get a new user from install to their first useful council. Move quickly, do the 
 One short paragraph: Chiron is a council of authored advisors ("seats") built from real published work, cited, not generated personas. You ask one seat, or convene several, and it can pick the right ones for you. Then show what's installed:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats
 ```
+
+The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
 
 Render the roster grouped by domain so they see who's in the box.
 
@@ -36,7 +38,7 @@ Either path yields: their domains, their go-to experts, and their decision style
 From their go-to experts and the decision in Q2:
 
 - Map experts to installed seats; offer to `/chiron:distill` any they named that aren't installed yet.
-- Create **2-3 starter benches** with `/chiron:bench` from their domains (e.g. a `money` bench, a `strategy` bench, a `decisions` bench), and a personal bench chaired by their `me` seat if they built one. Write them where `/chiron:bench` writes: the project's `.chiron/benches.yaml` when inside a project, `~/.claude/chiron/benches.yaml` otherwise or with `--global`. Tell them which file you wrote.
+- Create **2-3 starter benches** with `/chiron:bench` from their domains (e.g. a `money` bench, a `strategy` bench, a `decisions` bench), and a personal bench chaired by their `me` seat if they built one. Write them where `/chiron:bench` writes: the project's `.chiron/benches.yaml` when inside a project, `~/.chiron/benches.yaml` otherwise or with `--global`. Tell them which file you wrote. Never write a benches file under `~/.claude`.
 - Until they have a benches file, the bundled examples (`${CLAUDE_PLUGIN_ROOT}/benches/examples/benches.yaml`) are in effect. Writing their first bench retires them, so offer to copy the examples into the same file first.
 
 ## 4. First real consult

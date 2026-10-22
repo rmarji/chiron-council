@@ -13,7 +13,7 @@ Read `${CLAUDE_PLUGIN_ROOT}/SEAT_SPEC.md` first. Model the output on an original
 
 The `me` seat holds your mission, values, goals, and decisions. It is **private and local**. Tell the user up front:
 
-- It writes to `~/.claude/chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project) — **never** into the Chiron plugin repo, never committed, never shipped. In Cowork (no `~/.claude` write access), use the project path `<project>/.chiron/seats/me/`, which the registry scans.
+- It writes to the directory `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints, plus `/me/` (`~/.chiron/seats/me/` unless `CHIRON_HOME` is set), or `<project>/.chiron/seats/me/` if the user wants it in one repo. **Never** write `~/.claude/chiron/seats/me/`, never write into the Chiron plugin repo, never committed, never shipped. Claude Code refuses writes under `~/.claude`. In Cowork (no home-directory write), use the project path `<project>/.chiron/seats/me/`, which the registry scans. If a `me` seat already exists at `~/.claude/chiron/seats/me/`, read it and carry it forward into the new directory; do not write the old path.
 - If written into a project, add `.chiron/seats/` to that project's `.gitignore` (offer to do it).
 - You will read personal sources only with consent, name each source before reading it, and never transmit any of it anywhere.
 
@@ -41,15 +41,15 @@ Synthesize, in the user's own terms, cited to the source where possible:
 
 ## 3. Author the `me` seat
 
-Write `~/.claude/chiron/seats/me/` (or the project path), full SEAT_SPEC structure:
+Write `<seats-dir>/me/` from `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` (or the project path), full SEAT_SPEC structure. Do not write under `~/.claude`:
 
 - `SKILL.md`: frontmatter `name: me`, a description, `x-chiron: { display_name: "<their name> (you)", mode: original, domains: [<their domains>] }` (original mode needs no provenance and no M4 disclaimer — it is self-authored). Body: narrative sections plus the required `## Priors` (≥5), `## Heuristics` (≥5, IF/THEN), `## Refusals` (≥2 — the things they refuse to do or decide, e.g. their own guardrails), `## Voice`. Keep under ~6k tokens.
 - `references/`: the 7 standard files, holding the depth (their full framework catalog, mission/values/goals, anti-patterns, the source pointers). Everything from step 2 lives here so `SKILL.md` stays lean.
-- Lint it: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py ~/.claude/chiron/seats/me`. Fix until pass.
+- Lint it: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py <the me directory you just wrote>`. Fix until pass.
 
 ## 4. Read out the go-to experts → recommend a roster
 
-Map the user's named go-to experts against the installed roster (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`):
+Map the user's named go-to experts against the installed roster (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats`). If `memory.py seats` printed a directory other than `~/.chiron/seats`, pass that directory in its place:
 
 - **Already installed** → note them.
 - **Not yet installed but available/known** → offer to `/chiron:distill` each.

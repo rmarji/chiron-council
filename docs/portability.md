@@ -92,7 +92,7 @@ Draw the line between the seats and the plugin around them.
 
 The seats themselves run anywhere Agent Skills load. The orchestration around them, the slash commands, the self-routing consult, live councils, benches, and the memory that logs what a seat told you, lives in the Chiron plugin. The plugin runs in Claude Code and in Cowork, which share the plugin format (see [Installation](./installation.md) and [Cowork](./cowork.md)). Outside those two, you get the seats without the conductor.
 
-Be aware of the memory caveat: consult logs are written by the plugin's `ask` and `council` flows, to `~/.claude/chiron/logs/<id>/log.md`, not into the seat. In a bare harness the seat activates and advises, but nothing appends a log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
+Be aware of the memory caveat: consult logs are written by the plugin's `ask` and `council` flows, to `~/.chiron/logs/<id>/log.md`, not into the seat, and not under `~/.claude`. In a bare harness the seat activates and advises, but nothing appends a log, so there is no running memory of your past calls. That is a feature of the plugin, not the seat file.
 
 ## Invoke a seat outside the plugin
 
@@ -119,9 +119,9 @@ You can name the subject casually ("what would Munger say...") or the lens expli
 
 ## Your own distilled seats port too
 
-Seats you create with [`/chiron:distill`](./distilling.md) are ordinary seats and travel the same way. In Claude Code, distill writes the new seat to `~/.claude/skills/<id>/`, a standard skills directory, so it auto-activates in every session and installs into other harnesses with the same `cp` or `npx skills` step.
+Seats you create with [`/chiron:distill`](./distilling.md) are ordinary seats and travel the same way. In Claude Code, distill writes the new seat to `~/.chiron/seats/<id>/`, which the Chiron registry scans, so every council finds it. Copy that directory into a harness skills folder (or install a published seat with `npx skills`) when you want it to auto-activate outside Chiron. Distill does not write `~/.claude/skills/<id>/`.
 
-The one exception is your private `me` seat from `/chiron:distill-me`. It holds personal data, so it lives in `~/.claude/chiron/seats/` (or a project's `.chiron/seats/`), which is a Chiron registry path, not a standard skills directory. It is gitignored and never shipped, and because it is not in a skills folder it does not auto-activate as a global skill in another harness. That is deliberate: your operating system stays local to Chiron. See [Concepts](./concepts.md) for the precedence rules and [../SEAT_SPEC.md](../SEAT_SPEC.md) for where seats live.
+The one exception is your private `me` seat from `/chiron:distill-me`. It holds personal data, so it lives in `~/.chiron/seats/` (or a project's `.chiron/seats/`), which is a Chiron registry path, not a standard skills directory. It is gitignored and never shipped, and because it is not in a skills folder it does not auto-activate as a global skill in another harness. That is deliberate: your operating system stays local to Chiron. See [Concepts](./concepts.md) for the precedence rules and [../SEAT_SPEC.md](../SEAT_SPEC.md) for where seats live.
 
 ## The standard travels with the seats
 

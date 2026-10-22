@@ -11,17 +11,17 @@ Parse the first token as a seat or bench name, the rest as the question.
 
 ## 1. Resolve
 
-- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats).
-- Match the first argument against seat ids first, then bench names (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json`: project `.chiron/benches.yaml`, then `~/.claude/chiron/benches.yaml`, or the bundled examples when the user has neither). **Seat wins ties.**
+- Run `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/registry.py --json --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills --seats-dir ~/.claude/skills --seats-dir ~/.claude/chiron/seats --seats-dir ~/.chiron/seats --seats-dir .claude/skills --seats-dir .chiron/seats` to get the roster (bundled + your global and project seats). The `~/.claude/` directories are read only. If `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py seats` prints a directory other than `~/.chiron/seats`, pass that directory in place of `~/.chiron/seats`. Run it as its own `python3` command.
+- Match the first argument against seat ids first, then bench names (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/benches.py --json`: project `.chiron/benches.yaml`, then `~/.chiron/benches.yaml`, then a leftover `~/.claude/chiron/benches.yaml`, or the bundled examples when the user has none of those). **Seat wins ties.**
 - If it matches a **bench**, this becomes a council — follow `/chiron:council` semantics at the bench's `default_depth` instead of continuing here.
 - **CH-E1 (unknown id):** suggest the top 3 fuzzy matches from the registry, point to `/chiron:roster`, stop.
 - **CH-E3 (seat fails lint):** if the registry shows `lint: fail`, refuse to load it. Print the lint errors (`python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py <seat-path> --explain`) and stop. `warn` is acceptable — load with a one-line note.
 
 ## 2. Load the seat
 
-Read, in this order (the seat's directory is the `path` the registry returned for `<id>` — a bundled seat resolves under `${CLAUDE_PLUGIN_ROOT}/skills/<id>/`, an installed one under `~/.claude/skills/<id>/` or a project's `.chiron/seats/<id>/`):
+Read, in this order (the seat's directory is the `path` the registry returned for `<id>` — a bundled seat resolves under `${CLAUDE_PLUGIN_ROOT}/skills/<id>/`, a Chiron seat under `~/.chiron/seats/<id>/`, an `npx skills` install under `~/.claude/skills/<id>/`, or a project's `.chiron/seats/<id>/`):
 1. `<seat-dir>/SKILL.md` — frontmatter + all core sections. Honor the `## Voice` contract and `## Refusals` absolutely.
-2. The seat's consult log, **last 10 entries only**. Resolve it with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id>` and read that file (it may not exist yet). Never `<seat-dir>/log.md`, and never anything under `${CLAUDE_PLUGIN_ROOT}`: the plugin cache is wiped on update and Claude Code blocks writes there. The seat remembers what it told this user and whether they listened. If a past entry is relevant, reference it explicitly ("On 2026-06-12 this seat advised X; the recorded decision was Y").
+2. The seat's consult log, **last 10 entries only**. Resolve it with `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --read` (add `--home .chiron` in Cowork) and read that file (it may not exist yet). Never `<seat-dir>/log.md`, and never anything under `${CLAUDE_PLUGIN_ROOT}`: the plugin cache is wiped on update and Claude Code blocks writes there. The seat remembers what it told this user and whether they listened. If a past entry is relevant, reference it explicitly ("On 2026-06-12 this seat advised X; the recorded decision was Y").
 3. `<seat-dir>/references/*` — load **only** the files the question actually needs (progressive disclosure). A negotiation question loads frameworks.md; a "what would he say about my situation" question may need principles + anti-patterns.
 
 ## 3. Respond — the voice contract
@@ -34,7 +34,7 @@ Read, in this order (the seat's directory is the `path` the registry returned fo
 
 ## 4. Record
 
-Append to the path from `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` (create the file with a `# Log — <id>` heading if missing; NEVER rewrite prior entries). That is `~/.claude/chiron/logs/<id>/log.md`, or `$CHIRON_HOME/logs/<id>/log.md` when the variable is set. In Cowork, where the home directory is not writable, pass `--home .chiron`. Do not write the log inside the plugin install:
+Append to the path `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/memory.py log <id> --ensure` prints (create the file with a `# Log — <id>` heading if missing; NEVER rewrite prior entries). That is `~/.chiron/logs/<id>/log.md`, or `$CHIRON_HOME/logs/<id>/log.md` when the variable is set (`--home` overrides the variable). In Cowork, where the home directory is not writable, pass `--home .chiron`. `--ensure` copies a log that still lives at `~/.claude/chiron/logs/<id>/log.md` into the new path once. Append only to the printed path. Never write under `~/.claude` or inside the plugin install:
 
 ```markdown
 ## {today ISO date} · ask

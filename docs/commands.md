@@ -157,7 +157,7 @@ One seat, one question, one authored lens, with that seat's memory of your past 
 
 The seat responds in its voice contract. Corpus-mode seats speak in the third person and cite a source for each substantive claim ("the Munger corpus would flag..."), never in first person. The shape is fixed: position first (three to six lines), then reasoning, a confidence of 1 to 5, and what would change the seat's mind. One recommendation, not a menu. If your question hits one of the seat's `## Refusals`, it declines that part and redirects rather than opining outside its competence.
 
-After answering, it appends an entry to `~/.claude/chiron/logs/<id>/log.md` (never inside the plugin install) and asks once whether to record your decision. That is how the seat remembers what it told you and whether you listened.
+After answering, it appends an entry to `~/.chiron/logs/<id>/log.md` (never inside the plugin install, and never under `~/.claude`) and asks once whether to record your decision. That is how the seat remembers what it told you and whether you listened.
 
 **Example**
 
@@ -251,7 +251,7 @@ Record your decision?
 Manage benches, which are curated seat line-ups you convene by name. Benches are plain YAML, and the files are the API: you can edit them by hand and Chiron reads the same file. They live in two places:
 
 - **Project:** `.chiron/benches.yaml` (the default write target inside a project)
-- **Global:** `~/.claude/chiron/benches.yaml` (write here with `--global`, or when not in a project)
+- **Global:** `~/.chiron/benches.yaml` (write here with `--global`, or when not in a project). An older file at `~/.claude/chiron/benches.yaml` is still read and is not written.
 
 On a name collision, the project bench shadows the global one. Until you have either file, the bundled examples in `benches/examples/benches.yaml` are in effect; your first benches file replaces them, and `create` offers to copy them over first. The file shape:
 
@@ -265,7 +265,7 @@ benches:
 
 **create** validates the name against `^[a-z0-9-]{2,32}$`, validates every seat id against the registry (an unknown id is not written; you get fuzzy matches instead), and requires two to eight seats. One seat is refused ("use /chiron:ask, a bench of one is a person"). Six or more seats is allowed but warns about token cost and decision theater. If the same name exists in the other scope (**CH-E7**), it creates anyway and tells you which one now shadows which.
 
-**list** renders a table of name, seats, chairman, depth, and source (project, global, or example), marking shadowed globals and flagging any bench that references an uninstalled seat.
+**list** renders a table of name, seats, chairman, depth, and source (project, global, legacy, or example), marking shadowed globals and flagging any bench that references an uninstalled seat.
 
 **remove** deletes the entry from the scope where it is defined (asking which, if it exists in both) and shows the diff. It never touches seat folders. Removing a bench never deletes seats.
 
@@ -274,7 +274,7 @@ benches:
 ```
 /chiron:bench create money munger naval rayo --global
 
-Wrote to ~/.claude/chiron/benches.yaml:
+Wrote to ~/.chiron/benches.yaml:
 
   money:
     seats: [munger, naval, rayo]
@@ -323,10 +323,10 @@ If a seat shows `warn`, you get a one-line note. If it shows `fail`, it is marke
 
 Distill a new seat from a thinker's published work. You do not hire a persona; you extract a mind from what it actually published. The flow interviews you briefly (subject, living status, mode, domains, any anchor sources you already know), runs deep research over the subject's corpus with web search, and writes the full seat: `SKILL.md` plus all seven reference files at the [SEAT_SPEC](../SEAT_SPEC.md) depth bar, every claim cited. Then it lints the seat and fixes findings until it passes. Depth is baked into the standard, not an upsell: a seat that ships with stub references is a name, not a seat.
 
-It delivers a real, auto-activating skill, so there is no manual move:
+It delivers a seat every Chiron command can find, with no manual move:
 
-- In **Claude Code**, it writes `~/.claude/skills/<id>/` (or `<project>/.claude/skills/<id>/` if you want it project-scoped). The seat auto-activates next turn and every council finds it.
-- In **Cowork** (which cannot write to `~/.claude`), it writes `<project>/.chiron/seats/<id>/` in the open workspace, or emits a one-advisor `.plugin` into `outputs/` for you to accept in-app. See [cowork](./cowork.md).
+- In **Claude Code**, it writes `~/.chiron/seats/<id>/` (or `<project>/.chiron/seats/<id>/` if you want it project-scoped). Councils find it through the registry. It does not auto-activate as a native Claude skill, because that would mean a write under `~/.claude/skills`, which Claude Code refuses. `npx skills` is what installs into that directory.
+- In **Cowork** (which cannot write the home directory, and cannot write `~/.claude`), it writes `<project>/.chiron/seats/<id>/` in the open workspace, or emits a one-advisor `.plugin` into `outputs/` for you to accept in-app. See [cowork](./cowork.md).
 
 **Hard rule (CH-E8).** It will not build a first-person persona of a living, unlicensed subject. It explains the legal reason in one paragraph and offers corpus mode (third person, cited) or an original-mode archetype alias ("The Offer Architect" instead of the person) instead. This is non-negotiable; see [LEGAL.md](../LEGAL.md).
 
@@ -343,7 +343,7 @@ Quick check before I research:
 
 [on confirm: multi-round deep research, then authoring, then]
 
-Linted ~/.claude/skills/brad-frost: PASS
+Linted ~/.chiron/seats/brad-frost: PASS
   mode corpus · domains [design-systems, frontend, ux] · 8 sources
   references: principles 1,180w · frameworks 1,340w · ... (7 files)
 Use it: /chiron:ask brad-frost "how granular should our tokens be?"
@@ -361,9 +361,9 @@ Use it: /chiron:ask brad-frost "how granular should our tokens be?"
 
 Distill you the way `/chiron:distill` distills a thinker: a structured breakdown of how you actually operate, written as an original-mode seat with id `me`. Your own operating system can then sit on the council, chair your benches, and be argued with. It also reads out your go-to experts and turns them into a recommended roster.
 
-It is consent-gated. It asks which sources to draw on (this conversation, your instruction and memory files like `~/.claude/CLAUDE.md`, anything you point it at such as an Obsidian vault or a "how I work" doc) and names each source out loud before reading it. It interviews you to fill the gaps (mission, values and non-negotiables, goals, the frameworks you use by name, your anti-patterns, who you channel when stuck, and how you want to be spoken to). Then it writes the full seat and lints it until it passes.
+It is consent-gated. It asks which sources to draw on (this conversation, your instruction and memory files like `~/.claude/CLAUDE.md`, anything you point it at such as an Obsidian vault or a "how I work" doc) and names each source out loud before reading it. It interviews you to fill the gaps (mission, values and non-negotiables, goals, the frameworks you use by name, your anti-patterns, who you channel when stuck, and how you want to be spoken to). Then it authors the full seat and lints it until it passes.
 
-**Your `me` seat is private.** It writes to `~/.claude/chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project), never into the Chiron repo, never committed, never shipped. If written into a project it offers to add `.chiron/seats/` to that project's `.gitignore`.
+**Your `me` seat is private.** It writes to `~/.chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project), never into the Chiron repo, never committed, never shipped, and never under `~/.claude`. If written into a project it offers to add `.chiron/seats/` to that project's `.gitignore`.
 
 **Example**
 
@@ -379,7 +379,7 @@ you mentioned? (yes / pick a subset / interview only)
 
 [after gather + interview]
 
-Wrote ~/.claude/chiron/seats/me/  ·  linted: PASS
+Wrote ~/.chiron/seats/me/  ·  linted: PASS
   display_name: "Me" · original · domains [execution, decisions, ...]
 Your go-to experts, matched to the roster:
   Munger → installed   Naval → installed   Kapil Gupta → not installed (distill?)
@@ -434,7 +434,7 @@ Note the raw script takes `--level strict` where the slash command takes `--stri
 /chiron:log <seat-id> [--open-loops]
 ```
 
-Review a seat's consult memory. Each seat keeps an append-only log of what it told you and what you decided, at `~/.claude/chiron/logs/<id>/log.md` (or under `$CHIRON_HOME`). A summoned seat reads its last ten entries so it remembers the thread. The log is not stored in the seat folder or in the plugin install. This command reads that ledger. Reading never mutates it.
+Review a seat's consult memory. Each seat keeps an append-only log of what it told you and what you decided, at `~/.chiron/logs/<id>/log.md` (or under `$CHIRON_HOME`). A summoned seat reads its last ten entries so it remembers the thread. The log is not stored in the seat folder or in the plugin install, and it is not written under `~/.claude`. An older log still at `~/.claude/chiron/logs/<id>/log.md` is read until the next consult copies it forward. This command reads that ledger. Reading never mutates it. If no file is there, it says no log file is at that path yet. It does not claim you never consulted the seat.
 
 The default view renders entries newest first: date, source (`ask` or `council:<bench>`), the question, a one-line take, and the decision. If no log exists yet, it says so and stops.
 
