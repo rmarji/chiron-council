@@ -1,23 +1,67 @@
-# Chiron documentation
+---
+title: Home
+nav_order: 1
+description: "Run a hard decision past Munger, Naval, Taleb, Voss and fifteen other thinkers, inside the AI app you already use."
+permalink: /
+---
 
-Chiron is an authored council of real thinkers for Claude Code, Cowork, ChatGPT, and Codex: cited, lint-enforced seats that disagree, not generated personas. These guides take you from install to getting real work out of it.
+# Chiron
 
-## Start here
+Run a hard decision past Munger, Naval, Taleb, Voss and fifteen other thinkers. Each one answers from what they actually wrote, you see where they disagree, and you get one recommendation you can act on this week.
 
-- **[Installation](./installation.md)** - Prerequisites, the four ways to install (Claude Code, Cowork, ChatGPT and Codex, seats-only via `npx skills`), how to check it worked, where files live, updating, and uninstalling.
-- **[Quickstart](./quickstart.md)** - From installed to your first sourced decision, either guided with `/chiron:onboard` or fast with `/chiron:consult`. Includes a full council run so you know what the output looks like.
+It works in Claude (web, desktop, Cowork and Claude Code), Codex and the ChatGPT desktop app. It's free, MIT licensed, and needs no API key.
 
-## Guides
+[Install in 60 seconds](installation.md){: .btn .btn-primary .mr-2 }
+[Meet the advisors](advisors.md){: .btn }
 
-- **[Core concepts](./concepts.md)** - What a seat is, the three seat modes and why living people are corpus-only, per-seat memory, how `/chiron:consult` routes, how a council keeps takes independent, and benches.
-- **[Commands reference](./commands.md)** - All eleven `/chiron:` commands with syntax, examples, guards, and when to reach for each.
-- **[Distilling seats (and yourself)](./distilling.md)** - Add an advisor with `/chiron:distill`, or build your private `me` seat with `/chiron:distill-me`.
-- **[Benches](./benches.md)** - Named line-ups you convene as a group: the YAML, where it lives, the bundled examples, and how big a bench should be.
-- **[The seat standard](./the-standard.md)** - What makes a seat a seat, and how SEAT_SPEC, the linter, and the registry enforce it.
-- **[Portability](./portability.md)** - Seats are standard Agent Skills, so they run in Cursor, Codex, Gemini CLI, and other agents. Councils, benches, and memory ship with the plugin (slash commands in Claude Code and Cowork; skills in ChatGPT and Codex).
-- **[Using Chiron in Cowork](./cowork.md)** - Installing in Cowork, and how its sandbox changes where your seats get written.
-- **[Getting the most out of Chiron](./getting-the-most.md)** - Routing by stakes, building benches you will reuse, distilling the minds you already reach for, and closing open loops.
-- **[Why Chiron](./why-chiron.md)** - The case for authored seats over generated personas, and how Chiron answers the usual ways AI councils fail.
-- **[Troubleshooting and FAQ](./troubleshooting.md)** - Seats not activating, "no seats found", lint failures, install errors, and common questions.
+## Try it
 
-See also the [README](../README.md) for the short version, [CONTRIBUTING.md](../CONTRIBUTING.md) for running the linter and tests, [SEAT_SPEC.md](../SEAT_SPEC.md) for the full standard, and [LEGAL.md](../LEGAL.md) for provenance and the takedown policy.
+Once it's installed, ask about something you're actually weighing:
+
+```
+should I take the retainer at 15k a month or walk away?
+```
+
+Or call a ready-made council by name:
+
+```
+/chiron:council relationship "we keep having the same fight about money"
+```
+
+In Codex and ChatGPT there are no slash commands, so say it in plain words: *Convene the relationship council: we keep having the same fight about money.*
+
+A council takes one to three minutes. You get a short answer like this:
+
+```
+Two advisors looked at this: Terry Real (couples therapist) and David Deida
+(author on relationships).
+
+What they'd tell you
+  Terry Real: Look at your own part in the last fight before you look at
+    theirs. Turn the complaint into one specific request. (Us, 2022)
+  David Deida: Stay in the conversation when it gets uncomfortable. Don't
+    agree just to end the tension. (The Way of the Superior Man)
+
+Where they disagree
+  Real says repair is a skill you practise together. Deida says it starts
+  with your own steadiness. Both positions are from their books, not invented.
+
+What to do
+  Pick a calm moment this week and say: "In our last argument, I contributed
+  by ___. Could we agree to ___?"
+  The catch: the money question itself may stay open after the first talk.
+  How sure: 3 out of 5. A detail from the actual fight could change this.
+```
+
+## Where to go next
+
+| If you want to… | Read |
+|---|---|
+| Get it running | [Install](installation.md), then the [quickstart](quickstart.md) |
+| See who's in the room | [The advisors](advisors.md) |
+| Ask a group the same question | [Councils](benches.md) |
+| Look up a command | [Commands](commands.md) |
+| Know what's saved and where | [Your data and memory](your-data.md) |
+| Fix something | [Troubleshooting](troubleshooting.md) and the [FAQ](faq.md) |
+| Add your own advisor | [Build an advisor](distilling.md) |
+| Understand the design | [How it works](concepts.md) and [Why Chiron](why-chiron.md) |

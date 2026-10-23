@@ -1,14 +1,22 @@
-# The seat standard (SEAT_SPEC and the linter)
+---
+title: The advisor standard
+nav_order: 13
+description: "What every advisor must contain, and the checks that enforce it. For contributors."
+---
 
-This page is about what makes a seat a seat, and how that is enforced mechanically. You get the anatomy of a seat (the mind in `SKILL.md`, the depth in `references/`, the authored disagreements), the `x-chiron` marker that flags a skill as a seat, every rule the linter checks, and how to write a passing seat by hand. The full normative spec is [`../SEAT_SPEC.md`](../SEAT_SPEC.md); the provenance policy the legal rules come from is [`../LEGAL.md`](../LEGAL.md).
+# The advisor standard
+
+For contributors and anyone building advisors by hand. Inside Chiron an advisor is called a *seat*.
+
+This page is about what makes a seat a seat, and how that is enforced mechanically. You get the anatomy of a seat (the mind in `SKILL.md`, the depth in `references/`, the authored disagreements), the `x-chiron` marker that flags a skill as a seat, every rule the linter checks, and how to write a passing seat by hand. The full normative spec is [SEAT_SPEC.md](https://github.com/rmarji/chiron-council/blob/main/SEAT_SPEC.md); the provenance policy the legal rules come from is [LEGAL.md](https://github.com/rmarji/chiron-council/blob/main/LEGAL.md).
 
 ## What a seat is
 
-A seat is an authored mind: one advisor, distilled from a real person's published work, cited per claim, and written to a file format any Agent Skills-compatible harness can load. A seat is a native Agent Skill. It lives at `skills/<id>/SKILL.md` and Claude auto-activates it like any other skill.
+A seat is an authored mind: one advisor, distilled from a real person's published work, cited per claim, and written to a file format any Agent Skills-compatible harness can load. A seat is a native Agent Skill. It lives at `skills/<id>/SKILL.md` and Claude, Codex and ChatGPT can load it like any other skill.
 
 What makes it a *seat* and not just a skill is that it passes this standard: cited provenance, explicit refusals, an authored voice, and a full reference set. The `x-chiron` frontmatter block is the marker that flags a skill as a seat. Discovery keys on that marker, so a seat can sit in a shared skills directory next to unrelated skills and the tooling still picks it out (see [The registry](#the-registry-and-x-chiron-discovery) below).
 
-Seats are the unit of value. Councils, benches, and every other feature in the plugin are powered by seats. For how those features use seats at runtime, see [concepts](./concepts.md) and [commands](./commands.md).
+Seats are the unit of value. Councils, benches, and every other feature in the plugin are powered by seats. For how those features use seats at runtime, see [How it works](concepts.md) and [commands](commands.md).
 
 ## Anatomy of a seat
 
@@ -63,11 +71,11 @@ The linter reads every one of these fields. `name` must match `^[a-z0-9-]{2,32}$
 
 - **corpus**: frameworks and heuristics from the subject's published work, cited, spoken about in the third person ("the Munger corpus would flag..."). This is the default and the only mode that ships for real people.
 - **persona**: first-person voice emulation. Never a default. Forbidden for a living subject without a granted license (lint L1, hard fail).
-- **original**: an invented or self-authored advisor, with no provenance constraints. The bundled `rayo` seat is original mode, and so is the private `me` seat you write with [`/chiron:distill-me`](./distilling.md).
+- **original**: an invented or self-authored advisor, with no provenance constraints. The bundled `rayo` seat is original mode, and so is the private `me` seat you write with [`/chiron:distill-me`](distilling.md).
 
 ### Naming rules
 
-For real-person seats, `display_name` carries a mode suffix ("Munger Lens", "Voss (corpus)") so nobody mistakes a study aid for the person. The linter warns (L10) if the subject's surname appears in `display_name` without a suffix like `Lens`, `corpus`, or `study aid`. Every living-subject seat also defines an `alias`, an archetype name like "The Offer Architect", so a takedown request is a rename and not a rebuild (see [`../LEGAL.md`](../LEGAL.md) rule M6).
+For real-person seats, `display_name` carries a mode suffix ("Munger Lens", "Voss (corpus)") so nobody mistakes a study aid for the person. The linter warns (L10) if the subject's surname appears in `display_name` without a suffix like `Lens`, `corpus`, or `study aid`. Every living-subject seat also defines an `alias`, an archetype name like "The Offer Architect", so a takedown request is a rename and not a rebuild (see [LEGAL.md](https://github.com/rmarji/chiron-council/blob/main/LEGAL.md) rule M6).
 
 ### Required sections
 
@@ -80,7 +88,7 @@ The `SKILL.md` body must contain these four `##` sections. Headings may carry su
 | `## Refusals` | 2 bullet entries | What this seat declines to opine on, and where it redirects. Refusals are what make a seat a mind instead of a horoscope. |
 | `## Voice` | present | The register contract. In corpus mode: third-person analytic, a source per claim, never "I, Charlie". |
 
-Founding seats also carry richer narrative sections (Core principles, how the subject reasons, worked examples, anti-patterns). Keep those, they are the connective tissue, but the four sections above are the contract. Every real-person seat ends with the disclaimer block ([`../LEGAL.md`](../LEGAL.md) rule M4):
+Founding seats also carry richer narrative sections (Core principles, how the subject reasons, worked examples, anti-patterns). Keep those, they are the connective tissue, but the four sections above are the contract. Every real-person seat ends with the disclaimer block ([LEGAL.md](https://github.com/rmarji/chiron-council/blob/main/LEGAL.md) rule M4):
 
 > *Independent study aid based on published works. Not affiliated with or endorsed by {subject}.*
 
@@ -119,11 +127,11 @@ that basket; concentrated equity in your own judgment is the path (Almanack
 of Naval Ravikant, "Judgment").
 ```
 
-The `counterpart:` value must name an installed seat id, or be marked `counterpart: external: taleb` when the other party has no seat. The linter warns (L9) on a counterpart that is neither installed nor marked external. Both positions must carry citations. "They disagree about risk" fails the bar. Councils surface only authored disagreements. A chairman that invents conflict is the exact failure mode this product exists to kill. If no real conflict exists for a topic, the seat says so rather than manufacturing one, and a distilled seat skips the file entirely rather than inventing entries. See [benches](./benches.md) for how councils use this at runtime.
+The `counterpart:` value must name an installed seat id, or be marked `counterpart: external: taleb` when the other party has no seat. The linter warns (L9) on a counterpart that is neither installed nor marked external. Both positions must carry citations. "They disagree about risk" fails the bar. Councils surface only authored disagreements. A chairman that invents conflict is exactly what Chiron is built to avoid. If no real conflict exists for a topic, the seat says so rather than manufacturing one, and a distilled seat skips the file entirely rather than inventing entries. See [Councils](benches.md) for how councils use this at runtime.
 
 ## The linter
 
-`scripts/lint_seat.py` enforces the standard mechanically. It is stdlib-only Python by design, so this repo's CI ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) and any non-Claude harness run the exact same file and get the exact same result. Anything the linter cannot see is spelled out in [`../SEAT_SPEC.md`](../SEAT_SPEC.md) as a normative requirement.
+`scripts/lint_seat.py` enforces the standard mechanically. It is stdlib-only Python by design, so this repo's CI ([`.github/workflows/ci.yml`](https://github.com/rmarji/chiron-council/blob/main/.github/workflows/ci.yml)) and any non-Claude harness run the exact same file and get the exact same result. Anything the linter cannot see is spelled out in [SEAT_SPEC.md](https://github.com/rmarji/chiron-council/blob/main/SEAT_SPEC.md) as a normative requirement.
 
 ```bash
 python3 scripts/lint_seat.py --all                    # lint every seat under skills/
@@ -138,7 +146,7 @@ Exit codes are the contract:
 - **1**: warnings only.
 - **2**: errors. A seat with an error is load-blocking, it will not load.
 
-Inside the plugin, [`/chiron:lint`](./commands.md) runs the same script against the bundled `skills/` directory, so the standard is identical whether you enforce it from CI, a shell, or a slash command.
+Inside the plugin, [`/chiron:lint`](commands.md) runs the same script against the bundled `skills/` directory, so the standard is identical whether you enforce it from CI, a shell, or a slash command.
 
 ### The rules
 
@@ -163,7 +171,7 @@ A couple of the checks are worth understanding because they catch subtle defects
 
 ## Writing a seat by hand
 
-The supported path is [`/chiron:distill`](./distilling.md): it interviews you, runs deep research over the subject's corpus, writes the full seat at the depth bar with every claim cited, and lints it. Depth is baked into the standard, not an upsell.
+The supported path is [`/chiron:distill`](distilling.md): it interviews you, runs deep research over the subject's corpus, writes the full seat at the depth bar with every claim cited, and lints it. 
 
 If you would rather author one directly, the loop is short:
 
@@ -175,7 +183,7 @@ If you would rather author one directly, the loop is short:
 
 Mechanical findings (frontmatter, naming, first-person rewrites) are quick fixes. Content gaps (L5 thin sections, L12 missing references) need real authoring at the depth bar, not filler.
 
-Two hard rules the standard enforces no matter how you author. You cannot produce a persona-mode seat for a living, unlicensed subject: use corpus mode or an archetype alias instead. And the private `me` seat you write with [`/chiron:distill-me`](./distilling.md) is never shipped: it holds personal data, lives only in `~/.chiron/seats/` or a project `.chiron/seats/`, is gitignored, and never goes in the plugin repo.
+Two hard rules the standard enforces no matter how you author. You cannot produce a persona-mode seat for a living, unlicensed subject: use corpus mode or an archetype alias instead. And the private `me` seat you write with [`/chiron:distill-me`](distilling.md) is never shipped: it holds personal data, lives only in `~/.chiron/seats/` or a project `.chiron/seats/`, is gitignored, and never goes in the plugin repo.
 
 ## The registry and x-chiron discovery
 
@@ -192,7 +200,7 @@ python3 scripts/registry.py \
   --json
 ```
 
-The order is: bundled roster, global skills (`~/.claude/skills/`, where `npx skills` installs a seat so it auto-activates), older Chiron seats (`~/.claude/chiron/seats/`, read only), seats Chiron writes (`~/.chiron/seats/`, including the private `me` seat), then project scopes (`<project>/.claude/skills/` and `<project>/.chiron/seats/`). Missing directories are skipped. A user seat with the same id as a bundled one overrides it, so your own richer `munger` shadows the shipped one. More on this in [portability](./portability.md) and [cowork](./cowork.md). `/chiron:distill` does not write `~/.claude/skills/`.
+The order is: bundled roster, global skills (`~/.claude/skills/`, where `npx skills` installs a seat so it auto-activates), older Chiron seats (`~/.claude/chiron/seats/`, read only), seats Chiron writes (`~/.chiron/seats/`, including the private `me` seat), then project scopes (`<project>/.claude/skills/` and `<project>/.chiron/seats/`). Missing directories are skipped. A user seat with the same id as a bundled one overrides it, so your own richer `munger` shadows the shipped one. More on this in [portability](portability.md) and [cowork](cowork.md). `/chiron:distill` does not write `~/.claude/skills/`.
 
 The mechanism that makes a shared skills directory safe is the `x-chiron` marker. At runtime and for the registry, `discover_seats` returns only directories whose `SKILL.md` carries an `x-chiron` block. So scanning `~/.claude/skills/`, which is full of unrelated skills, picks out exactly the seats and ignores everything else, including Chiron's own conversational router skill (`chiron`), which is a skill but not a seat.
 
@@ -200,4 +208,4 @@ The linter deliberately discovers differently. `lint --all` runs in a permissive
 
 ## Where the full spec lives
 
-This page covers the working rules. The complete normative spec, including the load contract, the exact section minimums, the disagreement schema, and the full lint table, is [`../SEAT_SPEC.md`](../SEAT_SPEC.md). The provenance policy behind L1, L10, the disclaimer, and the takedown protocol is [`../LEGAL.md`](../LEGAL.md). The project overview is [`../README.md`](../README.md).
+This page covers the working rules. The complete normative spec, including the load contract, the exact section minimums, the disagreement schema, and the full lint table, is [SEAT_SPEC.md](https://github.com/rmarji/chiron-council/blob/main/SEAT_SPEC.md). The provenance policy behind L1, L10, the disclaimer, and the takedown protocol is [LEGAL.md](https://github.com/rmarji/chiron-council/blob/main/LEGAL.md). The project overview is [README](https://github.com/rmarji/chiron-council/blob/main/README.md).

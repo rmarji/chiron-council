@@ -1,57 +1,28 @@
-# Commands reference
-
-Chiron adds eleven slash commands under the `/chiron:` namespace. This page documents each one: its syntax, what it does, a real example, and when to reach for it. If you only remember two, remember `/chiron:consult` (let Chiron route the decision) and `/chiron:ask` (go straight to one seat). The examples below use the Claude Code and Cowork slash commands. ChatGPT and Codex run the same flows through the `ask`, `council`, `coach`, and `log` skills, and the `chiron` skill covers the rest. See [installation](./installation.md).
-
-You never have to memorize the exact grammar. Every command has a plain-language equivalent: "run this by my money bench," "what would the Munger corpus say about this," "who do I have for negotiation." Chiron reads that and reaches for the right command. The slash forms are here so you know exactly what happens when it does.
-
-## Quick reference
-
-| Command | What it does | Reach for it when |
-|---|---|---|
-| [`/chiron:onboard`](#chirononboard) | First-run setup: meet the roster, distill yourself, get starter benches | You just installed and want a guided start |
-| [`/chiron:consult <q>`](#chironconsult) | Auto-routes: picks the right seat(s), or decides no council is warranted | You have a decision and do not want to pick who weighs in. The default. |
-| [`/chiron:coach <q>`](#chironcoach) | A guided decision session: frames the real call, consults the right seats as evidence, drives you to one committed, logged decision | You want to be worked through a decision, not just handed an answer |
-| [`/chiron:ask <seat> <q>`](#chironask) | One authored lens, cited, with its memory of your past calls | You already know which mind you want |
-| [`/chiron:council <bench> <q>`](#chironcouncil) | Independent takes in isolation, authored conflicts surfaced, one synthesis with dissent kept | The call is expensive, irreversible, or cross-domain |
-| [`/chiron:bench`](#chironbench) | Create, list, or remove benches (curated seat line-ups) as plain YAML | You keep convening the same group |
-| [`/chiron:roster`](#chironroster) | List installed seats, filter by domain | You want to see who is available |
-| [`/chiron:distill <desc>`](#chirondistill) | Distill a new seat from a thinker's published work, cited and linted | You want an advisor the box does not ship |
-| [`/chiron:distill-me`](#chirondistill-me) | Distill you into a private `me` seat and read out your go-to experts | You want your own operating system in the room |
-| [`/chiron:lint`](#chironlint) | Validate seats against the SEAT_SPEC standard | You authored or edited a seat |
-| [`/chiron:log <seat>`](#chironlog) | Review a seat's consult memory and open decisions | You want to see what a seat told you and what you decided |
-
+---
+title: Commands
+nav_order: 6
+description: "Every Chiron command, with the plain-words version for Codex and ChatGPT."
 ---
 
-## /chiron:onboard
+# Commands
 
-```
-/chiron:onboard
-```
+Chiron has eleven commands. In Claude (web, Code and Cowork) you can type them as slash commands. Codex and ChatGPT don't have slash commands, so ask in plain words; the right column shows how. Plain words work in Claude too.
 
-First-run setup. It orients you in one paragraph (Chiron is a council of authored, cited seats, not generated personas), shows the installed roster grouped by domain, then offers to distill you into a private `me` seat. If you would rather stay fast, it runs a five-question mini version inline (what you are working on, the decision you are chewing on, the thinkers you already reach for, your non-negotiables, and how you want to be talked to). From your answers it recommends seats, builds two or three starter benches, and ends by running your actual decision through `/chiron:consult` so onboarding produces a real answer, not a tour.
+| Command | What it does | In plain words |
+|---|---|---|
+| [`/chiron:consult <question>`](#chironconsult) | Chiron picks who should answer, or says no advisor is needed | Just ask your question |
+| [`/chiron:ask <advisor> <question>`](#chironask) | One advisor answers | "Ask Naval: salary or equity?" |
+| [`/chiron:council <council> <question>`](#chironcouncil) | Several advisors answer separately, then one recommendation | "Convene the money council: …" |
+| [`/chiron:coach <situation>`](#chironcoach) | Works you through a decision until you commit to a next step | "Coach me through this: …" |
+| [`/chiron:log <advisor>`](#chironlog) | What you asked an advisor before, and what you decided | "What did Munger tell me before?" |
+| [`/chiron:roster`](#chironroster) | Lists your advisors | "Which Chiron advisors do I have?" |
+| [`/chiron:bench`](#chironbench) | Save, list or remove councils | "Make me a council called hiring with…" |
+| [`/chiron:onboard`](#chirononboard) | A short guided start | "Help me get started with Chiron" |
+| [`/chiron:distill <who>`](#chirondistill) | Build a new advisor from someone's published work | "Build a Chiron advisor for Brad Frost" |
+| [`/chiron:distill-me`](#chirondistill-me) | Build a private advisor from your own goals and rules | "Build my own Chiron advisor" |
+| [`/chiron:lint`](#chironlint) | Check an advisor's files (for people building advisors) | "Check my Chiron advisors" |
 
-**Example**
-
-```
-/chiron:onboard
-
-Chiron is a council of authored advisors. Each seat is one mind distilled
-from real published work, cited per claim, not a generated persona. You can
-ask one seat or convene several, and Chiron can pick the right ones for you.
-
-Here is what is installed:
-
-  investing     munger        Munger Lens          [investing, decision-making, ...]
-  wealth        naval         Naval (corpus)       [wealth, leverage, judgment, ...]
-  strategy      rumelt        Rumelt (corpus)      [strategy, diagnosis, ...]
-  ...
-
-Want me to distill YOU into a private seat so your own frameworks can sit on
-the council? (/chiron:distill-me) Or I can run a quick five-question version
-right here. Which do you prefer?
-```
-
-**Reach for it when** you have just installed Chiron. You only need it once. After that, `/chiron:consult`, `/chiron:ask`, and `/chiron:distill` are the daily tools. Full walkthrough in [quickstart](./quickstart.md).
+Advisor ids are on the [advisors](advisors.md) page. Ready-made councils are on the [councils](benches.md) page.
 
 ---
 
@@ -61,42 +32,106 @@ right here. Which do you prefer?
 /chiron:consult <your question or situation>
 ```
 
-The orchestrator, and the flagship. You do not name a seat. Chiron reads your decision, picks the right expert or experts, and decides whether a council is even worth convening. A council that convenes when it should not is decision theater and a token tax, so the most valuable routing verdict is often "you do not need the council for this."
+You don't name anyone. Chiron reads the decision, picks who should answer, and tells you before it starts. Typing a decision without any command does the same thing.
 
-It reads your decision on three axes: **stakes** (cheap and reversible, or expensive and irreversible), **breadth** (one domain or several), and **type** (a judgment call, or something factual and trivial that no seat should touch). Then it picks the cheapest verdict that fully serves the decision:
+It looks at three things: how expensive or hard to undo the decision is, whether it touches one area or several, and whether it's a judgment call at all. Then it does one of four things:
 
-- **SKIP** answers directly or says plainly that no seat has standing, when the question is factual, technical, or outside every seat's competence.
-- **ASK** routes to one seat when there is a clear domain owner and the stakes are low to moderate.
-- **COUNCIL** convenes two to five seats only when the call is expensive or irreversible, genuinely cross-domain, or sits on an authored disagreement between installed seats.
-- **CLARIFY** asks one sharp question first when it genuinely cannot read the stakes, then routes.
-
-It shows its work before executing, so you can override with "just ask Naval" or "make it a full council."
-
-**Example**
+- **Answers directly** when it's a fact or a technical question. No advisor needed.
+- **Asks one advisor** when one clearly owns the topic and the stakes are moderate.
+- **Calls a council** of two to five when the decision is expensive, hard to undo, crosses areas, or sits on a recorded disagreement.
+- **Asks you one question first** when it can't tell the stakes. Then it goes ahead.
 
 ```
-/chiron:consult "take the retainer at 15k/mo or walk?"
+/chiron:consult "take the retainer at 15k a month or walk?"
 
-Routing: this is an expensive, hard-to-reverse commitment that touches
-pricing, leverage, and your own capacity. Convening a council of three:
-Hormozi (offer and price), Naval (leverage and opportunity cost), and Rayo
-(will you actually deliver it). Hormozi and Naval carry an authored
-disagreement on trading time for money that bears on this. ~6k tokens.
-Proceeding.
-
-[council output follows]
+This is a commitment that's hard to undo and touches pricing and your time,
+so I'll ask Hormozi, Naval and Munger separately. It takes a minute or two.
 ```
-
-A contrasting route:
 
 ```
 /chiron:consult "is it 'affect' or 'effect' in this sentence?"
 
-SKIP. This is a factual language question, not a judgment call. No seat has
-standing here. It is "effect" (the noun). No council needed.
+That's a grammar question, not a decision, so no advisor is needed.
+It's "effect" (the noun).
 ```
 
-**Reach for it when** you have a decision and do not want to think about who should weigh in. This is the default entry point. When you already know the mind you want, skip straight to `/chiron:ask`. More on how routing thinks in [concepts](./concepts.md).
+Override it any time: "just ask Naval" or "make it a full council".
+
+---
+
+## /chiron:ask
+
+```
+/chiron:ask <advisor-id> <question>
+```
+
+One advisor, one question. The first word is the advisor id (`munger`, `terry-real`, `tim-ferriss`) and the rest is the question.
+
+```
+/chiron:ask voss "the counteroffer came in 20% under. how do I respond?"
+
+Chris Voss (negotiation) looked at this.
+
+What he'd tell you
+  Don't counter the number yet. Name the gap and let them solve it: "It
+  sounds like 20% under is the most you can do right now." Then stay quiet.
+  (Never Split the Difference, "Calibrated Questions")
+
+What to do
+  Send that line today and wait for their answer before naming any number.
+  The catch: it feels slower, and a buyer on a deadline may just walk.
+  How sure: 4 out of 5. If it's a final offer with a hard deadline, give
+  one clear walk-away number instead.
+
+Want me to remember what you decide, so Voss can follow up next time?
+```
+
+Advisors based on real people describe what that person published, with a source for each point. They don't pretend to be the person.
+
+If the id is wrong, Chiron suggests the closest matches. Not sure who to ask? Use `/chiron:consult`.
+
+---
+
+## /chiron:council
+
+```
+/chiron:council <council-name or a,b,c> <question> [--depth quick|full]
+```
+
+Several advisors answer separately, then you get one recommendation. The first word is a saved council (`money`, `deals`, `strategy`, `relationship`, `shipping`, `work-design`, or your own) or a comma-separated list of advisor ids (`munger,naval,rumelt`).
+
+1. Each advisor answers **on its own**, without seeing the others or your conversation.
+2. In a full answer, Chiron also checks the advisors' files for **disagreements written down from their books** and shows those that fit your question. If there's none, it says so. It never makes one up. A short answer notes the main disagreement between the takes in one line.
+3. You get **one recommendation**, the catch, how sure it is, and what would change it.
+
+`--depth quick` (the usual) gives a short answer. `--depth full` adds the recorded-disagreement check and each advisor's full reasoning. You can also just say "give me the full reasoning".
+
+```
+/chiron:council relationship "we keep having the same fight about money" --depth full
+
+Two advisors looked at this: Terry Real (couples therapist) and David Deida
+(author on relationships).
+
+What they'd tell you
+  Terry Real: The same fight every time means you're both reacting from old
+    patterns. Name the pattern, not the numbers, and repair. (Us)
+  Deida: The fight is rarely about money. Stop negotiating the budget and
+    change how you show up. (The Way of the Superior Man)
+
+Where they disagree
+  Real puts repair first; Deida says repair alone leaves you as good
+  roommates. Both positions are from their books, not invented.
+
+What to do
+  This week, name the pattern out loud before the next money talk.
+  The catch: if there's a real budget problem underneath, you'll still need
+  the numbers conversation.
+  How sure: 4 out of 5.
+
+Want me to remember what you decide, so these advisors can follow up next time?
+```
+
+More than eight advisors is refused. If a council names an advisor you don't have, Chiron says which one and offers to go ahead with the rest.
 
 ---
 
@@ -106,385 +141,140 @@ standing here. It is "effect" (the noun). No council needed.
 /chiron:coach <your decision or situation> [--quick]
 ```
 
-Every other command answers a question. This one runs a working session with an executive coach in the room. Where `/chiron:consult` routes your question and hands back an answer, `/chiron:coach` interrogates the decision, brings the right seats in as **evidence**, and drives you to **one committed call with a next action** — then logs it. It is the accountability layer that sits above the seats and orchestrates them.
+The other commands answer a question. Coach works you through a decision until you've committed to one next step:
 
-The session runs a five-step loop:
+1. **Find the real decision** behind the question, and how hard it is to undo.
+2. **Get the constraints on the table.** If you've built a `me` advisor, it checks against your own rules.
+3. **Ask the right advisors** (the same way `/chiron:consult` picks them) and treats their answers as evidence.
+4. **Pick one option.** You say which way you lean; it won't let you split the difference.
+5. **Commit** to one dated next action, and offer to remember it.
 
-- **Frame** — it digs past the presenting question to the real decision and what a good outcome looks like, and reads the stakes and reversibility. If it is genuinely trivial or factual, it says so and answers directly rather than manufacturing a session.
-- **Ground** — it gets the real constraints on the table. If you have distilled a private `me` seat, it grounds the session in your own goals, values, and frameworks, and names it out loud when a move conflicts with your own operating system (for example, a fourth active priority when your own rule caps at three).
-- **Consult** — it pulls in the seats by delegating to the `/chiron:consult` router (skip, ask one, or convene a council), shows the route and rough cost first, and brings each seat's take back as cited evidence — never as the final word. It surfaces only authored disagreements, never invented conflict.
-- **Decide** — it lays out the live two or three options, applies a reversibility-first scaffold (one-way vs two-way door, expected value and asymmetry, opportunity cost), makes you state your lean, and drives to one pick with a confidence (1-5) and what would change it. It will not let you split the difference; if you stall, it names the avoidance.
-- **Commit** — it defines one concrete, timeboxed next action, records the decision to the consulted seats' memory (and your `me` seat's, if you have one), and offers to check in later.
-
-`--quick` runs a compressed single pass for low-stakes or time-boxed calls.
-
-**Example**
+`--quick` does it in one pass for small decisions.
 
 ```
 /chiron:coach "I keep saying I'll launch the paid tier but I haven't shipped anything in a month"
-
-Frame: the real decision isn't "when do I launch" — it's "what is the one
-thing that has to be true this week for a launch to be real?" Reversible,
-so we move fast.
-
-Ground: your me seat's Ship Gate says nothing new starts until one thing is
-told. You've started three things and told none. That's the conflict.
-
-Consult: routing to Hormozi (offer) and Ferriss (elimination). ~3k tokens.
-  - Hormozi: you don't have a launch problem, you have an offer you haven't
-    made once. Sell it manually to one person first.
-  - Ferriss: eliminate before you build — what are you doing this week that
-    isn't the launch?
-
-Decide: option A, keep polishing; option B, hand-sell the tier to one person
-by Friday. B is the two-way door with the real signal. Your lean?
-
-Commit: DM three people the offer by Thursday, close one by Friday.
-Confidence 4. Logged. Want me to check in Friday?
 ```
 
-**Reach for it when** you do not just want an answer — you want to be worked through the decision, pushed to commit, and held to it. When you only want the routed answer, use `/chiron:consult`. When you want the raw debate, use `/chiron:council`.
-
----
-
-## /chiron:ask
-
-```
-/chiron:ask <seat-or-bench> <question>
-```
-
-One seat, one question, one authored lens, with that seat's memory of your past calls. The first token is a seat id (or a bench name), the rest is the question. Seat ids win ties, so `/chiron:ask deals ...` resolves the `deals` bench only if no seat is named `deals`. If the first token resolves to a bench, this becomes a council at the bench's default depth.
-
-The seat responds in its voice contract. Corpus-mode seats speak in the third person and cite a source for each substantive claim ("the Munger corpus would flag..."), never in first person. The shape is fixed: position first (three to six lines), then reasoning, a confidence of 1 to 5, and what would change the seat's mind. One recommendation, not a menu. If your question hits one of the seat's `## Refusals`, it declines that part and redirects rather than opining outside its competence.
-
-After answering, it appends an entry to `~/.chiron/logs/<id>/log.md` (never inside the plugin install, and never under `~/.claude`) and asks once whether to record your decision. That is how the seat remembers what it told you and whether you listened.
-
-**Example**
-
-```
-/chiron:ask voss "counteroffer came in 20% under. how do I respond?"
-
-Position: do not counter the number yet. Name the gap out loud and make them
-solve it. "It sounds like 20% under is the most you can do right now." Then
-silence.
-
-Reasoning: the Voss corpus treats a calibrated "how" question and a labeled
-obstacle as the move that gets the other side to argue against their own
-lowball. A fast counter concedes the frame. (Never Split the Difference,
-"Bend Their Reality"; "Calibrated Questions")
-
-Applied heuristics: mirror-then-label; never split the difference.
-Confidence: 4/5.
-What would change it: if this is a take-it-or-leave-it with a hard deadline,
-tactical empathy gives way to a clean walk-away number.
-
-Record your decision? (updates the seat's log)
-```
-
-**Errors you may hit.** An unknown id (**CH-E1**) returns the three closest matches and points you at `/chiron:roster`. A seat that fails lint (**CH-E3**) will not load: Chiron prints the lint errors and stops. A lint `warn` still loads, with a one-line note.
-
-**Reach for it when** you already know which mind you want. If you are not sure, use `/chiron:consult` and let it pick.
-
----
-
-## /chiron:council
-
-```
-/chiron:council <bench-or-seat-list> <question> [--depth quick|full]
-```
-
-Convene a bench and get a real debate, not consensus theater. The first token is a bench name or an inline comma-separated seat list (`munger,naval,rumelt`), the rest is the question. Bench names resolve from your project and global benches files, or from the bundled example benches if you have neither yet. `--depth` overrides the bench's `default_depth`; the default is `quick`.
-
-This is a four-phase state machine, and the phases are the point:
-
-1. **TAKES.** Each seat is prompted in isolation, one subagent per seat in parallel. A seat's context holds only its own `SKILL.md`, its last ten log entries, and your question. It does not see the other seats, their takes, or the bench composition. Independence is structural, not simulated. If subagents are unavailable in your harness (**CH-E5**), takes are gathered sequentially and the output says so.
-2. **CONFLICT.** Chiron reads every participating seat's `disagreements.md` and surfaces only entries where both counterparts are in the room and the topic matches your question, quoting each with its citations. If nothing matches (**CH-E6**), it says "No authored conflicts on record for this topic." It never invents a disagreement. Generated conflict is the exact failure mode Chiron exists to kill.
-3. **SYNTHESIS.** One chairman (a named seat or a neutral analyst) delivers one recommendation, the dissent preserved and named, what you lose by taking the pick, a confidence, and what would change it.
-4. **RECORD.** One entry is appended to each participating seat's log, and you are asked once whether to record your decision.
-
-At `quick` depth it gathers takes and gives a micro-synthesis (recommendation, one line of preserved dissent, confidence). At `full` depth it runs the whole conflict and synthesis machinery.
-
-**Example**
-
-```
-/chiron:council relationship "we keep having the same fight about money"
-
-Convening: deida, terry-real · chairman neutral · depth full · ~8k tokens
-
-Deida (corpus)   confidence 3/5
-  The recurring fight is rarely about money; it is about a collapse of
-  polarity. Stop negotiating the budget and restore the charge. (The Way of
-  the Superior Man, "Purpose")
-
-Terry Real (corpus)   confidence 4/5
-  Same fight, every time, means you are both in adaptive child mode. Name the
-  pattern, not the numbers, and repair from your wise adult. (Us; The New
-  Rules of Marriage)
-
-authored disagreement · Deida vs Terry Real
-  Restore polarity vs do the relational repair work. Both cited from the
-  record.
-
-Synthesis (neutral chair)
-  Run the repair first: the money fight is the surface. Dissent preserved:
-  Deida would say repair without restored polarity just makes you good
-  roommates. Confidence 4/5. What changes it: if there is a real budget
-  crisis underneath, this needs a numbers conversation too.
-
-Record your decision?
-```
-
-**Guards.** A bench that names a missing seat (**CH-E2**) is flagged and you are offered the remainder. More than eight seats (**CH-E4**) is refused for token and quality reasons. Any seat failing lint is dropped with a note. Fewer than two seats resolved sends you to `/chiron:ask` instead.
-
-**Reach for it when** the call is expensive, irreversible, or straddles domains, and you want the tension in the open. For a single clean question, `/chiron:ask` is cheaper. To let Chiron decide whether a council is warranted at all, use `/chiron:consult`. Deeper mechanics in [benches](./benches.md).
-
----
-
-## /chiron:bench
-
-```
-/chiron:bench create <name> <seat> <seat> ... [--global] [--chairman <id>] [--depth quick|full]
-/chiron:bench list
-/chiron:bench remove <name>
-```
-
-Manage benches, which are curated seat line-ups you convene by name. Benches are plain YAML, and the files are the API: you can edit them by hand and Chiron reads the same file. They live in two places:
-
-- **Project:** `.chiron/benches.yaml` (the default write target inside a project)
-- **Global:** `~/.chiron/benches.yaml` (write here with `--global`, or when not in a project). An older file at `~/.claude/chiron/benches.yaml` is still read and is not written.
-
-On a name collision, the project bench shadows the global one. Until you have either file, the bundled examples in `benches/examples/benches.yaml` are in effect; your first benches file replaces them, and `create` offers to copy them over first. The file shape:
-
-```yaml
-benches:
-  product:
-    seats: [munger, naval, rayo]
-    chairman: neutral        # a seat id, or "neutral"
-    default_depth: quick     # quick | full
-```
-
-**create** validates the name against `^[a-z0-9-]{2,32}$`, validates every seat id against the registry (an unknown id is not written; you get fuzzy matches instead), and requires two to eight seats. One seat is refused ("use /chiron:ask, a bench of one is a person"). Six or more seats is allowed but warns about token cost and decision theater. If the same name exists in the other scope (**CH-E7**), it creates anyway and tells you which one now shadows which.
-
-**list** renders a table of name, seats, chairman, depth, and source (project, global, legacy, or example), marking shadowed globals and flagging any bench that references an uninstalled seat.
-
-**remove** deletes the entry from the scope where it is defined (asking which, if it exists in both) and shows the diff. It never touches seat folders. Removing a bench never deletes seats.
-
-**Example**
-
-```
-/chiron:bench create money munger naval rayo --global
-
-Wrote to ~/.chiron/benches.yaml:
-
-  money:
-    seats: [munger, naval, rayo]
-    chairman: neutral
-    default_depth: quick
-
-Convene it with: /chiron:council money "<your question>"
-```
-
-**Reach for it when** you keep convening the same group. Name it once, then call it by name. You can also just say "make me a bench for pricing decisions with Hormozi, Cialdini, and Voss." Chiron ships six starter benches in `benches/examples/benches.yaml`; they work by name until you write your own file.
-
----
-
-## /chiron:roster
-
-```
-/chiron:roster [--domain <tag>]
-```
-
-List every installed seat: id, display name, mode, domains, and lint status, grouped by primary domain. It merges seats from all scopes (the bundled roster, your global seats, your project seats, and your private `me` seat), so it shows exactly who is available to ask or bench right now. Pass `--domain <tag>` to filter to one area.
-
-**Example**
-
-```
-/chiron:roster --domain strategy
-
-strategy:
-  rumelt         Rumelt (corpus)     corpus   lint:pass  [strategy, diagnosis, competitive-advantage]
-  thiel          Thiel (corpus)      corpus   lint:pass  [strategy, startups, contrarian-thinking, monopoly]
-
-Ask one: /chiron:ask rumelt "<question>"
-Bench them: /chiron:bench create strategy rumelt thiel munger
-```
-
-If a seat shows `warn`, you get a one-line note. If it shows `fail`, it is marked unloadable and you are pointed at `/chiron:lint <id> --explain`. If no seat directory is found at all (exit code 2), it tells you to run `/chiron:distill` or install a pack.
-
-**Reach for it when** you want to see who is in the room, check a seat's exact id before asking, or confirm a seat you distilled actually installed. Under the hood it runs `scripts/registry.py`; you can run that directly with `--json` to post-process the roster.
-
----
-
-## /chiron:distill
-
-```
-/chiron:distill <one-line description of the advisor you want to distill>
-```
-
-Distill a new seat from a thinker's published work. You do not hire a persona; you extract a mind from what it actually published. The flow interviews you briefly (subject, living status, mode, domains, any anchor sources you already know), runs deep research over the subject's corpus with web search, and writes the full seat: `SKILL.md` plus all seven reference files at the [SEAT_SPEC](../SEAT_SPEC.md) depth bar, every claim cited. Then it lints the seat and fixes findings until it passes. Depth is baked into the standard, not an upsell: a seat that ships with stub references is a name, not a seat.
-
-It delivers a seat every Chiron command can find, with no manual move:
-
-- In **Claude Code**, it writes `~/.chiron/seats/<id>/` (or `<project>/.chiron/seats/<id>/` if you want it project-scoped). Councils find it through the registry. It does not auto-activate as a native Claude skill, because that would mean a write under `~/.claude/skills`, which Claude Code refuses. `npx skills` is what installs into that directory.
-- In **Cowork** (which cannot write the home directory, and cannot write `~/.claude`), it writes `<project>/.chiron/seats/<id>/` in the open workspace, or emits a one-advisor `.plugin` into `outputs/` for you to accept in-app. See [cowork](./cowork.md).
-
-**Hard rule (CH-E8).** It will not build a first-person persona of a living, unlicensed subject. It explains the legal reason in one paragraph and offers corpus mode (third person, cited) or an original-mode archetype alias ("The Offer Architect" instead of the person) instead. This is non-negotiable; see [LEGAL.md](../LEGAL.md).
-
-**Example**
-
-```
-/chiron:distill "a design systems expert, someone like Brad Frost"
-
-Quick check before I research:
-  Subject: Brad Frost (Atomic Design), living, so corpus mode (third person,
-    cited). Good?
-  Domains: [design-systems, frontend, ux], adjust?
-  Anchor sources you already have in mind, or should I discover them?
-
-[on confirm: multi-round deep research, then authoring, then]
-
-Linted ~/.chiron/seats/brad-frost: PASS
-  mode corpus · domains [design-systems, frontend, ux] · 8 sources
-  references: principles 1,180w · frameworks 1,340w · ... (7 files)
-Use it: /chiron:ask brad-frost "how granular should our tokens be?"
-```
-
-**Reach for it when** you want an advisor Chiron does not ship. Full authoring guide in [distilling](./distilling.md) and [the standard](./the-standard.md).
-
----
-
-## /chiron:distill-me
-
-```
-/chiron:distill-me [optional: point at notes, a vault, or a folder to read]
-```
-
-Distill you the way `/chiron:distill` distills a thinker: a structured breakdown of how you actually operate, written as an original-mode seat with id `me`. Your own operating system can then sit on the council, chair your benches, and be argued with. It also reads out your go-to experts and turns them into a recommended roster.
-
-It is consent-gated. It asks which sources to draw on (this conversation, your instruction and memory files like `~/.claude/CLAUDE.md`, anything you point it at such as an Obsidian vault or a "how I work" doc) and names each source out loud before reading it. It interviews you to fill the gaps (mission, values and non-negotiables, goals, the frameworks you use by name, your anti-patterns, who you channel when stuck, and how you want to be spoken to). Then it authors the full seat and lints it until it passes.
-
-**Your `me` seat is private.** It writes to `~/.chiron/seats/me/` (global) or `<project>/.chiron/seats/me/` (project), never into the Chiron repo, never committed, never shipped, and never under `~/.claude`. If written into a project it offers to add `.chiron/seats/` to that project's `.gitignore`.
-
-**Example**
-
-```
-/chiron:distill-me
-
-Before I read anything: your "me" seat holds your mission, values, and goals.
-It is private and local, never committed, never shipped. I will name each
-source before I read it.
-
-May I read this conversation, your ~/.claude/CLAUDE.md, and the notes folder
-you mentioned? (yes / pick a subset / interview only)
-
-[after gather + interview]
-
-Wrote ~/.chiron/seats/me/  ·  linted: PASS
-  display_name: "Me" · original · domains [execution, decisions, ...]
-Your go-to experts, matched to the roster:
-  Munger → installed   Naval → installed   Kapil Gupta → not installed (distill?)
-Proposed benches: money (munger, naval, me · chaired by you), ...
-Put it to work: /chiron:consult "<a real decision you are facing>"
-```
-
-**Reach for it when** you want your own frameworks in the room and better routing (a `me` seat sharpens what `/chiron:consult` recommends). It is offered as part of `/chiron:onboard`.
-
----
-
-## /chiron:lint
-
-```
-/chiron:lint [seat-id | --all] [--strict] [--explain]
-```
-
-Validate seats against the [SEAT_SPEC](../SEAT_SPEC.md) standard. The linter is stdlib-only Python and this repo's CI ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) runs the same file on every push and pull request, so the standard is enforceable by anyone, not just inside Claude. Exit codes are `0` pass, `1` warnings only, and `2` errors (a seat with errors will not load).
-
-Each finding shows the rule id, what it means (`--explain` prints the rule descriptions), and the concrete fix. The load-blocking rules are the ones that make a seat a seat and not a name:
-
-- **L1** persona mode on a living, unlicensed subject. Hard fail. Switch to corpus mode or adopt the archetype alias.
-- **L4** fewer than three provenance sources. Add citations drawn from `references/sources.md`.
-- **L5** missing or thin required sections (Priors, Heuristics, Refusals, Voice).
-- **L7** first-person leakage in a corpus seat. Rewrite to third-person analytic, or put subject speech in quotation marks. This is a warning at standard level and an error under `--strict`.
-- **L12** missing reference files. The seat shipped without its depth. Author the missing files at the SEAT_SPEC depth bar.
-
-If you ask it to fix findings, it fixes the mechanical ones (frontmatter, naming, voice rewrites) directly and re-runs until clean. Content gaps (L5, L12) need real authoring, which it offers to do at the depth bar, not with filler.
-
-**Example: the slash command wraps the same script Chiron and CI run.**
-
-```bash
-# Lint every bundled seat
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py --all --seats-dir ${CLAUDE_PLUGIN_ROOT}/skills
-
-# One seat, strict, with rule explanations
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py ${CLAUDE_PLUGIN_ROOT}/skills/munger --level strict --explain
-
-# JSON output for tooling
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/lint_seat.py --all --format json --seats-dir skills
-```
-
-Note the raw script takes `--level strict` where the slash command takes `--strict`, and `--format json` for machine-readable output.
-
-**Reach for it when** you authored or edited a seat, before you rely on it. All nineteen shipped seats pass. Full rule table in [the standard](./the-standard.md) and [SEAT_SPEC.md](../SEAT_SPEC.md) section 7.
+Use it when you've been circling a decision and want to be pushed to commit.
 
 ---
 
 ## /chiron:log
 
 ```
-/chiron:log <seat-id> [--open-loops]
+/chiron:log <advisor-id> [--open-loops]
 ```
 
-Review a seat's consult memory. Each seat keeps an append-only log of what it told you and what you decided, at `~/.chiron/logs/<id>/log.md` (or under `$CHIRON_HOME`). A summoned seat reads its last ten entries so it remembers the thread. The log is not stored in the seat folder or in the plugin install, and it is not written under `~/.claude`. An older log still at `~/.claude/chiron/logs/<id>/log.md` is read until the next consult copies it forward. This command reads that ledger. Reading never mutates it. If no file is there, it says no log file is at that path yet. It does not claim you never consulted the seat.
+Shows your notes with one advisor, newest first: the date, what you asked, the one-line take, and what you decided.
 
-The default view renders entries newest first: date, source (`ask` or `council:<bench>`), the question, a one-line take, and the decision. If no log exists yet, it says so and stops.
-
-**`--open-loops`** filters to entries whose decision is still `open loop` and prominently flags any older than fourteen days. These are calls you consulted on and never closed. If you then supply a decision for one, it updates only that entry's decision line. That is the single permitted mutation; it never rewrites your takes or questions.
-
-**Example**
+`--open-loops` shows only decisions you never made, and flags anything older than two weeks. Tell Chiron what you decided and it records it on that note. Reading the log never changes it.
 
 ```
 /chiron:log munger --open-loops
 
-Open loops with Munger Lens:
+Decisions you haven't made yet, with Munger:
 
-  2026-06-12 · council:money   (41 days, needs closing)
-    Q: Move the emergency fund into the index position?
-    Decision: open loop
+  12 June 2026 · money council   (41 days ago)
+    Move the emergency fund into the index position?
 
-  2026-07-19 · ask
-    Q: Kill the underperforming product line, or give it another quarter?
-    Decision: open loop
+  19 July 2026 · asked directly
+    Kill the weak product line, or give it another quarter?
 
-Close a loop by telling me the decision, and I'll record it.
+Tell me what you decided on either and I'll note it.
 ```
 
-If a log passes one hundred entries, it offers once to compress the oldest into a dated `## Archive digest` block, keeping the newest fifty intact. It only does so if you say yes.
-
-**Reach for it when** you want to see the history with a seat, or when you have a habit of consulting and never deciding. The open-loops view is a quiet accountability check.
+Notes are saved only when you ask a question, and your decision only if you share it. Where they're kept: [Your data](your-data.md).
 
 ---
 
-## The natural-language path
+## /chiron:roster
 
-You do not have to type slash commands. Chiron listens for intent in ordinary conversation and reaches for the matching command:
+```
+/chiron:roster [--domain <topic>]
+```
 
-- "what would the Munger corpus say about this?" routes to `/chiron:ask munger`
-- "run this by my product bench" convenes the `product` bench via `/chiron:council`
-- "help me decide whether to take the retainer" behaves like `/chiron:consult`
-- "who do I have for negotiation?" is `/chiron:roster --domain negotiation`
-- "add Brad Frost as an advisor" starts `/chiron:distill`
+Lists your advisors grouped by topic, including ones you built. `--domain strategy` filters to one topic.
 
-When you are clearly mid-decision but have not asked for anything, Chiron offers to route ("want me to run this by the right seats?") rather than hijacking the turn. Fully autonomous, unprompted interjection is deliberately out of scope: you stay in control of when the council convenes.
+```
+/chiron:roster --domain strategy
 
-Outside the plugin (a seat installed on its own into another agent via the `skills` CLI), the slash commands are not present, but the seats still auto-activate, so you invoke them by talking to them. The orchestrator, live councils, benches, and per-seat memory need the plugin, in Claude Code, Cowork, ChatGPT, or Codex. See [portability](./portability.md).
+strategy
+  rumelt   Richard Rumelt   diagnosis, focus, competitive advantage
+  thiel    Peter Thiel      startups, monopoly, contrarian bets
+```
+
+If one of your own advisors has a problem, the roster marks it and points you at `/chiron:lint <id> --explain`.
 
 ---
 
-## See also
+## /chiron:bench
 
-- [Quickstart](./quickstart.md) for your first ten minutes
-- [Concepts](./concepts.md) for seats, benches, modes, and routing
-- [Benches](./benches.md) for how councils manufacture independence and surface authored conflict
-- [Distilling](./distilling.md) and [the standard](./the-standard.md) for authoring your own seats
-- [Getting the most](./getting-the-most.md) for daily workflows
-- [Troubleshooting](./troubleshooting.md) for the `CH-E*` error codes in context
+```
+/chiron:bench create <name> <id> <id> ... [--global] [--chairman <id>] [--depth quick|full]
+/chiron:bench list
+/chiron:bench remove <name>
+```
+
+Saves a council so you can call it by name. Names are lowercase letters, numbers and dashes. A council needs 2 to 8 advisors; Chiron warns above five.
+
+- `--global` saves to `~/.chiron/benches.yaml` (every project). Without it, inside a project it saves to `.chiron/benches.yaml`.
+- `--chairman <id>` has that advisor write the final recommendation instead of a neutral summary.
+- `--depth full` makes the long answer the default.
+
+Your first saved council replaces the six ready-made ones, so `create` offers to copy them in first. Removing a council never deletes advisors. Full details: [Councils](benches.md).
+
+---
+
+## /chiron:onboard
+
+```
+/chiron:onboard
+```
+
+A short guided start. It shows who's available, asks a few questions about what you're working on, suggests advisors and councils, and ends by running a real decision of yours. Building your own `me` advisor is offered, never assumed. You only need it once.
+
+---
+
+## /chiron:distill
+
+```
+/chiron:distill <who, in a line>
+```
+
+Builds a new advisor from someone's published work: a short interview, several minutes of research, writing the files with sources, then a check. It's saved where every Chiron command finds it: `~/.chiron/seats/<id>/`, or `.chiron/seats/<id>/` in a Cowork workspace or a sandboxed Codex project.
+
+```
+/chiron:distill "Brad Frost on design systems"
+```
+
+It won't build an advisor that speaks *as* a living person. It offers a sourced advisor *about* their work instead, or an invented advisor with its own name. Full guide: [Build an advisor](distilling.md).
+
+---
+
+## /chiron:distill-me
+
+```
+/chiron:distill-me [notes file or folder]
+```
+
+Builds a private advisor called `me` from your own goals, values and rules, so you can put yourself on a council or let it write the final recommendation. It asks before reading each source, interviews you to fill the gaps, and saves to `~/.chiron/seats/me/`. It never leaves your computer and is never shared. See [your own advisor](distilling.md#your-own-advisor).
+
+---
+
+## /chiron:lint
+
+```
+/chiron:lint [advisor-id | --all] [--strict] [--explain]
+```
+
+For people building or editing advisors. Checks an advisor's files against [the advisor standard](the-standard.md): enough sources, the required sections, no first-person imitation of a living person, all seven reference files. `--explain` describes each rule. `--strict` treats warnings as errors.
+
+The same check runs from a shell and in this repo's CI:
+
+```bash
+python3 scripts/lint_seat.py --all
+python3 scripts/lint_seat.py skills/munger --level strict --explain
+python3 scripts/lint_seat.py --all --format json
+```
+
+Exit codes: `0` pass, `1` warnings, `2` errors (the advisor won't load).

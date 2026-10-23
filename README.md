@@ -17,6 +17,8 @@ Chiron gives you a room of advisors instead. Each one is built from a real think
 
 It works in Claude (web, desktop and Claude Code), Codex, and the ChatGPT desktop app. It's free, MIT licensed, and needs no API key.
 
+**Docs:** [rmarji.github.io/chiron-council](https://rmarji.github.io/chiron-council/): setup for each app, all 19 advisors, councils, and an FAQ.
+
 ## Install in 60 seconds
 
 Pick the app you already use. Each block ends with the same first question so you can see it work.
@@ -179,15 +181,18 @@ Everything stays on your computer as plain files in `~/.chiron/`: what each advi
 | `/chiron:...` does nothing in Codex or ChatGPT | Those apps don't have slash commands. Ask in plain words instead. |
 | You're on Windows | Not supported yet. WSL may work but hasn't been tested. |
 
-More in [docs/troubleshooting.md](docs/troubleshooting.md).
+More in [Troubleshooting](https://rmarji.github.io/chiron-council/troubleshooting.html) and the [FAQ](https://rmarji.github.io/chiron-council/faq.html).
 
 ## Learn more
 
-- [Commands](docs/commands.md): every command, with examples
-- [How councils work](docs/concepts.md): why the advisors answer separately, and where the disagreements come from
-- [Build an advisor](docs/distilling.md), including one of yourself
-- [Why Chiron is built this way](docs/why-chiron.md)
-- [Use the advisors in Cursor, Gemini CLI and other agents](docs/portability.md)
+The full docs are at **[rmarji.github.io/chiron-council](https://rmarji.github.io/chiron-council/)**.
+
+- [Setup for each app](https://rmarji.github.io/chiron-council/installation.html) and [all 19 advisors](https://rmarji.github.io/chiron-council/advisors.html)
+- [Commands](https://rmarji.github.io/chiron-council/commands.html): every command, with the plain-words version
+- [How councils work](https://rmarji.github.io/chiron-council/concepts.html): why the advisors answer separately, and where the disagreements come from
+- [Build an advisor](https://rmarji.github.io/chiron-council/distilling.html), including one of yourself
+- [Why Chiron is built this way](https://rmarji.github.io/chiron-council/why-chiron.html)
+- [Use the advisors in Cursor, Gemini CLI and other agents](https://rmarji.github.io/chiron-council/portability.html)
 - [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Legal and sources](LEGAL.md)
 
 MIT licensed. Ideas are paraphrased and cited from published work; quotes are short and attributed. Each advisor is an independent study aid, not affiliated with or endorsed by the person it's based on.

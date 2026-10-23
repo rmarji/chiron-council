@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- **Docs site** at https://rmarji.github.io/chiron-council/ (GitHub Pages, built from `docs/` with just-the-docs). Every page was rewritten for 0.3.0 in plain words. New pages: setup for each app (Claude on the web, Claude Code, Cowork, Codex, ChatGPT), all 19 advisors, your data and memory, and an FAQ.
+- **`lint_seat.py` path mode** skips the flow skills (`chiron`, `ask`, `council`, `coach`, `log`), so `lint_seat.py skills/*` reports only advisors.
+
 ## 0.3.0 (2026-10-22)
 
 - **Friendlier first run.** README has an "Install in 60 seconds" section for claude.ai, Claude Code, Claude Desktop/Cowork, Codex and ChatGPT, each with a first council to try. Plugin listings use plain words and a sample prompt.

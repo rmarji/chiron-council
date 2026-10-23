@@ -307,6 +307,17 @@ class CliContractTests(unittest.TestCase):
         proc = self.run_lint("--all")
         self.assertEqual(proc.returncode, 1)
 
+    def test_path_mode_skips_flow_skills(self):
+        # `lint_seat.py skills/*` must not report the flow skills as failures.
+        make_seat(self.seats, "good-seat")
+        for flow in ("ask", "council", "coach", "log", "chiron"):
+            os.makedirs(os.path.join(self.seats, flow))
+        paths = [os.path.join(self.seats, d) for d in
+                 ("good-seat", "ask", "council", "coach", "log", "chiron")]
+        proc = self.run_lint(*paths)
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("flow skill, not a seat", proc.stdout)
+
     def test_missing_seats_dir_exit_2(self):
         proc = self.run_lint("--all", "--seats-dir", "nonexistent")
         self.assertEqual(proc.returncode, 2)

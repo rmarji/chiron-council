@@ -3,10 +3,8 @@
 # or .chiron/benches.yaml (this project only; wins on a name clash).
 # Plain YAML. 2-8 advisors per council; more than 5 gets noisy.
 #
-# PROPOSED CHANGE: the author's personal seat (rayo) now sits only on `shipping`,
-# where it is labelled as the author's own framework. The default money and
-# deals councils use published thinkers only, so a stranger's first council
-# never depends on someone else's private rules.
+# Rayo OS (the author's own framework) sits only on `shipping`. The other
+# councils use published thinkers only.
 
 benches:
   # Money and bets: incentives, leverage, and how to price the offer
