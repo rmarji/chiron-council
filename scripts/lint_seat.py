@@ -548,7 +548,18 @@ def main(argv=None):
             print(json.dumps(msg) if args.format == "json" else msg["error"])
             return 2
     else:
-        paths = args.paths
+        paths = []
+        for p in args.paths:
+            # Flow skills (ask, council, coach, log, chiron) live next to the
+            # seats but are not seats, so `lint_seat.py skills/*` skips them.
+            if os.path.basename(p.rstrip("/")) in NON_SEAT_SKILLS:
+                if args.format != "json":
+                    print("SKIP  [%s] %s (flow skill, not a seat)"
+                          % (os.path.basename(p.rstrip("/")), p))
+                continue
+            paths.append(p)
+        if args.paths and not paths:
+            return 0
     if not paths:
         parser.error("provide seat paths or --all")
 

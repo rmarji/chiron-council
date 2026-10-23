@@ -1,8 +1,14 @@
-# Distilling seats (and yourself)
+---
+title: Build an advisor
+nav_order: 12
+description: "Turn a thinker's published work, or your own rules, into a new advisor."
+---
 
-This page is how you grow the roster. `/chiron:distill` turns a thinker's published work into a new cited seat that auto-activates like the shipped ones. `/chiron:distill-me` turns *you* into a private seat that can chair your own councils. Both run the same depth bar, and both end at a passing lint.
+# Build an advisor
 
-The two commands share one idea: you do not hire a persona, you distill a mind from what it actually produced. A seat that ships with stub references is not a seat, it is a name. See [the depth standard](./the-standard.md) for the full spec these commands enforce.
+This page is how you add advisors. `/chiron:distill` turns a thinker's published work into a new advisor (a *seat*) with sources, usable like the bundled ones. `/chiron:distill-me` turns *you* into a private seat that can chair your own councils. Both run the same depth bar, and both end at a passing lint.
+
+In Codex and ChatGPT, ask in plain words: "Build a Chiron advisor for Brad Frost on design systems." Both commands build from what the person actually published. See [the advisor standard](the-standard.md) for the bar every advisor has to pass.
 
 | Command | Builds | Mode | Ships in the repo? |
 |---|---|---|---|
@@ -13,7 +19,7 @@ The two commands share one idea: you do not hire a persona, you distill a mind f
 
 ## Part 1: `/chiron:distill`, a new seat from a corpus
 
-`/chiron:distill` takes a one-line description of the advisor you want and returns a full, linted, auto-activating seat. You do not move any files by hand. Depth is baked into the command, not offered as an upsell.
+`/chiron:distill` takes a one-line description of the advisor you want and builds the whole thing, checks it, and saves it where Chiron finds it. You don't move any files by hand.
 
 ```
 /chiron:distill "Brad Frost on design systems"
@@ -23,12 +29,12 @@ The two commands share one idea: you do not hire a persona, you distill a mind f
 
 ### The flow
 
-Four phases. Claude narrates as it goes, because deep research is slow and a silent multi-minute run reads as broken.
+Four steps. It tells you what it's doing as it goes, because the research takes several minutes.
 
 **1. A short interview (one round).** Chiron infers what it can from your description and asks only what is missing:
 
 - **Subject**: a real person's published corpus, a fictional character with a canon, or an original advisor you are inventing.
-- **Living status**: for real people, this sets the legal lane (see [LEGAL.md](../LEGAL.md)).
+- **Living status**: for real people, this sets the legal lane (see [LEGAL.md](https://github.com/rmarji/chiron-council/blob/main/LEGAL.md)).
 - **Mode**: `corpus` is recommended for any real person, and it is the only mode that ships for real people. There is a hard rule here (CH-E8): if you ask for `persona` mode (first-person voice) of a living, unlicensed subject, Chiron refuses, explains the rule in a sentence, and offers you either `corpus` mode or an original-mode archetype alias ("The Offer Architect" instead of the person). It will not build the persona under any rephrasing.
 - **Domains**: one to six registry tags, so `/chiron:roster --domain <tag>` and the auto-router can find the seat.
 - **Anchor sources**: if you already know the key books, talks, or essays, name three or more and Chiron starts there. If you do not, it discovers them in research.
@@ -42,7 +48,7 @@ If your request is vague, Chiron does not interrogate you. It offers two or thre
   (c) someone specific?
 ```
 
-**2. Deep research (the part that takes real time).** Chiron searches the subject's published corpus in multiple rounds: survey the whole body of work first, then go deep per dimension. Books, talks, podcasts, essays, interviews. It is extracting a mind, not summarizing a Wikipedia page. The targets, straight from the [depth standard](./the-standard.md):
+**2. Deep research (the part that takes real time).** Chiron searches the subject's published corpus in multiple rounds: survey the whole body of work first, then go deep per dimension. Books, talks, podcasts, essays, interviews. It is extracting a mind, not summarizing a Wikipedia page. The targets, straight from the [depth standard](the-standard.md):
 
 - every named framework, with when-to-use, steps, and source
 - every named mental model or concept, defined, with origin
@@ -77,7 +83,7 @@ python3 scripts/lint_seat.py <path-to-new-seat>
 # 0 = pass · 1 = warnings · 2 = errors (load-blocking)
 ```
 
-Then it reports the seat card (id, display name, mode, domains, source count), the per-file word counts, and how to use it. You can re-run the check yourself any time with [`/chiron:lint`](./commands.md).
+Then it reports the seat card (id, display name, mode, domains, source count), the per-file word counts, and how to use it. You can re-run the check yourself any time with [`/chiron:lint`](commands.md).
 
 Here is roughly what a run looks like end to end:
 
@@ -108,10 +114,10 @@ Here is roughly what a run looks like end to end:
 
 ### Where the finished seat lands
 
-The delivery target depends on your harness, and in both cases the seat becomes usable with no manual move.
+Where it's saved depends on your app. Either way you don't move anything by hand.
 
-- **Claude Code** writes to `~/.chiron/seats/<id>/`, so every council finds it through the registry on the next command. It does not auto-activate as a native Claude skill, and it does not write `~/.claude/skills/<id>/` (Claude Code refuses that tree). If you want it scoped to one repo instead, it writes `<project>/.chiron/seats/<id>/`. It never writes inside the plugin install.
-- **Cowork** cannot write the home directory, and cannot write `~/.claude`. It writes `<project>/.chiron/seats/<id>/` in the open workspace (the registry scans that path, so councils find it with no home-directory write). If there is no writable project, it emits a one-advisor `.plugin` into `outputs/` for you to accept in the app. More on this split in [cowork.md](./cowork.md) and [portability.md](./portability.md).
+- **Claude Code, Codex and ChatGPT** write to `~/.chiron/seats/<id>/`, so every Chiron command finds it from then on. It doesn't write to `~/.claude/skills/`. If you want it scoped to one repo instead, it writes `<project>/.chiron/seats/<id>/`. It never writes inside the plugin install. If Codex's sandbox blocks the home folder, it saves to `.chiron/seats/<id>/` in the project and tells you.
+- **Cowork** cannot write the home directory, and cannot write `~/.claude`. It writes `<project>/.chiron/seats/<id>/` in the open workspace (the registry scans that path, so councils find it with no home-directory write). If there is no writable project, it emits a one-advisor `.plugin` into `outputs/` for you to accept in the app. More in [Cowork](cowork.md) and [Other agents](portability.md).
 
 The registry merges seats by precedence: project shadows global shadows bundled. A seat you distill with the same id as a bundled one (say, a richer `munger` of your own) overrides the shipped seat everywhere you use Chiron.
 
@@ -119,8 +125,8 @@ The registry merges seats by precedence: project shadows global shadows bundled.
 
 You can distill any mind, not only living authors.
 
-- **Fictional characters** distill in `corpus` mode, cited to their canon. The shipped detectives bench proves it: **Sherlock Holmes (corpus)**, **Dr. House (corpus)**, and **Columbo (corpus)** are each sourced to the stories and episodes and pass the same lint as the real-person seats. Point `/chiron:distill` at the canon and treat it as the corpus.
-- **Original advisors** you invent from scratch use `original` mode. There is no provenance constraint and no disclaimer, because nothing is being attributed to a real person. Rayo OS is the shipped example. For an original seat, Chiron substitutes your own materials and an interview for web research: the frameworks come from you, not from a published body of work.
+- **Fictional characters** distill in `corpus` mode, cited to their canon. The bundled detectives prove it: **Sherlock Holmes (corpus)**, **Dr. House (corpus)**, and **Columbo (corpus)** are each sourced to the stories and episodes and pass the same lint as the real-person seats. Point `/chiron:distill` at the canon and treat it as the corpus.
+- **Original advisors** you invent from scratch use `original` mode. There is no provenance constraint and no disclaimer, because nothing is being attributed to a real person. Rayo OS, the author's own framework, is the bundled example. For an original seat, Chiron substitutes your own materials and an interview for web research: the frameworks come from you, not from a published body of work.
 
 ### One at a time, never a shallow batch
 
@@ -130,12 +136,14 @@ If you ask for several advisors at once, Chiron distills them sequentially, each
 
 - **Give it anchor sources.** If you know the two or three foundational works, name them. Chiron starts from primary sources instead of spending a round finding them, and you get a better seat.
 - **Let it offer options when you are vague.** "A pricing expert" is a fine way to start. Chiron will hand you a short menu of who it thinks you mean. Pick one, and it confirms before it commits.
-- **Name the conflicts you care about.** If you already run a council and want the new seat to argue with a specific existing one, say so during the interview so the authored `disagreements.md` targets that counterpart.
+- **Name the conflicts you care about.** If you already run a council and want the new seat to argue with a specific existing one, say so during the interview so its `disagreements.md` covers that advisor.
 - **Contribute it back.** A seat you author is a standard Agent Skill directory. If it is a real thinker distilled to the bar, it can go in the public roster. Your private `me` seat never does (below).
 
 ---
 
-## Part 2: `/chiron:distill-me`, put yourself in the room
+## Your own advisor
+
+`/chiron:distill-me` puts yourself in the room.
 
 `/chiron:distill-me` distills *you* the way `/chiron:distill` distills a thinker. It writes an original-mode seat with id `me`: your own operating system, so your priorities, values, and frameworks can sit in the room, chair your councils, and be argued with. It also reads out the experts you already reach for and turns them into a recommended roster.
 
@@ -155,8 +163,8 @@ The `me` seat holds personal data: your mission, your values, your goals, your d
 
 You choose which of these it draws on. It reads only what you approve:
 
-- **This conversation and recent Claude Code history**: the frameworks, phrases, and decisions you actually reach for.
-- **Instruction and memory files**: `~/.claude/CLAUDE.md`, a project's `CLAUDE.md` or `AGENTS.md`, and any memory files. These already encode how you operate.
+- **This conversation and recent chat history**: the frameworks, phrases, and decisions you actually reach for.
+- **Instruction and memory files**: your `CLAUDE.md` or `AGENTS.md` files and any memory files your app keeps. These already encode how you operate.
 - **Anything you point it at**: a notes vault, a "how I work" doc, a resume, past writing. It reads these as your corpus.
 - **An interview** to fill the gaps, run as a conversation rather than an interrogation. It offers concrete suggestions ("a lot of people channel someone like Munger for money calls, who is yours?") instead of a wall of open questions.
 
@@ -181,7 +189,7 @@ It uses the full seat structure: `SKILL.md` with `name: me`, `x-chiron` set to `
 
 ### How it chairs your councils
 
-After it writes the seat, `/chiron:distill-me` maps your named go-to experts against the installed roster and reads out three groups: experts you already have installed, experts that are available and worth distilling next (it offers to `/chiron:distill` each), and proposed starter [benches](./benches.md) built from your experts by domain. It suggests the `me` seat as the chairman for personal-decision benches, so your own operating system arbitrates the council instead of a neutral chair:
+After it writes the seat, `/chiron:distill-me` maps your named go-to experts against the installed roster and reads out three groups: experts you already have installed, experts that are available and worth distilling next (it offers to `/chiron:distill` each), and proposed starter [councils](benches.md) built from your experts by domain. It suggests the `me` seat as the chairman for personal-decision benches, so your own operating system arbitrates the council instead of a neutral chair:
 
 ```yaml
 benches:
@@ -194,15 +202,15 @@ benches:
 From there, put the new bench to work with a real decision:
 
 ```
-/chiron:consult "take the retainer at 15k/mo or walk?"
+/chiron:council personal "take the retainer at 15k/mo or walk?"
 ```
 
 ---
 
 ## See also
 
-- [The depth standard](./the-standard.md): the exact bar `/chiron:distill` writes to, and every lint rule.
-- [Commands](./commands.md): `/chiron:lint`, `/chiron:roster`, `/chiron:bench`, and the rest.
-- [Benches](./benches.md): turn a distilled roster into named line-ups.
-- [Cowork](./cowork.md) and [portability](./portability.md): how delivery differs by harness.
-- [SEAT_SPEC.md](../SEAT_SPEC.md) and [LEGAL.md](../LEGAL.md): the seat file format and the provenance policy the persona refusal comes from.
+- [The advisor standard](the-standard.md): the exact bar `/chiron:distill` writes to, and every lint rule.
+- [Commands](commands.md): `/chiron:lint`, `/chiron:roster`, `/chiron:bench`, and the rest.
+- [Councils](benches.md): put your new advisors on a council.
+- [Cowork](cowork.md) and [portability](portability.md): how delivery differs by harness.
+- [SEAT_SPEC.md](https://github.com/rmarji/chiron-council/blob/main/SEAT_SPEC.md) and [LEGAL.md](https://github.com/rmarji/chiron-council/blob/main/LEGAL.md): the seat file format and the provenance policy the persona refusal comes from.

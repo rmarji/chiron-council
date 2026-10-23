@@ -1,0 +1,36 @@
+title: Chiron
+description: Get advice on a hard decision from a council of great thinkers, in Claude, ChatGPT and Codex.
+url: https://rmarji.github.io
+baseurl: /chiron-council
+
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+plugins:
+  - jekyll-remote-theme
+  - jekyll-relative-links
+  - jekyll-seo-tag
+
+relative_links:
+  enabled: true
+  collections: false
+
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+back_to_top: true
+back_to_top_text: "Back to top"
+
+aux_links:
+  "Chiron on GitHub": "https://github.com/rmarji/chiron-council"
+aux_links_new_tab: false
+
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: "https://github.com/rmarji/chiron-council"
+gh_edit_branch: "main"
+gh_edit_source: docs
+gh_edit_view_mode: "edit"
+
+footer_content: "MIT licensed. Each advisor is an independent study aid based on published work, not affiliated with or endorsed by the person it's based on."
+
+exclude:
+  - README.md
